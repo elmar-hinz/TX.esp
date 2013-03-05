@@ -1,0 +1,29 @@
+includeLibs.tx_esp_StoredProcedure = EXT:esp/Classes/StoredProcedure.php
+
+lib.tx_esp.breadcrumb = USER_INT
+lib.tx_esp.breadcrumb {
+	userFunc = tx_esp_StoredProcedure->main
+	userFunc {
+		storedProcedure = tx_esp_rootline
+		parameterOrder = page, language
+		parameters {
+			page.data = GP:id
+			language = 0
+		}
+		fieldWraps {
+			title.htmlSpecialChars = 1
+		}
+		renderObject = HTML
+		renderObject.value {
+			field = title
+			typolink {
+				parameter.field = uid
+				wrap = <span class="pre"></span><span class="label">|</span><span class="after"></span>
+				ATagBeforeWrap = 1
+			}
+			wrap = <li>|</li>
+		}
+		stdWrap.wrap = <ol>|</ol>
+		stdWrap.wrap2 = <nav id="breadcrumb-navigation">|</nav>
+	}
+}

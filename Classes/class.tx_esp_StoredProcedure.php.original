@@ -1,0 +1,183 @@
+<?php
+
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+/**
+ * Plugin 'Mysql Stored Procedure' for the 'esp' extension.
+ *
+ * @author	Elmar Hinz <elmar.hinz@gmail.com>
+ * @package	TYPO3
+ * @subpackage	tx_esp
+ */
+class tx_esp_MysqlStoredProcedure {
+
+	static private $dataStack = array();
+
+	public $cObj;
+	private $configuration;
+	private $storedProcedure;
+	private $db;
+	private $parameters = array();
+	private $procedureArgumentsList = array();
+	private $setArgumentQuery = '';
+	private $argumentResult = NULL;
+	private $tableResult = NULL;
+	private $currentGroups;
+	private $output = '';
+	
+	/**
+	 * The main method of the PlugIn
+	 *
+	 * @param	string		$content: The PlugIn content
+	 * @param	array		$conf: The PlugIn configuration
+	 * @return	The content that is displayed on the website
+	 */
+	public function main($content, $conf) {
+		$this->init($conf);
+		if($this->storedProcedure) {
+			$this->orderAndWrapParameters();
+			$this->prepareParametersForQuery();
+			$this->callStoredProcedure();
+			$this->fetchArgumentResult();
+			$this->fetchTableResult();
+			$this->setUpDataStack();
+		}
+		if($this->groupBy) $this->renderGroups();
+		else $this->renderRows();
+		if($this->storedProcedure) {
+			$this->tearDownDataStack();
+			$this->processArgumentResult();
+		}
+		$this->wrapOutput();
+		return $this->output;
+	}
+
+	private function init($conf) {
+		$this->configuration = $conf['userFunc.'];
+		$this->storedProcedure = $this->makeStdWrap($this->configuration, 'storedProcedure');
+		$this->groupBy = $this->configuration['groupBy'];
+		$this->db = $GLOBALS['TYPO3_DB'];
+	}
+
+	private function makeStdWrap($configuration, $configurationKey) {
+		$value = $configuration[$configurationKey];
+		$conf = $configuration[$configurationKey.'.'];
+		return $this->cObj->stdWrap((string)$value, $conf);
+	}
+
+	private function orderAndWrapParameters() {
+		$keys = t3lib_div::trimExplode(',', $this->configuration['parameterOrder']);
+		$keys = array_combine($keys, $keys);
+		$this->parameters = array_map(array($this, 'wrapParameter'), $keys);
+	}
+
+	private function wrapParameter($key) {
+		$parameters = $this->configuration['parameters.'];
+		return $this->makeStdWrap($parameters, $key);
+	}
+
+	private function prepareParametersForQuery() {
+		$procedureArguments = array();
+		foreach($this->parameters as $key => $value) {
+			$this->setArgumentQuery[] = 'SET @'.$key.'=\''.$value.'\'; ';
+			$procedureArguments[] = '@'.$key;
+		}
+		$this->procedureArgumentsList = implode(', ', $procedureArguments);
+	}
+	
+	private function callStoredProcedure() {
+		array_walk($this->setArgumentQuery, array($this->db, 'sql_query'));
+		$call = 'CALL '.$this->storedProcedure.'('.$this->procedureArgumentsList.');';
+		$this->db->sql_query($call);
+	}
+
+	private function fetchArgumentResult() {
+		$this->argumentResult = $this->db->sql_query('SELECT '. $this->procedureArgumentsList);
+	}
+
+	private function fetchTableResult() {
+		$this->tableResult = $this->db->sql_query('SELECT * FROM '.$this->storedProcedure);
+	}
+
+	private function setUpDataStack() {
+		$rows = array();
+		while($row = $this->db->sql_fetch_assoc($this->tableResult)) $rows[] = $row;
+		self::$dataStack[0] = $rows;
+	}
+
+	private function tearDownDataStack() {
+		self::$dataStack = array();
+	}
+
+	private function renderGroups() {
+		$this->groupData();
+		foreach($this->currentGroups as $group) {
+			array_push(self::$dataStack, $group);
+			$this->renderRow($group[0]);
+			array_pop(self::$dataStack);
+		}
+	}
+
+	private function groupData() {
+		foreach($this->peekStack() as $row)
+			$this->currentGroups[$row[$this->groupBy]][] = $row;
+	}
+
+	private function peekStack() {
+		return self::$dataStack[count(self::$dataStack) - 1];
+	}
+
+	private function renderRows() {
+		foreach($this->peekStack() as $row) $this->renderRow($row);
+	}
+
+	private function renderRow($row) {
+		$row = $this->wrapFields($row);
+		$this->cObj->start($row, $this->storedProcedure);
+		$this->output .= $this->cObj->cObjGetSingle($this->configuration['renderObject'], $this->configuration['renderObject.']);
+	}
+
+	private function wrapFields($row) {
+		foreach($row as $key => $value) {
+			$conf = $this->configuration['fieldWraps.'][$key.'.'];
+			$row[$key] = $this->cObj->stdWrap($value, $conf); 
+		}
+		return $row;
+	}
+
+	private function processArgumentResult() {
+		$result = array();
+		if($row = $this->db->sql_fetch_assoc($this->argumentResult)) {
+			foreach($this->parameters as $key => $value) $result[$key] = $row['@'.$key];
+		}
+		$this->cObj->start($result, $this->storedProcedure);
+	}
+
+	private function wrapOutput() {
+		$this->output =  $this->cObj->stdWrap($this->output, $this->configuration['stdWrap.']);
+	}
+
+}
+
+?>
