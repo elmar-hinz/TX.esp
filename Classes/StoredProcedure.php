@@ -37,6 +37,7 @@ class tx_esp_StoredProcedure {
 	public $cObj;
 	private $configuration;
 	private $storedProcedure;
+	private $randomTableName;
 	private $db;
 	private $parameters = array();
 	private $procedureArgumentsList = array();
@@ -55,11 +56,13 @@ class tx_esp_StoredProcedure {
 	public function main($content, $conf) {
 		$this->init($conf);
 		$this->orderAndWrapParameters();
+		$this->prependRandomTableToParameters();
 		$this->prepareParametersForQuery();
 		$this->callStoredProcedure();
 		$this->fetchArgumentResult();
 		$this->processArgumentResult();
-		$this->processResultTable();
+		$this->setUpTCA();
+		$this->renderResult();
 		$this->dropResultTable();
 		$this->wrapOutput();
 		return $this->output;
@@ -70,9 +73,11 @@ class tx_esp_StoredProcedure {
 	public function getStoredProcedure() { return $this->storedProcedure; }
 	public function getDB() { return $this->db; }
 	public function getParameters() { return $this->parameters; }
+	public function getRandomTableName() { return $this->randomTableName; }
 	public function getProcedureArgumentsList() { return $this->procedureArgumentsList; }
 	public function getSetArgumentQuery() {return $this->setArgumentQuery; }
 	public function getArgumentResult() { return $this->argumentResult; }
+	public function getOutput() { return $this->output; }
 
 	function init($conf) {
 		$this->configuration = $conf['userFunc.'];
@@ -97,6 +102,11 @@ class tx_esp_StoredProcedure {
 		return $this->makeStdWrap($parameters, $key);
 	}
 
+	function prependRandomTableToParameters() {
+		$this->randomTableName = $this->storedProcedure .'_' . rand(0,9999999999);
+		$this->parameters = array('tableName' => $this->randomTableName) + $this->parameters; 
+	}
+	
 	function prepareParametersForQuery() {
 		$procedureArguments = array();
 		foreach($this->parameters as $key => $value) {
@@ -126,13 +136,21 @@ class tx_esp_StoredProcedure {
 		$this->cObj->start($result, $this->storedProcedure);
 	}
 
-	function processResultTable() {
-		$this->output .= $this->cObj->cObjGetSingle(
-			$this->configuration['renderObject'], $this->configuration['renderObject.']);
+	function setUpTCA() {
+		global $TCA;
+		$TCA[$this->randomTableName] = array(
+			'ctrl' => array( 'enablecolumns' => array()),
+		);
+	}
+
+	function renderResult() {
+		$this->output = $this->cObj->cObjGetSingle(
+			$this->configuration['renderer'], $this->configuration['renderer.']);
 	}
 
 	function dropResultTable() {
-		// TODO	
+		$query = "DROP TABLE " . $this->randomTableName;
+		return $this->db->sql_query($query);
 	}
 
 	function wrapOutput() {

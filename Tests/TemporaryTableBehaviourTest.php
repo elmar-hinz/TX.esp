@@ -1,6 +1,6 @@
 <?php
 
-class TemporaryTableBehaviourTest extends tx_phpunit_testcase {
+class tx_esp_TemporaryTableBehaviourTest extends tx_phpunit_testcase {
 
 	private $createTemporaryTable = 'CREATE TEMPORARY TABLE tx_esp_temporary_table (column1 varchar(255))';
 	private $dropTemporaryTable = 'DROP TABLE tx_esp_temporary_table';
