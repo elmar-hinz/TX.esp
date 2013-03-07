@@ -15,15 +15,15 @@ BEGIN
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;  
 
- SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 1111)");
- PREPARE stmt FROM @query;
- EXECUTE stmt;
- DEALLOCATE PREPARE stmt;  
+  SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 1111)");
+  PREPARE stmt FROM @query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;  
 
- SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 2222)");
- PREPARE stmt FROM @query;
- EXECUTE stmt;
- DEALLOCATE PREPARE stmt;  
+  SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 2222)");
+  PREPARE stmt FROM @query;
+  EXECUTE stmt;
+  DEALLOCATE PREPARE stmt;  
 END
 		';
 
@@ -56,7 +56,7 @@ END
 				'renderer' => 'CONTENT',
 				'renderer.' => array(
 					'table.' => array('field' => 'tableName'),
-					'uidInList' => '0',
+					'pidInList' => '0',
 					'renderObj' => 'TEXT',
 					'renderObj.' => array( 
 						'field' => 'field1',
@@ -113,14 +113,6 @@ END
 			$this->assertEquals('Test', $out);
 		}
 		
-		/**
-		* @test
-		*/
-		function cObjGetSingle_works_NOT_for_HTML() {
-			$out = $this->cand->cObj->cObjGetSingle('HTML', array('value' => 'Test'));
-			$this->assertNotEquals('Test', $out);
-		}
-
 		/**
 		* @test
 		*/
@@ -181,8 +173,17 @@ END
 			$this->cand->orderAndWrapParameters();
 			$this->cand->prependRandomTableToParameters();
 			$pars = $this->cand->getParameters();
-			$this->assertStringStartsWith('tx_esp_test_procedure_', $pars['tableName']);
-			$this->assertRegExp('/tx_esp_test_procedure_\d+/', $pars['tableName']);
+			$this->assertRegExp('/^.*tx_esp_test_procedure_\d+$/', $pars['tableName']);
+		}
+
+		/**
+		* @test
+		*/
+		function tableName_is_prefixed_with_static() {
+			$this->cand->init($this->configuration);
+			$this->cand->orderAndWrapParameters();
+			$this->cand->prependRandomTableToParameters();
+			$this->assertRegExp('/^static_.*$/', $this->cand->getRandomTableName());
 		}
 
 		/**
@@ -194,7 +195,7 @@ END
 			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
 			$saqs = $this->cand->getSetArgumentQuery();
-			$this->assertStringStartsWith('SET @tableName=\'tx_esp_test_procedure_', $saqs[0]);
+			$this->assertStringStartsWith('SET @tableName=\'static_tx_esp_test_procedure_', $saqs[0]);
 			$this->assertEquals("SET @firstParameter='1-1-1'; ", $saqs[1]);
 			$this->assertEquals("SET @secondParameter=''; ", $saqs[2]);
 			$this->assertEquals("SET @thirdParameter='3-3-3'; ", $saqs[3]);
@@ -236,7 +237,7 @@ END
 			$this->cand->callStoredProcedure();
 			$this->cand->fetchArgumentResult();
 			$this->cand->processArgumentResult();
-			$this->assertStringStartsWith('tx_esp_test_procedure_', $this->cand->cObj->data['tableName']); 
+			$this->assertStringStartsWith('static_tx_esp_test_procedure_', $this->cand->cObj->data['tableName']); 
 			$this->assertEquals('one', $this->cand->cObj->data['firstParameter']);
 			$this->assertEquals('two', $this->cand->cObj->data['secondParameter']);
 			$this->assertEquals('three', $this->cand->cObj->data['thirdParameter']);

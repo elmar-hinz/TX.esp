@@ -103,7 +103,7 @@ class tx_esp_StoredProcedure {
 	}
 
 	function prependRandomTableToParameters() {
-		$this->randomTableName = $this->storedProcedure .'_' . rand(0,9999999999);
+		$this->randomTableName = 'static_' . $this->storedProcedure .'_' . rand(0,9999999999);
 		$this->parameters = array('tableName' => $this->randomTableName) + $this->parameters; 
 	}
 	
@@ -117,9 +117,10 @@ class tx_esp_StoredProcedure {
 	}
 	
 	function callStoredProcedure() {
+		// TODO optimize into batched call
 		array_walk($this->setArgumentQuery, array($this->db, 'sql_query'));
-		$call = 'CALL '.$this->storedProcedure.'('.$this->procedureArgumentsList.');';
-		$this->db->sql_query($call);
+		$call = 'CALL '.$this->storedProcedure.' ('.$this->procedureArgumentsList.');';
+		assert($this->db->sql_query($call));
 	}
 
 	function fetchArgumentResult() {
