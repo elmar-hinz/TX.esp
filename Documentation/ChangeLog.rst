@@ -1,6 +1,6 @@
 
-ChangeLog
-=========
+Change Log
+==========
 
 .. include:: ../ChangeLog
 

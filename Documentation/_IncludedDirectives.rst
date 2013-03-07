@@ -4,8 +4,8 @@
 
 .. |author| replace:: Elmar Hinz <t3elmar@googlemail.com>
 .. |extension_key| replace:: esp
-.. |extension_name| replace:: Stored Procedures
-.. |version| replace:: 0.0.1
+.. |extension_name| replace:: Stored Procedures for TypoScript (esp)
+.. |version| replace:: 0.1.x
 .. |typo3| image:: Images/Typo3.png
 .. |creation| replace:: 03-07-2013
 .. |time| date:: %m-%d-%Y %H:%M

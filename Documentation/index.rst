@@ -11,11 +11,10 @@
 Extension: |extension_name|
 ===========================
 
-:Release: |release|
 :Extension name: |extension_name|
 :Extension key: |extension_key|
 :Version: |version|
-:Description: manuals covering TYPO3 extension "|extension_name|"
+:Description: Calling stored procedures from TypoScript
 :Language: en
 :Author: |author|
 :Creation: |creation| 
@@ -34,6 +33,8 @@ The content of this document is related to TYPO3, a GNU/GPL CMS/Framework availa
 	Considerations
 	HowItWorks
 	Usecases
+	AdministratorManual
+	IntegratorManual
 	ChangeLog
 
 What does it do?
@@ -44,4 +45,8 @@ directly from TypoScript for read and write operations on the underlying databas
 Performance can be gained both in coding and in program execution if you choose it for 
 the right usecases. For the beginning only MySql will be supported. 
 
+ChangeLog
+=========
+
+.. include:: ../ChangeLog
 
