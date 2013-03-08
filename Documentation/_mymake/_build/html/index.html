@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Extension: Stored Procedures for TypoScript (esp) &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="_static/typo3sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="#" />
+    <link rel="next" title="Considerations" href="Considerations.html" /> 
+  </head>
+  <body>
+<div id="logo-div">
+  <a href="#" title="Start">
+    <img id="logo-img" src="_static/typo3-logo.png" 
+         border="0" alt="TYPO3 Logo" />
+  </a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             accesskey="N">next</a> |</li>
+  <li><a href="#">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Extension: Stored Procedures for TypoScript (esp)</a><ul>
+<li><a class="reference internal" href="#what-does-it-do">What does it do?</a></li>
+<li><a class="reference internal" href="#changelog">ChangeLog</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Considerations.html"
+                        title="next chapter">Considerations</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="extension-extension-name">
+<h1>Extension: Stored Procedures for TypoScript (esp)<a class="headerlink" href="#extension-extension-name" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Extension name:</th><td class="field-body">Stored Procedures for TypoScript (esp)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Extension key:</th><td class="field-body">esp</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Version:</th><td class="field-body">0.1.x</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Description:</th><td class="field-body">Calling stored procedures from TypoScript</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Language:</th><td class="field-body">en</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Elmar Hinz &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Creation:</th><td class="field-body">03-07-2013</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Generation:</th><td class="field-body">03-07-2013 17:13</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Licence:</th><td class="field-body">Open Content License available from <a class="reference external" href="http://www.opencontent.org/opl.shtml">www.opencontent.org/opl.shtml</a></td>
+</tr>
+</tbody>
+</table>
+<p>The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from <a class="reference external" href="http://www.typo3.org/">www.typo3.org</a></p>
+<p><strong>Table of Contents</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Considerations.html">Considerations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Considerations.html#why-stored-procedures">Why stored procedures?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Considerations.html#what-are-they-for">What are they for?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Considerations.html#performance-of-execution">Performance of execution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Considerations.html#speed-and-simplicity-of-development">Speed and simplicity of development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Considerations.html#why-not-mysql-views">Why not Mysql Views?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="HowItWorks.html">How it Works</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="HowItWorks.html#using-a-temporary-table-to-access-the-result">Using a temporary table to access the result</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HowItWorks.html#limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting the scope of the temporary table with a random identifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="HowItWorks.html#bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing accessibility checks of CONTENT with the prefix static_</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Usecases.html">Example Usecases</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Usecases.html#breadcrumb-rootline">Breadcrumb/rootline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usecases.html#joined-tables-for-search-applications">Joined tables for search applications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="AdministratorManual.html">Administrator Manual</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="AdministratorManual.html#installing-the-extension">Installing the extension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="AdministratorManual.html#installing-the-stored-procedure-examples">Installing the stored procedure examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="IntegratorManual.html">Integrator Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ChangeLog.html">Change Log</a></li>
+</ul>
+</div>
+<div class="section" id="what-does-it-do">
+<h2>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this headline">¶</a></h2>
+<p>The extension <em>Stored Porcedures</em> is an interface to access <em>MySql Stored Procedures</em>
+directly from TypoScript for read and write operations on the underlying database.
+Performance can be gained both in coding and in program execution if you choose it for
+the right usecases. For the beginning only MySql will be supported.</p>
+</div>
+<div class="section" id="changelog">
+<h2>ChangeLog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
+<p>2013-03-07 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
+<blockquote>
+<div><ul class="simple">
+<li>rewrite code, writing unit tests, sphinx documentation</li>
+</ul>
+</div></blockquote>
+<p>2012-08-25 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
+<blockquote>
+<div><ul class="simple">
+<li>experimental code, prove of concept</li>
+</ul>
+</div></blockquote>
+<p>2012-08-25 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
+<blockquote>
+<div><ul class="simple">
+<li>initial code generated with kickstarter</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             >next</a> |</li>
+  <li><a href="#">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
