@@ -32,8 +32,6 @@
  */
 class tx_esp_StoredProcedure {
 
-	static private $dataStack = array();
-
 	public $cObj;
 	private $configuration;
 	private $storedProcedure;
@@ -45,13 +43,13 @@ class tx_esp_StoredProcedure {
 	private $argumentResult = NULL;
 	private $tableResult = NULL;
 	private $output = '';
-	
+
 	/**
 	 * The main method of the PlugIn
 	 *
 	 * @param	string		$content: The PlugIn content
 	 * @param	array		$conf: The PlugIn configuration
-	 * @return	The content that is displayed on the website
+	 * @return	string		content that is displayed on the website
 	 */
 	public function main($content, $conf) {
 		$this->init($conf);
@@ -79,34 +77,68 @@ class tx_esp_StoredProcedure {
 	public function getArgumentResult() { return $this->argumentResult; }
 	public function getOutput() { return $this->output; }
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @param	[type]		$conf: ...
+	 * @return	[type]		...
+	 */
 	function init($conf) {
 		$this->configuration = $conf['userFunc.'];
 		$this->storedProcedure = $this->makeStdWrap($this->configuration, 'storedProcedure');
 		$this->db = $GLOBALS['TYPO3_DB'];
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @param	[type]		$configuration: ...
+	 * @param	[type]		$configurationKey: ...
+	 * @return	[type]		...
+	 */
 	private function makeStdWrap($configuration, $configurationKey) {
 		$value = $configuration[$configurationKey];
 		$conf = $configuration[$configurationKey.'.'];
 		return $this->cObj->stdWrap((string)$value, $conf);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function orderAndWrapParameters() {
 		$keys = t3lib_div::trimExplode(',', $this->configuration['parameterOrder']);
 		$keys = array_combine($keys, $keys);
 		$this->parameters = array_map(array($this, 'wrapParameter'), $keys);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @param	[type]		$key: ...
+	 * @return	[type]		...
+	 */
 	private function wrapParameter($key) {
 		$parameters = $this->configuration['parameters.'];
 		return $this->makeStdWrap($parameters, $key);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function prependRandomTableToParameters() {
 		$this->randomTableName = 'static_' . $this->storedProcedure .'_' . rand(0,9999999999);
-		$this->parameters = array('tableName' => $this->randomTableName) + $this->parameters; 
+		$this->parameters = array('tableName' => $this->randomTableName) + $this->parameters;
 	}
-	
+
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function prepareParametersForQuery() {
 		$procedureArguments = array();
 		foreach($this->parameters as $key => $value) {
@@ -115,7 +147,12 @@ class tx_esp_StoredProcedure {
 		}
 		$this->procedureArgumentsList = implode(', ', $procedureArguments);
 	}
-	
+
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function callStoredProcedure() {
 		// TODO optimize into batched call
 		array_walk($this->setArgumentQuery, array($this->db, 'sql_query'));
@@ -123,20 +160,35 @@ class tx_esp_StoredProcedure {
 		assert($this->db->sql_query($call));
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function fetchArgumentResult() {
 		$this->argumentResult = $this->db->sql_query('SELECT '. $this->procedureArgumentsList);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function processArgumentResult() {
 		$result = array();
 		if($row = $this->db->sql_fetch_assoc($this->argumentResult)) {
 			foreach($this->parameters as $key => $value) $result[$key] = $row['@'.$key];
 		}
-		// Set argument results to objects.fields, 
+		// Set argument results to objects.fields,
 		//   so that it can be accessed by the render Object and by wrapOutput
 		$this->cObj->start($result, $this->storedProcedure);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function setUpTCA() {
 		global $TCA;
 		$TCA[$this->randomTableName] = array(
@@ -144,16 +196,31 @@ class tx_esp_StoredProcedure {
 		);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function renderResult() {
 		$this->output = $this->cObj->cObjGetSingle(
 			$this->configuration['renderer'], $this->configuration['renderer.']);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function dropResultTable() {
 		$query = "DROP TABLE " . $this->randomTableName;
 		return $this->db->sql_query($query);
 	}
 
+	/**
+	 * [Describe function...]
+	 *
+	 * @return	[type]		...
+	 */
 	function wrapOutput() {
 		$this->output =  $this->cObj->stdWrap($this->output, $this->configuration['stdWrap.']);
 	}

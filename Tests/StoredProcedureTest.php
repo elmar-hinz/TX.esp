@@ -40,7 +40,6 @@ END
 				$GLOBALS['TT'] = new t3lib_timeTrack();
 				$GLOBALS['TT']->start();
 			}
-			$mysqli = new mysqli("localhost", "root", "vagrant", "typo3");
 			$this->db = $GLOBALS['TYPO3_DB'];
 			$this->db->sql_query($this->dropProcedure);	
 			$this->db->sql_query($this->createProcedure);	
@@ -85,17 +84,17 @@ END
 		/**
 		* @test
 		*/
-		function object_can_be_constructed() {
-			new tx_esp_StoredProcedure();
+		function TSFE_exists() {
+			$this->assertNotNull($GLOBALS['TSFE']);
+			$this->assertNotNull($GLOBALS['TT']);
+			$this->assertNotEquals('', $GLOBALS['TSFE']->sys_page);
 		}
 
 		/**
 		* @test
 		*/
-		function TSFE_exists() {
-			$this->assertNotNull($GLOBALS['TSFE']);
-			$this->assertNotNull($GLOBALS['TT']);
-			$this->assertNotEquals('', $GLOBALS['TSFE']->sys_page);
+		function object_can_be_constructed() {
+			new tx_esp_StoredProcedure();
 		}
 
 		/**
