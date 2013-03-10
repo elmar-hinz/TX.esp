@@ -1,3 +1,4 @@
+
 How it Works
 ============
 
@@ -10,6 +11,7 @@ multiline result. I guess on reason is, that procedures are not targetet to read
 
 A temporary table is used to circumvent this limitation. It can be accessed like any other table from
 TypoScript. 
+
 
 Limiting the scope of the temporary table with a random identifier
 ------------------------------------------------------------------

@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Python  documentation" href="index.html" /> 
+    <link rel="top" title="Python  documentation" href="index.html" />
+    <link rel="next" title="Considerations" href="Considerations.html" /> 
   </head>
   <body>
 <div id="logo-div">
@@ -41,6 +42,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             accesskey="N">next</a> |</li>
   <li><a href="index.html">home</a>|&nbsp;</li>
   <li><a href="search.html">search</a>|&nbsp;</li>
  
@@ -49,15 +53,19 @@
 
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Extension: Stored Procedures for TypoScript (esp)</a><ul>
-<li><a class="reference internal" href="#what-does-it-do">What does it do?</a></li>
-<li><a class="reference internal" href="#changelog">ChangeLog</a></li>
+<li><a class="reference internal" href="#what-does-it-do">What does it do?</a><ul>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Considerations.html"
+                        title="next chapter">Considerations</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/Index.txt"
@@ -104,13 +112,19 @@
 </tr>
 <tr class="field-odd field"><th class="field-name">Creation:</th><td class="field-body">03-07-2013</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Generation:</th><td class="field-body">03-07-2013 17:13</td>
+<tr class="field-even field"><th class="field-name">Generation:</th><td class="field-body">03-10-2013 20:41</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Licence:</th><td class="field-body">Open Content License available from <a class="reference external" href="http://www.opencontent.org/opl.shtml">www.opencontent.org/opl.shtml</a></td>
 </tr>
 </tbody>
 </table>
 <p>The content of this document is related to TYPO3, a GNU/GPL CMS/Framework available from <a class="reference external" href="http://www.typo3.org/">www.typo3.org</a></p>
+<div class="section" id="what-does-it-do">
+<h2>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this headline">¶</a></h2>
+<p>The extension <em>Stored Porcedures</em> is an interface to access <em>MySql Stored Procedures</em>
+directly from TypoScript for read and write operations on the underlying database.
+Performance can be gained both in coding and in program execution if you choose it for
+the right usecases. For the beginning only MySql will be supported.</p>
 <p><strong>Table of Contents</strong></p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -139,36 +153,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="IntegratorManual.html">Integrator Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TypoScriptReference.html">TypoScript Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="TypoScriptReference.html#tx-esp-storedprocedure">tx_esp_StoredProcedure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TypoScriptReference.html#tx-esp-joinrenderer">tx_esp_JoinRenderer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="TypoScriptReference.html#tx-esp-joinrenderer-level">tx_esp_JoinRenderer: level</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ChangeLog.html">Change Log</a></li>
 </ul>
 </div>
-<div class="section" id="what-does-it-do">
-<h2>What does it do?<a class="headerlink" href="#what-does-it-do" title="Permalink to this headline">¶</a></h2>
-<p>The extension <em>Stored Porcedures</em> is an interface to access <em>MySql Stored Procedures</em>
-directly from TypoScript for read and write operations on the underlying database.
-Performance can be gained both in coding and in program execution if you choose it for
-the right usecases. For the beginning only MySql will be supported.</p>
-</div>
-<div class="section" id="changelog">
-<h2>ChangeLog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h2>
-<p>2013-03-07 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
-<blockquote>
-<div><ul class="simple">
-<li>rewrite code, writing unit tests, sphinx documentation</li>
-</ul>
-</div></blockquote>
-<p>2012-08-25 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
-<blockquote>
-<div><ul class="simple">
-<li>experimental code, prove of concept</li>
-</ul>
-</div></blockquote>
-<p>2012-08-25 Elmar Hinz  &lt;<a class="reference external" href="mailto:t3elmar&#37;&#52;&#48;googlemail&#46;com">t3elmar<span>&#64;</span>googlemail<span>&#46;</span>com</a>&gt;</p>
-<blockquote>
-<div><ul class="simple">
-<li>initial code generated with kickstarter</li>
-</ul>
-</div></blockquote>
 </div>
 </div>
 
@@ -184,6 +177,9 @@ the right usecases. For the beginning only MySql will be supported.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             >next</a> |</li>
   <li><a href="index.html">home</a>|&nbsp;</li>
   <li><a href="search.html">search</a>|&nbsp;</li>
  

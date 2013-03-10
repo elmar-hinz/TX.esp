@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>TypoScript Reference &mdash; Python  documentation</title>
+    
+    <link rel="stylesheet" href="_static/typo3sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Python  documentation" href="index.html" />
+    <link rel="next" title="Change Log" href="ChangeLog.html" />
+    <link rel="prev" title="Integrator Manual" href="IntegratorManual.html" /> 
+  </head>
+  <body>
+<div id="logo-div">
+  <a href="index.html" title="Start">
+    <img id="logo-img" src="_static/typo3-logo.png" 
+         border="0" alt="TYPO3 Logo" />
+  </a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ChangeLog.html" title="Change Log"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IntegratorManual.html" title="Integrator Manual"
+             accesskey="P">previous</a> |</li>
+  <li><a href="index.html">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">TypoScript Reference</a><ul>
+<li><a class="reference internal" href="#tx-esp-storedprocedure">tx_esp_StoredProcedure</a><ul>
+<li><a class="reference internal" href="#context">Context</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tx-esp-joinrenderer">tx_esp_JoinRenderer</a><ul>
+<li><a class="reference internal" href="#id1">Context</a></li>
+<li><a class="reference internal" href="#id2">Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tx-esp-joinrenderer-level">tx_esp_JoinRenderer: level</a><ul>
+<li><a class="reference internal" href="#id3">Context</a></li>
+<li><a class="reference internal" href="#id4">Properties</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="IntegratorManual.html"
+                        title="previous chapter">Integrator Manual</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ChangeLog.html"
+                        title="next chapter">Change Log</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/TypoScriptReference.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="typoscript-reference">
+<h1>TypoScript Reference<a class="headerlink" href="#typoscript-reference" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tx-esp-storedprocedure">
+<h2>tx_esp_StoredProcedure<a class="headerlink" href="#tx-esp-storedprocedure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="context">
+<h3>Context<a class="headerlink" href="#context" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>your.personal.path = USER_INT
+your.personal.path {
+        userFunc = tx_esp_StoredProcedure-&gt;main
+        userFunc {
+                ... properties go here ...
+        }
+}</pre>
+</div>
+</div>
+<div class="section" id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>storedProcedure</strong></dd>
+<dt>Data type</dt>
+<dd>string</dd>
+<dt>Description</dt>
+<dd>The name of the stored procedure in the database. It should be prefixed with <em>tx_</em>
+plus the extension key.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="n">storedProcedure</span> <span class="o">=</span> <span class="n">tx_myextension_superquery</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>parameterOrder</strong></dd>
+<dt>Data type</dt>
+<dd>comma separated list (whitespace is allowed)</dd>
+<dt>Description</dt>
+<dd>Declaring parameters for the stored procedure in their order. The first
+parameter <em>tableName</em> will be automatically prepended. Omit it.</dd>
+<dt>Example</dt>
+<dd><div class="first highlight-python"><div class="highlight"><pre><span class="n">parameterOrder</span> <span class="o">=</span> <span class="n">page</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">count</span>
+</pre></div>
+</div>
+<p class="last">In this example count is an only OUT parameter.</p>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>parameters</strong></dd>
+<dt>Data type</dt>
+<dd>hashlist of string/stdWrap</dd>
+<dt>Description</dt>
+<dd>Setting values for the <em>ingoing</em> parameters. The order doesn&#8217;t matter here.
+The keys are the parameter names. The values are strings, stdWrap can be applied.
+The ingoing parameter <em>tableName</em> will be automatically set. Omit it.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>parameters {
+        page.data = page:uid
+        language = 0
+}</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>renderer</strong></dd>
+<dt>Data type</dt>
+<dd>content object</dd>
+<dt>Description</dt>
+<dd><p class="first">A content object, to render the temporary table from the stored procedure,
+<strong>CONTENT</strong> or <strong>USER</strong> (i.e. tx_esp_JoinRenderer). The use of <em>RECORDS</em>
+is <strong>not possible</strong>, because it requires static tablenames,
+while the name of the temporary table is volatile.</p>
+<p>Export the data with pid = 0 and select them from that page.
+(select.pidInList = 0 in case of <em>CONTENT</em>.)</p>
+<p class="last">The name of the table has to be retrieved from the current data with the
+id <em>tableName</em>. The INOUT and OUT parameters of the stored procedures are
+accesible in the current data by the keys defined by the property
+<em>parameterOrder</em>.</p>
+</dd>
+<dt>Example</dt>
+<dd><div class="first highlight-python"><pre>renderer = CONTENT
+renderer {
+        stdWrap.preCObject = TEXT
+        stdWrap.preCObject.field = count
+        ...
+        table.field = tableName
+        select.pidInList = 0
+        renderObj = TEXT
+        ...
+}
+
+renderer = USER
+renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc {
+        ... properties go here ...
+}</pre>
+</div>
+<p class="last">See the breadcrumb template (static/breadcrumb/setup.txt).</p>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>stdWrap</strong></dd>
+<dt>Data type</dt>
+<dd>stdWrap</dd>
+<dt>Description</dt>
+<dd>Wraps the overall result.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>stdwrap.wrap = &lt;div class="myextension"&gt;|&lt;/div&gt;</pre>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="tx-esp-joinrenderer">
+<h2>tx_esp_JoinRenderer<a class="headerlink" href="#tx-esp-joinrenderer" title="Permalink to this headline">¶</a></h2>
+<p>We do a hierarchical display of joined table queries.
+Each level displays one of the joined tables. The
+entries of the second table (level 2) are grouped
+below the headlines of the first table (level 1)
+and so on. Each level gets a configuration.</p>
+<div class="section" id="id1">
+<h3>Context<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>renderer = USER
+renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc {
+        ... properties go here ...
+}</pre>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Properties<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>levles</strong></dd>
+<dt>Data type</dt>
+<dd>hashlist of levels</dd>
+<dt>Description</dt>
+<dd><p class="first">Each level gets it&#8217;s configuration here.
+The first level key is <em>1</em>, the second level key is <em>2</em> and so on.</p>
+<p class="last">Be absolutely exact in this! You don&#8217;t have the freedom of COAs.</p>
+</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>levels {
+        1 {
+                ... level 1 goes here ...
+        }
+        2 {
+                ... level 2 goes here ...
+        }
+        3 {
+                ... level 3 goes here ...
+        }
+}</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>stdWrap</strong></dd>
+<dt>Data type</dt>
+<dd>stdWrap</dd>
+<dt>Description</dt>
+<dd>Wraps the overall result.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>stdwrap.wrap = &lt;div class="myrenderer"&gt;|&lt;/div&gt;</pre>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="tx-esp-joinrenderer-level">
+<h2>tx_esp_JoinRenderer: level<a class="headerlink" href="#tx-esp-joinrenderer-level" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Context<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>levels {
+        1 {
+                ... properties go here ...
+        }
+}</pre>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Properties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>levelFields</strong></dd>
+<dt>Data type</dt>
+<dd>comma separated list (whitespace is allowed)</dd>
+<dt>Description</dt>
+<dd>The fields belonging to the table of this level. They are used to group the level.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="n">levelFields</span> <span class="o">=</span> <span class="n">section_uid</span><span class="p">,</span> <span class="n">section_header</span><span class="p">,</span> <span class="n">section_footer</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>stdWrap</strong></dd>
+<dt>Data type</dt>
+<dd>stdWrap</dd>
+<dt>Description</dt>
+<dd><p class="first">Important stdWrap. It is used for at least three purposes:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>to wrap the single entries of the level</li>
+<li>to output the single entries of the level</li>
+<li>to wrap all entries of sublevels in common (innerWrap)</li>
+</ol>
+</div></blockquote>
+<p class="last">The data of the entries are available in the current data.</p>
+</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>stdWrap {
+        wrap = &lt;section class="level1_each"&gt;|&lt;/section&gt;
+        preCObject = TEXT
+        preCObject {
+                field = section_header
+                wrap = &lt;header&gt;|&lt;/header&gt;
+        }
+        innerWrap = &lt;ul class="level2_all"&gt;|&lt;/ul&gt;
+        postCObject = TEXT
+        postCObject {
+                field = section_footer
+                wrap = &lt;footer&gt;|&lt;/footer&gt;
+        }
+}</pre>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ChangeLog.html" title="Change Log"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IntegratorManual.html" title="Integrator Manual"
+             >previous</a> |</li>
+  <li><a href="index.html">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
