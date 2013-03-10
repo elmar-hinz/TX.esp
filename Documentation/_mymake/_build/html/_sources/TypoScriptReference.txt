@@ -228,6 +228,10 @@ Context
 		1 {
 			... properties go here ...
 		}
+		2 {
+			... properties go here ...
+		}
+		...
 	}
 
 Properties
