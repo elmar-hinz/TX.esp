@@ -12,10 +12,28 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Stored Procedures for TypoScript',
-	'description' => 'Interface to call Mysql Stored Procedures directly from TypoScript',
+	'description' => '
+Interface to call Mysql Stored Procedures directly from TypoScript. 
+
+This is the implemantation of the ideas form a workshop in TYPO3 CampRheinRhur 2012. 
+
+Input from the workshop:
+
+ * TYPO3 works with mysql_pconnect. The scope of temporary tables is questionable.
+ * To get them nonambiguous, use tablenames generated from random numbers.
+ * Configure TypoScript of joined tables similiar to menus. (JoH)
+
+The documentation is written in the upcomming sphinx format. 
+TER still does not render it, yet. 
+
+ * You find HTML doc under EXT:exp/Manual/
+ * TS-online: https://github.com/t3elmar/esp/blob/master/Documentation/TypoScriptReference.rst  
+
+Clone the latest version from github: https://github.com/t3elmar/esp.git
+',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '0.5.0',
+	'version' => '0.6.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
