@@ -1,0 +1,753 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>EXT: Stored Procedures from TypoScript (esp)</TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 4.0.1.2 (MacOSX)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGED" CONTENT="0;0">
+	<SCRIPT>
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    
+
+</SCRIPT>
+	<SCRIPT SRC="_static/jquery.js"></SCRIPT>
+	<SCRIPT SRC="_static/underscore.js"></SCRIPT>
+	<SCRIPT SRC="_static/doctools.js"></SCRIPT>
+	<STYLE TYPE="text/css">
+	<!--
+		DD { margin-left: 0.56cm; margin-top: 0.06cm; margin-bottom: 0.19cm }
+		H3.cjk { font-family: "Arial Unicode MS" }
+		H3.ctl { font-family: "Arial Unicode MS" }
+		H1.cjk { font-family: "Arial Unicode MS" }
+		H1.ctl { font-family: "Arial Unicode MS" }
+		TH P { text-align: left }
+		H2.cjk { font-family: "Arial Unicode MS" }
+		H2.ctl { font-family: "Arial Unicode MS" }
+		H4.cjk { font-family: "Arial Unicode MS" }
+		H4.ctl { font-family: "Arial Unicode MS" }
+		H5.cjk { font-family: "Arial Unicode MS" }
+		H5.ctl { font-family: "Arial Unicode MS" }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="de-DE" DIR="LTR">
+<H3 CLASS="western">Navigation</H3>
+<UL>
+	<LI><P><A HREF="Index.html#document-Index">EXT: Stored Procedures
+	from TypoScript (esp)</A> » 
+	</P>
+</UL>
+<DIV ID="extension-extension-name" DIR="LTR">
+	<H1 CLASS="western">Extension: Stored Procedures for TypoScript
+	(esp)<A HREF="#extension-extension-name">¶</A></H1>
+	<TABLE CELLPADDING=3 CELLSPACING=2>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Extension name:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>Stored Procedures for TypoScript (esp)</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Extension key:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>esp</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Version:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>0.1.x</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Description:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>Calling stored procedures from TypoScript</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Language:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>en</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Author:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Creation:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>03-07-2013</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Generation:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>03-11-2013 15:53</P>
+			</TD>
+		</TR>
+		<TR VALIGN=TOP>
+			<TH STYLE="border: none; padding: 0cm">
+				<P>Licence:</P>
+			</TH>
+			<TD STYLE="border: none; padding: 0cm">
+				<P>Open Content License available from
+				<A HREF="http://www.opencontent.org/opl.shtml">www.opencontent.org/opl.shtml</A></P>
+			</TD>
+		</TR>
+	</TABLE>
+	<P>The content of this document is related to TYPO3, a GNU/GPL
+	CMS/Framework available from <A HREF="http://www.typo3.org/">www.typo3.org</A></P>
+	<DIV ID="what-does-it-do" DIR="LTR">
+		<H2 CLASS="western">What does it do?<A HREF="#what-does-it-do">¶</A></H2>
+		<P>The extension <EM>Stored Porcedures</EM> is an interface to
+		access <EM>MySql Stored Procedures</EM> directly from TypoScript
+		for read and write operations on the underlying database.
+		Performance can be gained both in coding and in program execution
+		if you choose it for the right usecases. For the beginning only
+		MySql will be supported.</P>
+		<P><STRONG>Table of Contents</STRONG></P>
+		<UL>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations">Considerations</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23why-stored-procedures">Why
+				stored procedures?</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23what-are-they-for">What
+				are they for?</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23performance-of-execution">Performance
+				of execution</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23reducing-the-amount-of-calls-to-the-database">Reducing
+					the amount of calls to the database</A> 
+					</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23avoiding-heavy-php-layers">Avoiding
+					heavy PHP layers</A> 
+					</P>
+				</UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23speed-and-simplicity-of-development">Speed
+				and simplicity of development</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23why-not-mysql-views">Why
+				not Mysql Views?</A> 
+				</P>
+			</UL>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks">How
+			it Works</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23using-a-temporary-table-to-access-the-result">Using
+				a temporary table to access the result</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting
+				the scope of the temporary table with a random identifier</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing
+				accessibility checks of CONTENT with the prefix static_</A> 
+				</P>
+			</UL>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases">Example
+			Usecases</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases%23breadcrumb-rootline">Breadcrumb/rootline</A>
+								</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases%23joined-tables-for-search-applications">Joined
+				tables for search applications</A> 
+				</P>
+			</UL>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual">Administrator
+			Manual</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual%23installing-the-extension">Installing
+				the extension</A> 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual%23installing-the-stored-procedure-examples">Installing
+				the stored procedure examples</A> 
+				</P>
+			</UL>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-IntegratorManual">Integrator
+			Manual</A> 
+			</P>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference">TypoScript
+			Reference</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-storedprocedure">tx_esp_StoredProcedure</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23context">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23properties">Properties</A>
+										</P>
+				</UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-joinrenderer">tx_esp_JoinRenderer</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id1">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id2">Properties</A>
+										</P>
+				</UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-joinrenderer-level">tx_esp_JoinRenderer:
+				level</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id3">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id4">Properties</A>
+										</P>
+				</UL>
+			</UL>
+			<LI><P><A HREF="Index.html#document-ChangeLog">Change Log</A> 
+			</P>
+		</UL>
+		<DIV ID="considerations" DIR="LTR">
+			<H3 CLASS="western">Considerations<A HREF="#considerations">¶</A></H3>
+			<DIV ID="why-stored-procedures" DIR="LTR">
+				<H4 CLASS="western">Why stored procedures?<A HREF="#why-stored-procedures">¶</A></H4>
+				<P>There are three mayor motivations to develop and use this
+				extension:</P>
+				<OL>
+					<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">Performance of
+					execution 
+					</BLOCKQUOTE>
+					<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">Speed of development 
+					</BLOCKQUOTE>
+					<LI><BLOCKQUOTE>Simplicity of development 
+					</BLOCKQUOTE>
+				</OL>
+				<P>However it depends on, when we can reach this goals and when
+				not.</P>
+			</DIV>
+			<DIV ID="what-are-they-for" DIR="LTR">
+				<H4 CLASS="western">What are they for?<A HREF="#what-are-they-for">¶</A></H4>
+				<P>The original field of stored procedures is to perform update
+				operations on complex databases, with regard to the referential
+				integrity, by encapsulating business logic into the datase and
+				separating it from client programming on top.</P>
+				<P>In contrast in the field of TYPO3 the referential integrity of
+				update operations is controlled by the TCE. Here stored
+				procedures focus on select operations avoiding heavy PHP layers
+				like extbase for read operations, especially for non-cached like
+				USER_INT.</P>
+			</DIV>
+			<DIV ID="performance-of-execution" DIR="LTR">
+				<H4 CLASS="western">Performance of execution<A HREF="#performance-of-execution">¶</A></H4>
+				<P>It is not that <EM>Mysql Stored Procedures</EM> are generally
+				faster by nature than calls from PHP. Both can be cached by the
+				database to some extend. It is a complex field influenced by
+				multiple factors. In the context of TYPO3 there are usecases,
+				where you can gain performance using <EM>Mysql Stored Procedures</EM>
+				in comparism to other solutions.</P>
+				<DIV ID="reducing-the-amount-of-calls-to-the-database" DIR="LTR">
+					<H5 CLASS="western">Reducing the amount of calls to the
+					database<A HREF="#reducing-the-amount-of-calls-to-the-database">¶</A></H5>
+					<P>A direct merit for performance is to replace multiple calls
+					to the database by one to a stored procedure. Querying the
+					rootline or a menu tree are typical situations when recursive
+					calls to the same table are done.</P>
+				</DIV>
+				<DIV ID="avoiding-heavy-php-layers" DIR="LTR">
+					<H5 CLASS="western">Avoiding heavy PHP layers<A HREF="#avoiding-heavy-php-layers">¶</A></H5>
+					<P>An indirect merit for performance is, to avoid heavy, object
+					intensive PHP layers.</P>
+				</DIV>
+			</DIV>
+			<DIV ID="speed-and-simplicity-of-development" DIR="LTR">
+				<H4 CLASS="western">Speed and simplicity of development<A HREF="#speed-and-simplicity-of-development">¶</A></H4>
+				<P>Extbase as an <EM>Object Relational Mapper</EM> is focused on
+				modelling the domain in form of PHP objects. In theory you would
+				not bother with the persistance layer at all. In practice you
+				addintionally have to define the persistance layer in form ot TCA
+				and SQL definitions. Overall you deal with 3 layers, the
+				database, PHP and TypoScript.</P>
+				<P>On contrary <EM>stored procedures</EM> are focused on the
+				relational model of the SQL database. It joins the tables in form
+				of SQL queries to produce the view the frontend wants to display.
+				There is no such thing like a domain model. You go with stored
+				procedures and TypoScript, without the use of PHP.</P>
+				<P>You could conclude thinking in form of a relational data model
+				is rather oldschool, but it depends on the field of the
+				application if a relational or an object orientated data model is
+				superior.</P>
+				<P>If your data is already organized in a relational model for
+				historical reasons, it is kind of overhead in planning and in
+				performance to put an additional object orientated layer on top
+				of it.</P>
+				<P>After all it depends on the siklls of the development team, if
+				it prefers to focus on PHP or on TypoScript and SQL.</P>
+			</DIV>
+			<DIV ID="why-not-mysql-views" DIR="LTR">
+				<H4 CLASS="western">Why not Mysql Views?<A HREF="#why-not-mysql-views">¶</A></H4>
+				<P>Good interjection. In theory you would use SQL views to
+				provide a comforatable read interface to the database, while
+				stored procedures are rather targeted for write operations. The
+				issue with views in MySql is performance. Exactly where views
+				start to become ambitious, they lose their ability to access
+				table indexes an slow down matters in MySql.</P>
+				<P><A NAME="id2"></A>This extension <A HREF="#id1">|extension_name|</A>
+				places the query results into a temporary table, from where they
+				are rendered by the well known techniques of TypoScript. So this
+				temporary talbes are kind of replacement for sucking views in
+				MySql.</P>
+				<P>Apart from performance there are some usecases, where views
+				would be limited compared to the possibilities of programmable
+				stored procedures.</P>
+				<P>Having said this, there are many usecases, where views are a
+				good choice as long as they can make use of the <EM>merge
+				algorithem</EM> to be more precisely. Simply google for it.</P>
+			</DIV>
+		</DIV>
+		<DIV ID="how-it-works" DIR="LTR">
+			<H3 CLASS="western">How it Works<A HREF="#how-it-works">¶</A></H3>
+			<DIV ID="using-a-temporary-table-to-access-the-result" DIR="LTR">
+				<H4 CLASS="western">Using a temporary table to access the result<A HREF="#using-a-temporary-table-to-access-the-result">¶</A></H4>
+				<P><EM>Stored procedures</EM> are called with parameters. The
+				parameters can be used as bidirectional channels by setting them
+				to <EM>INOUT</EM>. However they can not pass arrays, so they are
+				not usable to return a multiline result. I guess on reason is,
+				that procedures are not targetet to read operations originally.</P>
+				<P>A temporary table is used to circumvent this limitation. It
+				can be accessed like any other table from TypoScript.</P>
+			</DIV>
+			<DIV ID="limiting-the-scope-of-the-temporary-table-with-a-random-identifier" DIR="LTR">
+				<H4 CLASS="western">Limiting the scope of the temporary table
+				with a random identifier<A HREF="#limiting-the-scope-of-the-temporary-table-with-a-random-identifier">¶</A></H4>
+				<P>Unfortunatly the scope of a temporary table is not
+				automatically limited to a single page request, because TYPO3
+				makes use of <EM>mysql_pconnect</EM>. That is an advantage for
+				performance on the other hand, but it complicates dealing with
+				temporary tables.</P>
+				<P>The test case <EM>tx_esp_TemporaryTableBehaviourTest</EM>
+				shipped with this extension does some efforts to compare
+				<EM>mysql_pconnet</EM> and <EM>mysql_connect</EM> with regards to
+				the scope of a temporary table. The extension phpunit installs a
+				BE module to run the test case.</P>
+				<P>The only clean solution to avoid conflicts seems to identify
+				each temporary table with a random part in its name. The table
+				name with the random part is generated by the library and always
+				given to the stored procedure as the first paramter. The stored
+				procedure must use this name for the temporary table.</P>
+			</DIV>
+			<DIV ID="bypassing-accessibility-checks-of-content-with-the-prefix-static" DIR="LTR">
+				<H4 CLASS="western"><A NAME="id21"></A>Bypassing accessibility
+				checks of CONTENT with the prefix <A HREF="#id1">static_</A><A HREF="#bypassing-accessibility-checks-of-content-with-the-prefix-static">¶</A></H4>
+				<P>You want be able to read the temporary table with the
+				TypoScript <STRONG>CONTENT</STRONG> object. It automatically
+				generates parts of the <EM>WHERE</EM> clause depending on the
+				visibility of the page the datasets are stored in. Either you
+				would have to export the data by setting the pid to a non-hidden
+				page (the current page would be an idea) or you have to take care
+				to turn off the automatically generated WHERE clause.</P>
+				<P>We take the second approach. We set the pid to page zero (the
+				globus), which is usally inaccessible. If we prefix the name of
+				the temporary table with <STRONG>static_</STRONG> the data is
+				automatically accessible. This feature of the core is targeted
+				for other uses, but it is the only way to bypass the
+				accessibility check for pids of zero. The tablename is
+				automatically prefixed. The tablename is generated for you as
+				already mentiond in the previous section.</P>
+			</DIV>
+		</DIV>
+		<DIV ID="example-usecases" DIR="LTR">
+			<H3 CLASS="western">Example Usecases<A HREF="#example-usecases">¶</A></H3>
+			<DIV ID="breadcrumb-rootline" DIR="LTR">
+				<H4 CLASS="western">Breadcrumb/rootline<A HREF="#breadcrumb-rootline">¶</A></H4>
+				<P>To find the rootline of a given page recursive queries upon
+				the same table have to be executed. This is not supported by SQL
+				itself. Implementing it by use of PHP results in an exessive ping
+				pong betwenn PHP and the database. Encapsulated in a stored
+				procedure, it is simple loop, maybe faster.</P>
+				<P>A breadcrumb example is included. Still a prove of concept.
+				The stored procedure has to be improved a lot.</P>
+			</DIV>
+			<DIV ID="joined-tables-for-search-applications" DIR="LTR">
+				<H4 CLASS="western">Joined tables for search applications<A HREF="#joined-tables-for-search-applications">¶</A></H4>
+				<P>Many web based search interfaces call SQL queries on a set of
+				tables as JOINS. Here we can gain simplicity and performance with
+				stored procedures. A joined table query results in a filtered
+				cartesian product of the involved tables. Typically we want to
+				display the result in a hierarchical way first grouping the rows
+				by the first table, then by the second, optionally more levels.</P>
+				<P>A rendering class is planned to be included to controll this
+				kind of grouped rendering.</P>
+			</DIV>
+		</DIV>
+		<DIV ID="administrator-manual" DIR="LTR">
+			<H3 CLASS="western">Administrator Manual<A HREF="#administrator-manual">¶</A></H3>
+			<DIV ID="installing-the-extension" DIR="LTR">
+				<H4 CLASS="western">Installing the extension<A HREF="#installing-the-extension">¶</A></H4>
+				<P>Install the extension with the extension manager. No
+				configuration is required.</P>
+			</DIV>
+			<DIV ID="installing-the-stored-procedure-examples" DIR="LTR">
+				<H4 CLASS="western">Installing the stored procedure examples<A HREF="#installing-the-stored-procedure-examples">¶</A></H4>
+				<P>Stored procedure examples are located in ext_procedures.sql.</P>
+				<P>For installation by commandline do something like this. Use
+				the credentials matching your database.</P>
+				<PRE STYLE="margin-bottom: 0.5cm">cat ext_procedures.sql |&nbsp;mysql -u root -p secret -D typo3</PRE><P>
+				Alternatively you can install the procedures or parts of the file
+				by copy &amp; paste into your preferred database administration
+				tool i.e. phpMyAdmin.</P>
+			</DIV>
+		</DIV>
+		<DIV ID="integrator-manual" DIR="LTR">
+			<H3 CLASS="western">Integrator Manual<A HREF="#integrator-manual">¶</A></H3>
+			<P>Using the examples requires to have the stored procedures
+			installed. See Administrator Manual.</P>
+		</DIV>
+		<DIV ID="typoscript-reference" DIR="LTR">
+			<H3 CLASS="western">TypoScript Reference<A HREF="#typoscript-reference">¶</A></H3>
+			<DIV ID="tx-esp-storedprocedure" DIR="LTR">
+				<H4 CLASS="western">tx_esp_StoredProcedure<A HREF="#tx-esp-storedprocedure">¶</A></H4>
+				<DIV ID="context" DIR="LTR">
+					<H5 CLASS="western">Context<A HREF="#context">¶</A></H5>
+					<PRE>your.personal.path = USER_INT
+your.personal.path {
+        userFunc = tx_esp_StoredProcedure-&gt;main
+        userFunc {
+                ... properties go here ...
+        }
+}</PRE>
+				</DIV>
+				<DIV ID="properties" DIR="LTR">
+					<H5 CLASS="western">Properties<A HREF="#properties">¶</A></H5>
+					<DL>
+						<DT>Property 
+						</DT><DD>
+						<STRONG>storedProcedure</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						string 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						The name of the stored procedure in the database. It should be
+						prefixed with <EM>tx_</EM> plus the extension key. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm; margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">storedProcedure = tx_myextension_superquery</SPAN></PRE>
+					<DL>
+						<DT>
+						Property 
+						</DT><DD>
+						<STRONG>parameterOrder</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						comma separated list (whitespace is allowed) 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						Declaring parameters for the stored procedure in their order.
+						The first parameter <EM>tableName</EM> will be automatically
+						prepended. Omit it. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm; margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">parameterOrder = page, language, count</SPAN></PRE><P STYLE="margin-left: 0.56cm">
+					In this example count is an only OUT parameter.</P>
+					<DL>
+						<DT>Property 
+						</DT><DD>
+						<STRONG>parameters</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						hashlist of string/stdWrap 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						Setting values for the <EM>ingoing</EM> parameters. The order
+						doesn’t matter here. The keys are the parameter names. The
+						values are strings, stdWrap can be applied. The ingoing
+						parameter <EM>tableName</EM> will be automatically set. Omit
+						it. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm">parameters {
+        page.data = page:uid
+        language = 0
+}</PRE>
+					<DL>
+						<DT>
+						Property 
+						</DT><DD>
+						<STRONG>renderer</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						content object 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Description 
+						</DT></DL>
+					<P CLASS="first" STYLE="margin-left: 0.56cm; margin-top: 0.06cm; margin-bottom: 0.19cm">
+					A content object, to render the temporary table from the stored
+					procedure, <STRONG>CONTENT</STRONG> or <STRONG>USER</STRONG>
+					(i.e. tx_esp_JoinRenderer). The use of <EM>RECORDS</EM> is <STRONG>not
+					possible</STRONG>, because it requires static tablenames, while
+					the name of the temporary table is volatile.</P>
+					<DL>
+						<DD>Export the data with pid = 0 and select them from that
+						page. (select.pidInList = 0 in case of <EM>CONTENT</EM>.)</DD></DL>
+					<P STYLE="margin-left: 0.56cm">
+					The name of the table has to be retrieved from the current data
+					with the id <EM>tableName</EM>. The INOUT and OUT parameters of
+					the stored procedures are accesible in the current data by the
+					keys defined by the property <EM>parameterOrder</EM>.</P>
+					<DL>
+						<DT STYLE="margin-bottom: 0.5cm">Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm">renderer = CONTENT
+renderer {
+        stdWrap.preCObject = TEXT
+        stdWrap.preCObject.field = count
+        ...
+        table.field = tableName
+        select.pidInList = 0
+        renderObj = TEXT
+        ...
+}
+
+renderer = USER
+renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc {
+        ... properties go here ...
+}</PRE><P STYLE="margin-left: 0.56cm">
+					See the breadcrumb template (static/breadcrumb/setup.txt).</P>
+					<DL>
+						<DT>Property 
+						</DT><DD>
+						<STRONG>stdWrap</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						stdWrap 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						Wraps the overall result. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm; margin-bottom: 0.5cm">stdwrap.wrap = &lt;div class=&quot;myextension&quot;&gt;|&lt;/div&gt;</PRE>
+				</DIV>
+			</DIV>
+			<DIV ID="tx-esp-joinrenderer" DIR="LTR">
+				<H4 CLASS="western">tx_esp_JoinRenderer<A HREF="#tx-esp-joinrenderer">¶</A></H4>
+				<P>We do a hierarchical display of joined table queries. Each
+				level displays one of the joined tables. The entries of the
+				second table (level 2) are grouped below the headlines of the
+				first table (level 1) and so on. Each level gets a configuration.</P>
+				<DIV ID="id1" DIR="LTR">
+					<H5 CLASS="western">Context<A HREF="#id1">¶</A></H5>
+					<PRE>renderer = USER
+renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc {
+        ... properties go here ...
+}</PRE>
+				</DIV>
+				<DIV ID="id2" DIR="LTR">
+					<H5 CLASS="western">Properties<A HREF="#id2">¶</A></H5>
+					<DL>
+						<DT>Property 
+						</DT><DD>
+						<STRONG>levles</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						hashlist of levels 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Description 
+						</DT></DL>
+					<P CLASS="first" STYLE="margin-left: 0.56cm; margin-top: 0.06cm; margin-bottom: 0.19cm">
+					Each level gets it’s configuration here. The first level key
+					is <EM>1</EM>, the second level key is <EM>2</EM> and so on.</P>
+					<P STYLE="margin-left: 0.56cm">Be exact with the numbers! You
+					don’t have the freedom of COAs.</P>
+					<DL>
+						<DT STYLE="margin-bottom: 0.5cm">Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm">levels {
+        1 {
+                ... level 1 goes here ...
+        }
+        2 {
+                ... level 2 goes here ...
+        }
+        ... more levels ...
+}</PRE>
+					<DL>
+						<DT>
+						Property 
+						</DT><DD>
+						<STRONG>stdWrap</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						stdWrap 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						Wraps the overall result. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm; margin-bottom: 0.5cm">stdwrap.wrap = &lt;div class=&quot;myrenderer&quot;&gt;|&lt;/div&gt;</PRE>
+				</DIV>
+			</DIV>
+			<DIV ID="tx-esp-joinrenderer-level" DIR="LTR">
+				<H4 CLASS="western">tx_esp_JoinRenderer: level<A HREF="#tx-esp-joinrenderer-level">¶</A></H4>
+				<DIV ID="id3" DIR="LTR">
+					<H5 CLASS="western">Context<A HREF="#id3">¶</A></H5>
+					<PRE>levels {
+        1 {
+                ... properties go here ...
+        }
+        2 {
+                ... properties go here ...
+        }
+        ...
+}</PRE>
+				</DIV>
+				<DIV ID="id4" DIR="LTR">
+					<H5 CLASS="western">Properties<A HREF="#id4">¶</A></H5>
+					<DL>
+						<DT>Property 
+						</DT><DD>
+						<STRONG>levelFields</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						comma separated list (whitespace is allowed) 
+						</DD><DT>
+						Description 
+						</DT><DD>
+						The fields belonging to the table of this level. They are used
+						to group the level. 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm; margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">levelFields = section_uid, section_header, section_footer</SPAN></PRE>
+					<DL>
+						<DT>
+						Property 
+						</DT><DD>
+						<STRONG>stdWrap</STRONG> 
+						</DD><DT>
+						Data type 
+						</DT><DD>
+						stdWrap 
+						</DD><DT STYLE="margin-bottom: 0.5cm">
+						Description 
+						</DT></DL>
+					<P CLASS="first" STYLE="margin-left: 0.56cm; margin-top: 0.06cm; margin-bottom: 0.19cm">
+					Important stdWrap. It is used for at least three purposes:</P>
+					<OL>
+						<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">to wrap the single
+						entries of the level 
+						</BLOCKQUOTE>
+						<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">to output the single
+						entries of the level 
+						</BLOCKQUOTE>
+						<LI><BLOCKQUOTE>to wrap all entries of sublevels in common
+						(innerWrap) 
+						</BLOCKQUOTE>
+					</OL>
+					<P STYLE="margin-left: 0.56cm">The data of the entries are
+					available in the current data.</P>
+					<DL>
+						<DT STYLE="margin-bottom: 0.5cm">Example 
+						</DT></DL>
+					<PRE STYLE="margin-left: 0.56cm">stdWrap {
+        wrap = &lt;section class=&quot;level1_each&quot;&gt;|&lt;/section&gt;
+        preCObject = TEXT
+        preCObject {
+                field = section_header
+                wrap = &lt;header&gt;|&lt;/header&gt;
+        }
+        innerWrap = &lt;ul class=&quot;level2_all&quot;&gt;|&lt;/ul&gt;
+        postCObject = TEXT
+        postCObject {
+                field = section_footer
+                wrap = &lt;footer&gt;|&lt;/footer&gt;
+        }
+}</PRE>
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV ID="change-log" DIR="LTR">
+			<H3 CLASS="western">Change Log<A HREF="#change-log">¶</A></H3>
+			<P>2013-03-10 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.7.0 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>adding TypoScript documentation 
+				</BLOCKQUOTE>
+			</UL>
+			<P>2013-03-09 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.6.0 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>adding a join renderer and a join renderer test 
+				</BLOCKQUOTE>
+			</UL>
+			<P>2013-03-07 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.5.0 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>rewrite code, writing unit tests, sphinx
+				documentation 
+				</BLOCKQUOTE>
+			</UL>
+			<P>2012-08-25 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.0.1 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>experimental code, prove of concept 
+				</BLOCKQUOTE>
+			</UL>
+			<P>2012-08-25 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE>initial code generated with kickstarter 
+				</BLOCKQUOTE>
+			</UL>
+		</DIV>
+	</DIV>
+</DIV>
+<H3 CLASS="western">Navigation</H3>
+<UL>
+	<LI><P><A HREF="Index.html#document-Index">EXT: Stored Procedures
+	from TypoScript (esp)</A> » 
+	</P>
+</UL>
+<P STYLE="margin-bottom: 0cm">© Copyright . Created using <A HREF="http://sphinx.pocoo.org/">Sphinx</A>
+1.1.3. 
+</P>
+</BODY>
+</HTML>

@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How it Works &mdash; EXT: Stored Procedures from TypoScript (esp)</title>
+    
+    <link rel="stylesheet" href="_static/typo3sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="EXT: Stored Procedures from TypoScript (esp)" href="index.html" />
+    <link rel="next" title="Example Usecases" href="Usecases.html" />
+    <link rel="prev" title="Considerations" href="Considerations.html" /> 
+  </head>
+  <body>
+<div id="logo-div">
+  <a href="index.html" title="Start">
+    <img id="logo-img" src="_static/typo3-logo.png" 
+         border="0" alt="TYPO3 Logo" />
+  </a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Usecases.html" title="Example Usecases"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             accesskey="P">previous</a> |</li>
+  <li><a href="index.html">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="Index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How it Works</a><ul>
+<li><a class="reference internal" href="#using-a-temporary-table-to-access-the-result">Using a temporary table to access the result</a></li>
+<li><a class="reference internal" href="#limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting the scope of the temporary table with a random identifier</a></li>
+<li><a class="reference internal" href="#bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing accessibility checks of CONTENT with the prefix static_</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Considerations.html"
+                        title="previous chapter">Considerations</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Usecases.html"
+                        title="next chapter">Example Usecases</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/HowItWorks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-it-works">
+<h1>How it Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="using-a-temporary-table-to-access-the-result">
+<h2>Using a temporary table to access the result<a class="headerlink" href="#using-a-temporary-table-to-access-the-result" title="Permalink to this headline">¶</a></h2>
+<p><em>Stored procedures</em> are called with parameters. The parameters can be used as bidirectional channels
+by setting them to <em>INOUT</em>. However they can not pass arrays, so they are not usable to return a
+multiline result. I guess on reason is, that procedures are not targetet to read operations originally.</p>
+<p>A temporary table is used to circumvent this limitation. It can be accessed like any other table from
+TypoScript.</p>
+</div>
+<div class="section" id="limiting-the-scope-of-the-temporary-table-with-a-random-identifier">
+<h2>Limiting the scope of the temporary table with a random identifier<a class="headerlink" href="#limiting-the-scope-of-the-temporary-table-with-a-random-identifier" title="Permalink to this headline">¶</a></h2>
+<p>Unfortunatly the scope of a temporary table is not automatically limited to a single page request,
+because TYPO3 makes use of <em>mysql_pconnect</em>. That is an advantage for performance on the other hand,
+but it complicates dealing with temporary tables.</p>
+<p>The test case <em>tx_esp_TemporaryTableBehaviourTest</em> shipped with this extension does some efforts
+to compare <em>mysql_pconnet</em> and <em>mysql_connect</em> with regards to the scope of a temporary table.
+The extension phpunit installs a BE module to run the test case.</p>
+<p>The only clean solution to avoid conflicts seems to identify each temporary table with a random
+part in its name. The table name with the random part is generated by the library and always
+given to the stored procedure as the first paramter. The stored procedure must use this name
+for the temporary table.</p>
+</div>
+<div class="section" id="bypassing-accessibility-checks-of-content-with-the-prefix-static">
+<h2>Bypassing accessibility checks of CONTENT with the prefix <a href="#id1"><span class="problematic" id="id2">static_</span></a><a class="headerlink" href="#bypassing-accessibility-checks-of-content-with-the-prefix-static" title="Permalink to this headline">¶</a></h2>
+<p>You want be able to read the temporary table with the TypoScript <strong>CONTENT</strong> object. It automatically
+generates parts of the <em>WHERE</em> clause depending on the visibility of the page the datasets
+are stored in. Either you would have to export the data by setting the pid to a non-hidden page
+(the current page would be an idea) or you have to take care to turn off the automatically
+generated WHERE clause.</p>
+<p>We take the second approach. We set the pid to page zero (the globus), which is usally
+inaccessible. If we prefix the name of the temporary table with <strong>static_</strong> the data is
+automatically accessible. This feature of the core is targeted for other uses, but it is the
+only way to bypass the accessibility check for pids of zero.  The tablename is automatically
+prefixed. The tablename is generated for you as already mentiond in the previous section.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Usecases.html" title="Example Usecases"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Considerations.html" title="Considerations"
+             >previous</a> |</li>
+  <li><a href="index.html">home</a>|&nbsp;</li>
+  <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright .
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
