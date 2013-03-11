@@ -1,0 +1,63 @@
+##################################################
+# Configuration
+##################################################
+
+# LibreOffice
+SOFFICE = '/Applications/LibreOffice.app/Contents/MacOS/soffice'
+
+# Directories
+BASE = Dir.pwd
+MANUAL_FILE = BASE + '/doc/manual.odt'
+MANUAL_MAKE = BASE + '/Documentation/_manualMake/'
+MANUAL_MAKE_SINGLE = MANUAL_MAKE + '_build/singlehtml/' 
+SITE = BASE + '/MANUAL/'
+SITE_MAKE = BASE + '/Documentation/_siteMake/'
+SITE_MAKE_HTML = SITE_MAKE + '_build/html/'
+INCLUDES = BASE + '/Documentation/_IncludedDirectives.rst'
+
+##################################################
+# Tasks
+##################################################
+
+task :default => :makeDoc 
+
+desc "Make documentation"
+task :makeDoc => [:makeManual, :makeSite]
+
+desc "Read version"
+task :version do
+	CURRENT_VERSION = `php -r \'$_EXTKEY="esp"; include("ext_emconf.php"); echo $EM_CONF["esp"]["version"];\' `
+end
+
+desc "Update version to Documentation"
+task :updateVersion => :version do
+	text = File.read (INCLUDES)
+	text = text.gsub(/^.+\|version\|.+$/, '.. |version| replace:: ' + CURRENT_VERSION)
+	File.open(INCLUDES, "w") {|file| file << text}
+end
+
+desc "Make doc/manual.odt"
+task :makeManual => :updateVersion do
+	cd MANUAL_MAKE
+	system 'make clean'	
+	system 'make singlehtml'	
+	cd MANUAL_MAKE_SINGLE
+	system SOFFICE + ' --headless --convert-to odt index.html'
+	rm MANUAL_FILE, :force => true
+	mv 'index.odt', MANUAL_FILE
+	puts 'created: ' + MANUAL_FILE 
+	cd MANUAL_MAKE
+	system 'make clean'	
+end
+
+desc "Make MANUAL/*.html"
+task :makeSite => :updateVersion do
+	cd SITE_MAKE
+	system 'make clean'	
+	system 'make html'	
+	system 'rm -rf ' + SITE 
+	mv SITE_MAKE_HTML, SITE
+	cd SITE_MAKE
+	system 'make clean'	
+end
+
