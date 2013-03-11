@@ -69,7 +69,7 @@
 				<P>Version:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>0.6.0</P>
+				<P>0.8.0</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -109,7 +109,7 @@
 				<P>Generation:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>03-11-2013 23:14</P>
+				<P>03-11-2013 23:25</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -776,6 +776,16 @@ renderer.userFunc {
 		</DIV>
 		<DIV ID="change-log" DIR="LTR">
 			<H3 CLASS="western">Change Log<A HREF="#change-log">¶</A></H3>
+			<P>2013-03-11 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.8.0 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">adding procedure
+				documentation 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>automatic build of docs by rakefile 
+				</BLOCKQUOTE>
+			</UL>
 			<P>2013-03-10 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
 			<UL>
 				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.7.0 

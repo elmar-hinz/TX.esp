@@ -1,3 +1,9 @@
+2013-03-11 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version 0.8.0
+	* adding procedure documentation
+	* automatic build of docs by rakefile
+
 2013-03-10 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version 0.7.0
