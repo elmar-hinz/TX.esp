@@ -40,7 +40,7 @@
 <BODY LANG="de-DE" DIR="LTR">
 <H3 CLASS="western">Navigation</H3>
 <UL>
-	<LI><P><A HREF="Index.html#document-Index">EXT: Stored Procedures
+	<LI><P><A HREF="index.html#document-index">EXT: Stored Procedures
 	from TypoScript (esp)</A> » 
 	</P>
 </UL>
@@ -69,7 +69,7 @@
 				<P>Version:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>0.1.x</P>
+				<P>0.6.0</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -109,7 +109,7 @@
 				<P>Generation:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>03-11-2013 15:53</P>
+				<P>03-11-2013 23:14</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -134,93 +134,109 @@
 		MySql will be supported.</P>
 		<P><STRONG>Table of Contents</STRONG></P>
 		<UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations">Considerations</A></P>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations">Considerations</A></P>
 			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23why-stored-procedures">Why
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23why-stored-procedures">Why
 				stored procedures?</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23what-are-they-for">What
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23what-are-they-for">What
 				are they for?</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23performance-of-execution">Performance
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23performance-of-execution">Performance
 				of execution</A></P>
 				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23reducing-the-amount-of-calls-to-the-database">Reducing
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23reducing-the-amount-of-calls-to-the-database">Reducing
 					the amount of calls to the database</A> 
 					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23avoiding-heavy-php-layers">Avoiding
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23avoiding-heavy-php-layers">Avoiding
 					heavy PHP layers</A> 
 					</P>
 				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23speed-and-simplicity-of-development">Speed
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23speed-and-simplicity-of-development">Speed
 				and simplicity of development</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Considerations%23why-not-mysql-views">Why
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23why-not-mysql-views">Why
 				not Mysql Views?</A> 
 				</P>
 			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks">How
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks">How
 			it Works</A></P>
 			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23using-a-temporary-table-to-access-the-result">Using
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23using-a-temporary-table-to-access-the-result">Using
 				a temporary table to access the result</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting
 				the scope of the temporary table with a random identifier</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-HowItWorks%23bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing
 				accessibility checks of CONTENT with the prefix static_</A> 
 				</P>
 			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases">Example
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases">Example
 			Usecases</A></P>
 			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases%23breadcrumb-rootline">Breadcrumb/rootline</A>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases%23breadcrumb-rootline">Breadcrumb/rootline</A>
 								</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-Usecases%23joined-tables-for-search-applications">Joined
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases%23joined-tables-for-search-applications">Joined
 				tables for search applications</A> 
 				</P>
 			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual">Administrator
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual">Administrator
 			Manual</A></P>
 			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual%23installing-the-extension">Installing
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual%23installing-the-extension">Installing
 				the extension</A> 
 				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-AdministratorManual%23installing-the-stored-procedure-examples">Installing
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual%23installing-the-stored-procedure-examples">Installing
 				the stored procedure examples</A> 
 				</P>
 			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-IntegratorManual">Integrator
-			Manual</A> 
-			</P>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference">TypoScript
-			Reference</A></P>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual">Developer
+			Manual</A></P>
 			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-storedprocedure">tx_esp_StoredProcedure</A></P>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23stored-procedures">Stored
+				procedures</A></P>
 				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23context">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23properties">Properties</A>
-										</P>
-				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-joinrenderer">tx_esp_JoinRenderer</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id1">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id2">Properties</A>
-										</P>
-				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23tx-esp-joinrenderer-level">tx_esp_JoinRenderer:
-				level</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id3">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="Index.html#document-TypoScriptReference%23id4">Properties</A>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23editing-stored-procedures">Editing
+					stored procedures</A> 
+					</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23getting-started">Getting
+					started</A> 
+					</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23guidelines">Guidelines</A>
 										</P>
 				</UL>
 			</UL>
-			<LI><P><A HREF="Index.html#document-ChangeLog">Change Log</A> 
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual">Integrator
+			Manual</A> 
+			</P>
+			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference">TypoScript
+			Reference</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-storedprocedure">tx_esp_StoredProcedure</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23context">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23properties">Properties</A>
+										</P>
+				</UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-joinrenderer">tx_esp_JoinRenderer</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id1">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id2">Properties</A>
+										</P>
+				</UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-joinrenderer-level">tx_esp_JoinRenderer:
+				level</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id3">Context</A>
+										</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id4">Properties</A>
+										</P>
+				</UL>
+			</UL>
+			<LI><P><A HREF="index.html#document-ChangeLog">Change Log</A> 
 			</P>
 		</UL>
 		<DIV ID="considerations" DIR="LTR">
@@ -411,6 +427,63 @@
 				Alternatively you can install the procedures or parts of the file
 				by copy &amp; paste into your preferred database administration
 				tool i.e. phpMyAdmin.</P>
+			</DIV>
+		</DIV>
+		<DIV ID="developer-manual" DIR="LTR">
+			<H3 CLASS="western">Developer Manual<A HREF="#developer-manual">¶</A></H3>
+			<DIV ID="stored-procedures" DIR="LTR">
+				<H4 CLASS="western">Stored procedures<A HREF="#stored-procedures">¶</A></H4>
+				<DIV ID="editing-stored-procedures" DIR="LTR">
+					<H5 CLASS="western">Editing stored procedures<A HREF="#editing-stored-procedures">¶</A></H5>
+					<P>To quickly fix a stored procedure you can use phpMyAdmin or
+					adminer. A more comfortable IDE for the development of SQL
+					including stored procedures is MySQL Workbench.</P>
+					<P>The classical way is, to write stored procedures using your
+					preferred text editor and to apply them by using the commandline
+					tool <STRONG>mysql</STRONG>, similar to this:</P>
+					<PRE STYLE="margin-bottom: 0.5cm">cat your_procedures.sql |&nbsp;mysql -u root -p secret -D typo3</PRE>
+				</DIV>
+				<DIV ID="getting-started" DIR="LTR">
+					<H5 CLASS="western">Getting started<A HREF="#getting-started">¶</A></H5>
+					<P>To find examples take a look into <STRONG>EXT:esp/ext_procedures.sql</STRONG>.</P>
+				</DIV>
+				<DIV ID="guidelines" DIR="LTR">
+					<H5 CLASS="western">Guidelines<A HREF="#guidelines">¶</A></H5>
+					<P>1.) Prepend the name of your stored procedure with your
+					extension key to avoid naming conflicts. Best practice:</P>
+					<PRE STYLE="margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">tx_extkey_yourprocedure</SPAN></PRE><P>
+					2.) Recieve the table name as the first parameter of the
+					procedure:</P>
+					<PRE>DELIMITER $$
+CREATE PROCEDURE `tx_extkey_yourprocedure` (IN tableName VARCHAR(255), ... more parameters ....)
+BEGIN
+        ... your code here
+END$$
+DELIMITER ;</PRE><P>
+					Mind the whitespace after DELIMITER: DELIMITER[space]$$ and
+					DELIMITER[space];</P>
+					<P>3.) Create the temporary table definition query with
+					tableName by use of concat:</P>
+					<PRE>SET @query = concat(&quot;CREATE TEMPORARY TABLE &quot;, @tableName, &quot; ... your table definition ...&quot;);
+PREPARE stmt FROM @query;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;</PRE><P>
+					Hint:</P>
+					<PRE>Even if you create a permanet table, you will not see it in the database,
+because the table of tableName is cleaned up by the calling PHP class afterwards.</PRE><P>
+					4.) Prevent SQL injections by escaping yout queries where
+					necessary:</P>
+					<PRE STYLE="margin-bottom: 0.5cm">TODO: how to do this</PRE><P>
+					5.) Write your code. This technology is rather recommended for
+					read access than for write access. As you circumvent the TCE
+					it’s completly up to you to build the right queries. You need
+					deep knowledge of the data model of TYPO3, if you want to modify
+					data of existing tabels. It is recomended to use the TCE for to
+					modify data as long as you don’t know exactly what you do.</P>
+					<P>6.) Document your code. Use speaking names. Because SQL is
+					not a very human readable language provide comments what your
+					queries do. You will be thankfull within a few months.</P>
+				</DIV>
 			</DIV>
 		</DIV>
 		<DIV ID="integrator-manual" DIR="LTR">
@@ -742,7 +815,7 @@ renderer.userFunc {
 </DIV>
 <H3 CLASS="western">Navigation</H3>
 <UL>
-	<LI><P><A HREF="Index.html#document-Index">EXT: Stored Procedures
+	<LI><P><A HREF="index.html#document-index">EXT: Stored Procedures
 	from TypoScript (esp)</A> » 
 	</P>
 </UL>

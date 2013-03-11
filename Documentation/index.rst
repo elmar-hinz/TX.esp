@@ -44,6 +44,7 @@ the right usecases. For the beginning only MySql will be supported.
 	HowItWorks
 	Usecases
 	AdministratorManual
+	DeveloperManual
 	IntegratorManual
 	TypoScriptReference
 	ChangeLog
