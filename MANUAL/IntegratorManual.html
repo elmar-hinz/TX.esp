@@ -57,6 +57,19 @@
 
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Integrator Manual</a><ul>
+<li><a class="reference internal" href="#breadcrumb">Breadcrumb</a><ul>
+<li><a class="reference internal" href="#install-the-stored-procedure">Install the stored procedure</a></li>
+<li><a class="reference internal" href="#include-the-static-template">Include the static template</a></li>
+<li><a class="reference internal" href="#setup-typoscript">Setup Typoscript</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="DeveloperManual.html"
                         title="previous chapter">Developer Manual</a></p>
@@ -91,7 +104,32 @@
             
   <div class="section" id="integrator-manual">
 <h1>Integrator Manual<a class="headerlink" href="#integrator-manual" title="Permalink to this headline">¶</a></h1>
-<p>Using the examples requires to have the stored procedures installed. See Administrator Manual.</p>
+<div class="section" id="breadcrumb">
+<h2>Breadcrumb<a class="headerlink" href="#breadcrumb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-the-stored-procedure">
+<h3>Install the stored procedure<a class="headerlink" href="#install-the-stored-procedure" title="Permalink to this headline">¶</a></h3>
+<p>See Administrator Manual.</p>
+<p>You can i.e. use your own implementation of the stored procedure,
+by setting your procedure name in TypoScript:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">lib</span><span class="o">.</span><span class="n">tx_esp</span><span class="o">.</span><span class="n">breadcrumb</span><span class="o">.</span><span class="n">userFunc</span><span class="o">.</span><span class="n">storedProcedure</span> <span class="o">=</span> <span class="n">tx_myext_myprocedure</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="include-the-static-template">
+<h3>Include the static template<a class="headerlink" href="#include-the-static-template" title="Permalink to this headline">¶</a></h3>
+<p>Include the static template <em>esp breadcrumb example</em> in your TypoScript template.</p>
+</div>
+<div class="section" id="setup-typoscript">
+<h3>Setup Typoscript<a class="headerlink" href="#setup-typoscript" title="Permalink to this headline">¶</a></h3>
+<p>Use the breadcrumb lib where you like:</p>
+<div class="highlight-python"><pre>page = PAGE
+page.20 =&lt; lib.tx_esp.breadcrumb</pre>
+</div>
+<p>Adjust it to your needs:</p>
+<div class="highlight-python"><pre>lib.tx_esp.breadcrumb.userFunc.stdWrap.wrap2 = &lt;nav id="my_id"&gt;|&lt;/nav&gt;</pre>
+</div>
+</div>
+</div>
 </div>
 
 

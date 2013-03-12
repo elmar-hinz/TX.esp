@@ -109,7 +109,7 @@
 				<P>Generation:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>03-11-2013 23:25</P>
+				<P>03-12-2013 12:15</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -208,8 +208,21 @@
 				</UL>
 			</UL>
 			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual">Integrator
-			Manual</A> 
-			</P>
+			Manual</A></P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23breadcrumb">Breadcrumb</A></P>
+				<UL>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23install-the-stored-procedure">Install
+					the stored procedure</A> 
+					</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23include-the-static-template">Include
+					the static template</A> 
+					</P>
+					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23setup-typoscript">Setup
+					Typoscript</A> 
+					</P>
+				</UL>
+			</UL>
 			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference">TypoScript
 			Reference</A></P>
 			<UL>
@@ -488,8 +501,29 @@ because the table of tableName is cleaned up by the calling PHP class afterwards
 		</DIV>
 		<DIV ID="integrator-manual" DIR="LTR">
 			<H3 CLASS="western">Integrator Manual<A HREF="#integrator-manual">¶</A></H3>
-			<P>Using the examples requires to have the stored procedures
-			installed. See Administrator Manual.</P>
+			<DIV ID="breadcrumb" DIR="LTR">
+				<H4 CLASS="western">Breadcrumb<A HREF="#breadcrumb">¶</A></H4>
+				<DIV ID="install-the-stored-procedure" DIR="LTR">
+					<H5 CLASS="western">Install the stored procedure<A HREF="#install-the-stored-procedure">¶</A></H5>
+					<P>See Administrator Manual.</P>
+					<P>You can i.e. use your own implementation of the stored
+					procedure, by setting your procedure name in TypoScript:</P>
+					<PRE STYLE="margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">lib.tx_esp.breadcrumb.userFunc.storedProcedure = tx_myext_myprocedure</SPAN></PRE>
+				</DIV>
+				<DIV ID="include-the-static-template" DIR="LTR">
+					<H5 CLASS="western">Include the static template<A HREF="#include-the-static-template">¶</A></H5>
+					<P>Include the static template <EM>esp breadcrumb example</EM>
+					in your TypoScript template.</P>
+				</DIV>
+				<DIV ID="setup-typoscript" DIR="LTR">
+					<H5 CLASS="western">Setup Typoscript<A HREF="#setup-typoscript">¶</A></H5>
+					<P>Use the breadcrumb lib where you like:</P>
+					<PRE>page = PAGE
+page.20 =&lt; lib.tx_esp.breadcrumb</PRE><P>
+					Adjust it to your needs:</P>
+					<PRE STYLE="margin-bottom: 0.5cm">lib.tx_esp.breadcrumb.userFunc.stdWrap.wrap2 = &lt;nav id=&quot;my_id&quot;&gt;|&lt;/nav&gt;</PRE>
+				</DIV>
+			</DIV>
 		</DIV>
 		<DIV ID="typoscript-reference" DIR="LTR">
 			<H3 CLASS="western">TypoScript Reference<A HREF="#typoscript-reference">¶</A></H3>
