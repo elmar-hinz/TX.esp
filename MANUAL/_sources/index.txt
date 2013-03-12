@@ -34,8 +34,6 @@ the right usecases. For the beginning only MySql will be supported.
 
 **Table of Contents**
 
-.. globalindex::
-	:maxdepth: 3
 
 .. toctree::
 	:maxdepth: 3
@@ -44,8 +42,8 @@ the right usecases. For the beginning only MySql will be supported.
 	HowItWorks
 	Usecases
 	AdministratorManual
+        IntegratorManual
 	DeveloperManual
-	IntegratorManual
 	TypoScriptReference
 	ChangeLog
 

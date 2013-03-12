@@ -2,50 +2,120 @@
 # Configuration
 ##################################################
 
+EXTKEY = 'esp'
+
 # LibreOffice
 SOFFICE = '/Applications/LibreOffice.app/Contents/MacOS/soffice'
 
 # Directories
 BASE = Dir.pwd
-MANUAL_FILE = BASE + '/doc/manual.odt'
 MANUAL_MAKE = BASE + '/Documentation/_manualMake/'
 MANUAL_MAKE_SINGLE = MANUAL_MAKE + '_build/singlehtml/' 
 SITE = BASE + '/MANUAL/'
 SITE_MAKE = BASE + '/Documentation/_siteMake/'
 SITE_MAKE_HTML = SITE_MAKE + '_build/html/'
+
+REMOTE_T3 = "/var/www/html/typo3"
+
+# Files
+EMCONF = BASE + '/ext_emconf.php'
+MANUAL_FILE = BASE + '/doc/manual.odt'
+MANUAL_FILE2 = BASE + '/doc/manual.sxw'
 INCLUDES = BASE + '/Documentation/_IncludedDirectives.rst'
 
 ##################################################
 # Tasks
 ##################################################
 
-task :default => :makeDoc 
+desc "Help is the default Task"
+task :default => :help
+
+desc "Help"
+task :help do
+	exec('rake -T')
+end 
+
+desc "Read version from " + EMCONF
+task :version do
+	cmd = 'php -r \'$_EXTKEY="esp"; include("' + EMCONF+ '"); echo $EM_CONF["esp"]["version"];\' '
+	CURRENT_VERSION = open('|' + cmd).read()
+	puts CURRENT_VERSION
+end
+
+desc "Read state from " + EMCONF
+task :state do
+	cmd = 'php -r \'$_EXTKEY="esp"; include("' + EMCONF+ '"); echo $EM_CONF["esp"]["state"];\' '
+	STATE  = open('|' + cmd).read()
+	puts STATE
+end
+
+desc "Set version to " + EMCONF
+task :setVersion, [:version] do |t, args|
+	fail 'Usage: "rake setVersion[version_nr]"' unless(args.version)
+	setVersion args.version
+end
+
+# 1.) set the new vesion to emconf
+# 2.) the doc is updated from there
+# 3.) emconf is set to 0.0.0 to prevent updater of complaining existent version
+# 4.) run updater with new version
+# 5.) reset emconf with new version (is this done already by updater?)
+desc "Upload TER with new version"
+task :upload, [:version, :comment, :user, :password] => [:setVersion, :version, :state] do |t, args|
+
+	unless(args.version && args.comment && args.user && args.password)
+		fail 'Usage: rake updateTer[version_nr,"your upload comment",user,password]' 
+	end
+
+	setVersion '0.0.0'
+	cmd = 'cd ' + REMOTE_T3 + ';'
+	cmd = cmd + './cli_dispatch.phpsh extbase uploader:upload '
+	cmd = cmd + ' --extkey="' + EXTKEY + '"'
+	cmd = cmd + ' --state="' + STATE + '"'
+	cmd = cmd + ' --version="' + args.version + '"'
+	cmd = cmd + ' --comment="' + args.comment + '"'
+	cmd = cmd + ' --username="' + args.user + '"'
+	cmd = cmd + ' --password="' + args.password + '"'
+	ssh = "vagrant ssh -c '" + cmd + "'"
+	puts ssh 
+	puts "==============================================================="
+	puts "Sorry, the extension_updater is not usable even on commandline."
+	puts 
+	puts "Please wait for a more stable version"
+	puts "==============================================================="
+	# system (ssh)
+	setVersion CURRENT_VERSION
+
+end
+
+# ##################
+# Rendering the docs
+# ##################
 
 desc "Make documentation"
 task :makeDoc => [:makeManual, :makeSite]
 
-desc "Read version"
-task :version do
-	CURRENT_VERSION = `php -r \'$_EXTKEY="esp"; include("ext_emconf.php"); echo $EM_CONF["esp"]["version"];\' `
-end
-
-desc "Update version to Documentation"
+desc "Update version in " + INCLUDES
 task :updateVersion => :version do
-	text = File.read (INCLUDES)
+	text = File.read(INCLUDES)
 	text = text.gsub(/^.+\|version\|.+$/, '.. |version| replace:: ' + CURRENT_VERSION)
 	File.open(INCLUDES, "w") {|file| file << text}
 end
 
-desc "Make doc/manual.odt"
+desc "Make doc/manual.sxw and .odt"
 task :makeManual => :updateVersion do
 	cd MANUAL_MAKE
 	system 'make clean'	
 	system 'make singlehtml'	
 	cd MANUAL_MAKE_SINGLE
 	system SOFFICE + ' --headless --convert-to odt index.html'
+	system SOFFICE + ' --headless --convert-to sxw index.html'
 	rm MANUAL_FILE, :force => true
+	rm MANUAL_FILE2, :force => true
 	mv 'index.odt', MANUAL_FILE
 	puts 'created: ' + MANUAL_FILE 
+	mv 'index.sxw', MANUAL_FILE2
+	puts 'created: ' + MANUAL_FILE2
 	cd MANUAL_MAKE
 	system 'make clean'	
 end
@@ -59,5 +129,16 @@ task :makeSite => :updateVersion do
 	mv SITE_MAKE_HTML, SITE
 	cd SITE_MAKE
 	system 'make clean'	
+end
+
+####################
+# Functions 
+####################
+
+def setVersion(version) 	
+	text = File.read(EMCONF)
+	text = text.gsub(/^.+version.+=>.+$/, "	'version' => '" + version + "',")
+	File.open(EMCONF, "w") {|file| file << text}
+	puts "set version " + version 
 end
 

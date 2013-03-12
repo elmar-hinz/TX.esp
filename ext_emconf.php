@@ -31,9 +31,9 @@ TER still does not render it, yet.
 
 Clone the latest version from github: https://github.com/t3elmar/esp.git
 ',
-	'category' => 'fe',
+	'category' => 'misc',
 	'shy' => 0,
-	'version' => '0.8.0',
+	'version' => '0.9.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',

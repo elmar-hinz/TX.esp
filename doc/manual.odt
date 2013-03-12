@@ -69,7 +69,7 @@
 				<P>Version:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>0.8.0</P>
+				<P>0.10.0</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -101,7 +101,7 @@
 				<P>Creation:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>03-07-2013</P>
+				<P>03-12-2013</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -109,7 +109,7 @@
 				<P>Generation:</P>
 			</TH>
 			<TD STYLE="border: none; padding: 0cm">
-				<P>03-12-2013 12:15</P>
+				<P>03-12-2013 18:02</P>
 			</TD>
 		</TR>
 		<TR VALIGN=TOP>
@@ -133,125 +133,6 @@
 		if you choose it for the right usecases. For the beginning only
 		MySql will be supported.</P>
 		<P><STRONG>Table of Contents</STRONG></P>
-		<UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations">Considerations</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23why-stored-procedures">Why
-				stored procedures?</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23what-are-they-for">What
-				are they for?</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23performance-of-execution">Performance
-				of execution</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23reducing-the-amount-of-calls-to-the-database">Reducing
-					the amount of calls to the database</A> 
-					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23avoiding-heavy-php-layers">Avoiding
-					heavy PHP layers</A> 
-					</P>
-				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23speed-and-simplicity-of-development">Speed
-				and simplicity of development</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Considerations%23why-not-mysql-views">Why
-				not Mysql Views?</A> 
-				</P>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks">How
-			it Works</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23using-a-temporary-table-to-access-the-result">Using
-				a temporary table to access the result</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23limiting-the-scope-of-the-temporary-table-with-a-random-identifier">Limiting
-				the scope of the temporary table with a random identifier</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-HowItWorks%23bypassing-accessibility-checks-of-content-with-the-prefix-static">Bypassing
-				accessibility checks of CONTENT with the prefix static_</A> 
-				</P>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases">Example
-			Usecases</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases%23breadcrumb-rootline">Breadcrumb/rootline</A>
-								</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-Usecases%23joined-tables-for-search-applications">Joined
-				tables for search applications</A> 
-				</P>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual">Administrator
-			Manual</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual%23installing-the-extension">Installing
-				the extension</A> 
-				</P>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-AdministratorManual%23installing-the-stored-procedure-examples">Installing
-				the stored procedure examples</A> 
-				</P>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual">Developer
-			Manual</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23stored-procedures">Stored
-				procedures</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23editing-stored-procedures">Editing
-					stored procedures</A> 
-					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23getting-started">Getting
-					started</A> 
-					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-DeveloperManual%23guidelines">Guidelines</A>
-										</P>
-				</UL>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual">Integrator
-			Manual</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23breadcrumb">Breadcrumb</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23install-the-stored-procedure">Install
-					the stored procedure</A> 
-					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23include-the-static-template">Include
-					the static template</A> 
-					</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-IntegratorManual%23setup-typoscript">Setup
-					Typoscript</A> 
-					</P>
-				</UL>
-			</UL>
-			<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference">TypoScript
-			Reference</A></P>
-			<UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-storedprocedure">tx_esp_StoredProcedure</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23context">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23properties">Properties</A>
-										</P>
-				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-joinrenderer">tx_esp_JoinRenderer</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id1">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id2">Properties</A>
-										</P>
-				</UL>
-				<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23tx-esp-joinrenderer-level">tx_esp_JoinRenderer:
-				level</A></P>
-				<UL>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id3">Context</A>
-										</P>
-					<LI><P STYLE="margin-bottom: 0cm"><A HREF="index.html#document-TypoScriptReference%23id4">Properties</A>
-										</P>
-				</UL>
-			</UL>
-			<LI><P><A HREF="index.html#document-ChangeLog">Change Log</A> 
-			</P>
-		</UL>
 		<DIV ID="considerations" DIR="LTR">
 			<H3 CLASS="western">Considerations<A HREF="#considerations">¶</A></H3>
 			<DIV ID="why-stored-procedures" DIR="LTR">
@@ -336,9 +217,9 @@
 				issue with views in MySql is performance. Exactly where views
 				start to become ambitious, they lose their ability to access
 				table indexes an slow down matters in MySql.</P>
-				<P><A NAME="id2"></A>This extension <A HREF="#id1">|extension_name|</A>
-				places the query results into a temporary table, from where they
-				are rendered by the well known techniques of TypoScript. So this
+				<P>This extension Stored Procedures for TypoScript (esp) places
+				the query results into a temporary table, from where they are
+				rendered by the well known techniques of TypoScript. So this
 				temporary talbes are kind of replacement for sucking views in
 				MySql.</P>
 				<P>Apart from performance there are some usecases, where views
@@ -381,8 +262,8 @@
 				procedure must use this name for the temporary table.</P>
 			</DIV>
 			<DIV ID="bypassing-accessibility-checks-of-content-with-the-prefix-static" DIR="LTR">
-				<H4 CLASS="western"><A NAME="id21"></A>Bypassing accessibility
-				checks of CONTENT with the prefix <A HREF="#id1">static_</A><A HREF="#bypassing-accessibility-checks-of-content-with-the-prefix-static">¶</A></H4>
+				<H4 CLASS="western">Bypassing accessibility checks of CONTENT
+				with the prefix <EM>static_</EM><A HREF="#bypassing-accessibility-checks-of-content-with-the-prefix-static">¶</A></H4>
 				<P>You want be able to read the temporary table with the
 				TypoScript <STRONG>CONTENT</STRONG> object. It automatically
 				generates parts of the <EM>WHERE</EM> clause depending on the
@@ -442,6 +323,32 @@
 				tool i.e. phpMyAdmin.</P>
 			</DIV>
 		</DIV>
+		<DIV ID="integrator-manual" DIR="LTR">
+			<H3 CLASS="western">Integrator Manual<A HREF="#integrator-manual">¶</A></H3>
+			<DIV ID="breadcrumb" DIR="LTR">
+				<H4 CLASS="western">Breadcrumb<A HREF="#breadcrumb">¶</A></H4>
+				<DIV ID="install-the-stored-procedure" DIR="LTR">
+					<H5 CLASS="western">Install the stored procedure<A HREF="#install-the-stored-procedure">¶</A></H5>
+					<P>See Administrator Manual.</P>
+					<P>You can i.e. use your own implementation of the stored
+					procedure, by setting your procedure name in TypoScript:</P>
+					<PRE STYLE="margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">lib.tx_esp.breadcrumb.userFunc.storedProcedure = tx_myext_myprocedure</SPAN></PRE>
+				</DIV>
+				<DIV ID="include-the-static-template" DIR="LTR">
+					<H5 CLASS="western">Include the static template<A HREF="#include-the-static-template">¶</A></H5>
+					<P>Include the static template <EM>esp breadcrumb example</EM>
+					in your TypoScript template.</P>
+				</DIV>
+				<DIV ID="setup-typoscript" DIR="LTR">
+					<H5 CLASS="western">Setup Typoscript<A HREF="#setup-typoscript">¶</A></H5>
+					<P>Use the breadcrumb lib where you like:</P>
+					<PRE>page = PAGE
+page.20 =&lt; lib.tx_esp.breadcrumb</PRE><P>
+					Adjust it to your needs:</P>
+					<PRE STYLE="margin-bottom: 0.5cm">lib.tx_esp.breadcrumb.userFunc.stdWrap.wrap2 = &lt;nav id=&quot;my_id&quot;&gt;|&lt;/nav&gt;</PRE>
+				</DIV>
+			</DIV>
+		</DIV>
 		<DIV ID="developer-manual" DIR="LTR">
 			<H3 CLASS="western">Developer Manual<A HREF="#developer-manual">¶</A></H3>
 			<DIV ID="stored-procedures" DIR="LTR">
@@ -496,32 +403,6 @@ because the table of tableName is cleaned up by the calling PHP class afterwards
 					<P>6.) Document your code. Use speaking names. Because SQL is
 					not a very human readable language provide comments what your
 					queries do. You will be thankfull within a few months.</P>
-				</DIV>
-			</DIV>
-		</DIV>
-		<DIV ID="integrator-manual" DIR="LTR">
-			<H3 CLASS="western">Integrator Manual<A HREF="#integrator-manual">¶</A></H3>
-			<DIV ID="breadcrumb" DIR="LTR">
-				<H4 CLASS="western">Breadcrumb<A HREF="#breadcrumb">¶</A></H4>
-				<DIV ID="install-the-stored-procedure" DIR="LTR">
-					<H5 CLASS="western">Install the stored procedure<A HREF="#install-the-stored-procedure">¶</A></H5>
-					<P>See Administrator Manual.</P>
-					<P>You can i.e. use your own implementation of the stored
-					procedure, by setting your procedure name in TypoScript:</P>
-					<PRE STYLE="margin-bottom: 0.5cm"><SPAN STYLE="background: #eeffcc">lib.tx_esp.breadcrumb.userFunc.storedProcedure = tx_myext_myprocedure</SPAN></PRE>
-				</DIV>
-				<DIV ID="include-the-static-template" DIR="LTR">
-					<H5 CLASS="western">Include the static template<A HREF="#include-the-static-template">¶</A></H5>
-					<P>Include the static template <EM>esp breadcrumb example</EM>
-					in your TypoScript template.</P>
-				</DIV>
-				<DIV ID="setup-typoscript" DIR="LTR">
-					<H5 CLASS="western">Setup Typoscript<A HREF="#setup-typoscript">¶</A></H5>
-					<P>Use the breadcrumb lib where you like:</P>
-					<PRE>page = PAGE
-page.20 =&lt; lib.tx_esp.breadcrumb</PRE><P>
-					Adjust it to your needs:</P>
-					<PRE STYLE="margin-bottom: 0.5cm">lib.tx_esp.breadcrumb.userFunc.stdWrap.wrap2 = &lt;nav id=&quot;my_id&quot;&gt;|&lt;/nav&gt;</PRE>
 				</DIV>
 			</DIV>
 		</DIV>
@@ -810,9 +691,19 @@ renderer.userFunc {
 		</DIV>
 		<DIV ID="change-log" DIR="LTR">
 			<H3 CLASS="western">Change Log<A HREF="#change-log">¶</A></H3>
+			<P>2013-03-12 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
+			<UL>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.10.0 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">adding integrator
+				documentation 
+				</BLOCKQUOTE>
+				<LI><BLOCKQUOTE>automatic TER upload 
+				</BLOCKQUOTE>
+			</UL>
 			<P>2013-03-11 Elmar Hinz &lt;<A HREF="mailto:t3elmar%40googlemail.com">t3elmar@googlemail.com</A>&gt;</P>
 			<UL>
-				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.8.0 
+				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">version 0.9.0 
 				</BLOCKQUOTE>
 				<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm">adding procedure
 				documentation 

@@ -5,9 +5,9 @@
 .. |author| replace:: Elmar Hinz <t3elmar@googlemail.com>
 .. |extension_key| replace:: esp
 .. |extension_name| replace:: Stored Procedures for TypoScript (esp)
-.. |version| replace:: 0.8.0
+.. |version| replace:: 0.10.0
 .. |typo3| image:: Images/Typo3.png
-.. |creation| replace:: 03-07-2013
+.. |creation| replace:: 03-12-2013
 .. |time| date:: %m-%d-%Y %H:%M
 
 ..  Custom roles

@@ -1,3 +1,6 @@
+
+.. include:: _IncludedDirectives.rst
+
 ==============
 Considerations
 ==============

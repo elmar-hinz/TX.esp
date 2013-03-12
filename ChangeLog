@@ -1,6 +1,12 @@
+2013-03-12 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version 0.10.0
+	* adding integrator documentation
+	* automatic TER upload
+
 2013-03-11 Elmar Hinz  <t3elmar@googlemail.com>
 
-	* version 0.8.0
+	* version 0.9.0
 	* adding procedure documentation
 	* automatic build of docs by rakefile
 
