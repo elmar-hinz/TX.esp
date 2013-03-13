@@ -14,7 +14,6 @@ MANUAL_MAKE_SINGLE = MANUAL_MAKE + '_build/singlehtml/'
 SITE = BASE + '/MANUAL/'
 SITE_MAKE = BASE + '/Documentation/_siteMake/'
 SITE_MAKE_HTML = SITE_MAKE + '_build/html/'
-
 REMOTE_T3 = "/var/www/html/typo3"
 
 # Files
@@ -23,9 +22,18 @@ MANUAL_FILE = BASE + '/doc/manual.odt'
 MANUAL_FILE2 = BASE + '/doc/manual.sxw'
 INCLUDES = BASE + '/Documentation/_IncludedDirectives.rst'
 
+# Uploader
+EXTENSION_BASE = BASE + '/..'
+UPLOADER_CLONE = 'git clone https://github.com/t3elmar/Typo3ExtensionUtils.git'
+UPLOADER_DIR = EXTENSION_BASE + '/Typo3ExtensionUtils'
+UPLOADER_FILE = UPLOADER_DIR+ '/bin/t3xutils.phar'
+
 ##################################################
 # Tasks
 ##################################################
+
+task :test do
+end
 
 desc "Help is the default Task"
 task :default => :help
@@ -61,31 +69,15 @@ end
 # 4.) run updater with new version
 # 5.) reset emconf with new version (is this done already by updater?)
 desc "Upload TER with new version"
-task :upload, [:version, :comment, :user, :password] => [:setVersion, :version, :state] do |t, args|
-
-	unless(args.version && args.comment && args.user && args.password)
-		fail 'Usage: rake updateTer[version_nr,"your upload comment",user,password]' 
+task :upload, [:version, :comment, :username, :password] => [:setVersion, :makeDoc] do |t, args|
+	unless(args.version && args.comment && args.username && args.password)
+		fail 'Usage: rake updateTer[version_nr,"your upload comment",username,password]' 
 	end
-
-	setVersion '0.0.0'
-	cmd = 'cd ' + REMOTE_T3 + ';'
-	cmd = cmd + './cli_dispatch.phpsh extbase uploader:upload '
-	cmd = cmd + ' --extkey="' + EXTKEY + '"'
-	cmd = cmd + ' --state="' + STATE + '"'
-	cmd = cmd + ' --version="' + args.version + '"'
-	cmd = cmd + ' --comment="' + args.comment + '"'
-	cmd = cmd + ' --username="' + args.user + '"'
-	cmd = cmd + ' --password="' + args.password + '"'
-	ssh = "vagrant ssh -c '" + cmd + "'"
-	puts ssh 
-	puts "==============================================================="
-	puts "Sorry, the extension_updater is not usable even on commandline."
-	puts 
-	puts "Please wait for a more stable version"
-	puts "==============================================================="
-	# system (ssh)
-	setVersion CURRENT_VERSION
-
+	removeGit()
+	installUploader()
+	upload(args.username, args.password, args.comment)
+	removeUploader()
+	revertGit()
 end
 
 # ##################
@@ -141,4 +133,36 @@ def setVersion(version)
 	File.open(EMCONF, "w") {|file| file << text}
 	puts "set version " + version 
 end
+
+def installUploader 
+	cd (EXTENSION_BASE)
+	system UPLOADER_CLONE 
+	# system ('ls -al ' + EXTENSION_BASE)
+end
+
+def removeUploader 
+	system ('rm -rf ' + UPLOADER_DIR)
+	# system ('ls -al ' + EXTENSION_BASE)
+end
+
+def upload(username, password, comment) 
+	cd (EXTENSION_BASE)
+	cmd = "#{UPLOADER_FILE} upload \"#{username}\" \"#{password}\" \"#{EXTKEY}\" \"#{comment}\" \"#{EXTKEY}/\" "
+	puts cmd
+	ssh = "vagrant ssh -c '" + cmd + "'"
+	puts ssh 
+	system (ssh)
+end
+
+def removeGit
+	cd BASE
+	system 'mv .git* ..'
+end
+
+def revertGit
+	cd BASE
+	system 'mv ../.git* .'
+end
+
+
 

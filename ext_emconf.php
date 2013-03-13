@@ -33,7 +33,7 @@ Clone the latest version from github: https://github.com/t3elmar/esp.git
 ',
 	'category' => 'misc',
 	'shy' => 0,
-	'version' => '0.9.0',
+	'version' => '0.10.3',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
