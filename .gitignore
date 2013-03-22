@@ -21,4 +21,5 @@
 .TemporaryItems
 .webprj
 nbproject
-*.DS_Store
+.DS_Store
+Documentation/_manualMake/_build/

@@ -137,21 +137,18 @@ end
 def installUploader 
 	cd (EXTENSION_BASE)
 	system UPLOADER_CLONE 
-	# system ('ls -al ' + EXTENSION_BASE)
+	system 'chmod +x ' + UPLOADER_FILE
 end
 
 def removeUploader 
 	system ('rm -rf ' + UPLOADER_DIR)
-	# system ('ls -al ' + EXTENSION_BASE)
 end
 
 def upload(username, password, comment) 
 	cd (EXTENSION_BASE)
 	cmd = "#{UPLOADER_FILE} upload \"#{username}\" \"#{password}\" \"#{EXTKEY}\" \"#{comment}\" \"#{EXTKEY}/\" "
 	puts cmd
-	ssh = "vagrant ssh -c '" + cmd + "'"
-	puts ssh 
-	system (ssh)
+	system (cmd)
 end
 
 def removeGit
