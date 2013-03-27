@@ -142,7 +142,20 @@ END
 		*/
 		function init_sets_db() {
 			$this->cand->init();
-			$this->assertInstanceOf('TYPO3\CMS\Core\Database\DatabaseConnection', $this->cand->getDB());
+			$candDb = $this->cand->getDB();
+			$this->assertTrue(is_object($candDb));
+			$this->assertSame($this->db, $candDb);
+		}
+
+		/**
+		* @test
+		*/
+		function orderAndWrapParameters_turns_an_empty_list_to_an_empty_array() {
+			unset($this->configuration['userFunc.']['parameterOrder']);
+			unset($this->configuration['userFunc.']['parameters']);
+			$this->cand->init($this->configuration);
+			$this->cand->orderAndWrapParameters();
+			$this->assertSame(array(), array_keys($this->cand->getParameters()));
 		}
 
 		/**

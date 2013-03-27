@@ -108,9 +108,14 @@ class tx_esp_StoredProcedure {
 	 * @return	[type]		...
 	 */
 	function orderAndWrapParameters() {
-		$keys = t3lib_div::trimExplode(',', $this->configuration['parameterOrder']);
-		$keys = array_combine($keys, $keys);
-		$this->parameters = array_map(array($this, 'wrapParameter'), $keys);
+		$order = trim($this->configuration['parameterOrder']);
+		if($order == '') {
+			$this->parameters = array();
+		} else {
+			$keys = t3lib_div::trimExplode(',', $order);
+			$keys = array_combine($keys, $keys);
+			$this->parameters = array_map(array($this, 'wrapParameter'), $keys);
+		}
 	}
 
 	/**
