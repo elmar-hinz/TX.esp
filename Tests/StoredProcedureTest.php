@@ -10,7 +10,7 @@ BEGIN
   SET secondParameter = "two";
   SET thirdParameter = "three";
 
-  SET @query = concat("CREATE TABLE ",@tableName, " (uid INT, field1 INT)");
+  SET @query = concat("CREATE TEMPORARY TABLE ",@tableName, " (uid INT, field1 INT)");
   PREPARE stmt FROM @query;
   EXECUTE stmt;
   DEALLOCATE PREPARE stmt;  
@@ -75,7 +75,7 @@ END
 			while($row = $this->db->sql_fetch_row($rh)) {
 				$table = $row[0];
 				if(preg_match('/tx_esp_test_.*/', $table)) {
-					$sql = "DROP TABLE ".$table;
+					$sql = "DROP TABLE IF EXISTS ".$table;
 					$this->db->sql_query($sql);	
 				}
 			}

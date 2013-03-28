@@ -60,8 +60,10 @@ class tx_esp_StoredProcedure {
 		$this->fetchArgumentResult();
 		$this->processArgumentResult();
 		$this->setUpTCA();
-		$this->renderResult();
-		$this->dropResultTable();
+		if($this->resultTableExists()) {
+			$this->renderResult();
+			$this->dropResultTable();
+		}
 		$this->wrapOutput();
 		return $this->output;
 	}
@@ -204,6 +206,20 @@ class tx_esp_StoredProcedure {
 	/**
 	 * [Describe function...]
 	 *
+	 * Hack! We force the existing of an empty table, if it was not created by
+	 * the stored procedure. Is there a better way?
+	 *
+	 * @return	[type]		...
+	 */
+	function resultTableExists() {
+		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS ".$this->randomTableName." (dummyfield INT)";
+		$this->db->sql_query($query);
+		return TRUE;
+	}
+
+	/**
+	 * [Describe function...]
+	 *
 	 * @return	[type]		...
 	 */
 	function renderResult() {
@@ -217,7 +233,7 @@ class tx_esp_StoredProcedure {
 	 * @return	[type]		...
 	 */
 	function dropResultTable() {
-		$query = "DROP TABLE " . $this->randomTableName;
+		$query = "DROP TABLE IF EXISTS " . $this->randomTableName;
 		return $this->db->sql_query($query);
 	}
 
