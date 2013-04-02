@@ -52,6 +52,7 @@ abstract class tx_esp_AbstractRenderer {
 	public function main($content, $conf) {
 		$this->init($conf);
 		$this->render();
+		$this->setDataAgain();
 		$this->wrapOutput();
 		return $this->getOutput();
 	}
@@ -80,6 +81,10 @@ abstract class tx_esp_AbstractRenderer {
 	}
 
 	abstract public function render(); 
+
+	public function setDataAgain() {
+		$this->cObj->start($this->getParameters());
+	}
 
 	public function wrapOutput() {
 		$this->out = $this->cObj->stdWrap($this->out, $this->configuration['stdWrap.']); 

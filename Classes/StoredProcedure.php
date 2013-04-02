@@ -156,9 +156,11 @@ class tx_esp_StoredProcedure {
 		// so that it can be accessed by the render Object and by wrapOutput
 		$data = $this->getParameterData();
 		$data['_procedureResult'] = $this->getProcedureResult();
-		$this->cObj->start($data, $this->storedProcedure);
+		$this->cObj->start($data, '');
 		$this->output = $this->cObj->cObjGetSingle(
 			$this->configuration['renderer'], $this->configuration['renderer.']);
+		// reset it, if changed by renderer
+		$this->cObj->start($data, '');
 		$this->getProcedureResult()->free();
 	}
 

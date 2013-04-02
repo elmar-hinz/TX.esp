@@ -46,6 +46,13 @@ END
 				'renderer.' => array(
 					'userFunc' => 'tx_esp_SimpleRenderer->main',
 					'userFunc.' => array(
+						'stdWrap.' => array(
+							'prepend' => 'TEXT',
+							'prepend.' => array(
+								'field' => 'firstParameter',
+								'wrap' => '<parameter1:|>',
+							)
+						),
 						'rowRenderer' => 'TEXT',
 						'rowRenderer.' => array( 
 							'field' => 'field1',
@@ -273,7 +280,7 @@ END
 			$this->cand->fetchParameterResult();
 			$this->cand->processParameterResult();
 			$this->cand->renderResult();
-			$this->assertEquals('<1111><2222>', $this->cand->getOutput());
+			$this->assertEquals('<parameter1:one><1111><2222>', $this->cand->getOutput());
 		}
 
 		/**
@@ -290,7 +297,7 @@ END
 		*/
 		function integration_test() {
 			$out = $this->cand->main('', $this->configuration);
-			$this->assertEquals('<wrap><1111><2222></wrap>', $out);
+			$this->assertEquals('<wrap><parameter1:one><1111><2222></wrap>', $out);
 		}
 
 	}
