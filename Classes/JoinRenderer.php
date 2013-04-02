@@ -48,7 +48,7 @@ class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 	public function render() {
 		$this->initLevelStack();
 		$array = array();
-		while($row = $this->getResult()->fetch_assoc()) $array[] = $row;
+		while($row = $this->getResultIterator()->fetchAssociated()) $array[] = $row;
 		$out = $this->renderTable($array);
 		$this->setOutput($out);
 	}

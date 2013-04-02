@@ -24,13 +24,13 @@
 ***************************************************************/
 
 /**
- * Plugin 'Stored Procedure' for the 'esp' extension.
+ * Plugin 'Mysql Stored Procedure' for the 'esp' extension.
  *
  * @author	Elmar Hinz <elmar.hinz@gmail.com>
  * @package	TYPO3
  * @subpackage	tx_esp
  */
-class tx_esp_StoredProcedure {
+class tx_esp_MysqlStoredProcedure {
 
 	public $cObj;
 	private $configuration;
@@ -155,7 +155,7 @@ class tx_esp_StoredProcedure {
 		// Set parameter results to objects.fields,
 		// so that it can be accessed by the render Object and by wrapOutput
 		$data = $this->getParameterData();
-		$data['_procedureResult'] = $this->getProcedureResult();
+		$data['_resultIterator'] = new tx_esp_MysqliResultIterator($this->getProcedureResult());
 		$this->cObj->start($data);
 		$this->output = $this->cObj->cObjGetSingle(
 			$this->configuration['renderer'], $this->configuration['renderer.']);

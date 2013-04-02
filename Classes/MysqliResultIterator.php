@@ -23,25 +23,16 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * Simple renderer
- *
- * Similar to cObject CONTENT
- *
- * @author	Elmar Hinz <elmar.hinz@gmail.com>
- * @package	TYPO3
- * @subpackage	tx_esp
- */
-class tx_esp_SimpleRenderer extends tx_esp_AbstractRenderer {
+class tx_esp_MysqliResultIterator implements tx_esp_ResultIteratorInterface {
 
-	public function render() {
-		$configuration = $this->getConfiguration();
-		while($row = $this->getResultIterator()->fetchAssociated()) {
-			$this->cObj->start($row);
-			$out .= $this->cObj->cObjGetSingle($configuration['rowRenderer'], 
-				$configuration['rowRenderer.']);
-		}
-		$this->setOutput($out);
+	private $resultLink;
+
+	public function __construct(mysqli_result $resultLink) {
+		$this->resultLink = $resultLink;
+	}
+
+	public function fetchAssociated() {
+		return $this->resultLink->fetch_assoc();
 	}
 
 }

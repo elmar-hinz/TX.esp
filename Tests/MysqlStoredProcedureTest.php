@@ -1,6 +1,6 @@
 <?php
 
-	class tx_esp_StoredProcedureTest extends tx_phpunit_testcase {
+	class tx_esp_MysqlStoredProcedureTest extends tx_phpunit_testcase {
 		
 		private $parameterOrder = array ( 'firstParameter', 'secondParameter', 'thirdParameter');
 		private $createProcedure = '
@@ -63,7 +63,7 @@ END
 				'stdWrap.' => array( 'wrap' => '<wrap>|</wrap>'),
 			);
 			$this->configuration = array( 'userFunc.' => $userFunc_);
-			$this->cand = new tx_esp_StoredProcedure();
+			$this->cand = new tx_esp_MysqlStoredProcedure();
 			$this->cand->cObj = t3lib_div::makeInstance('tslib_cObj');
 		}
 
@@ -92,7 +92,7 @@ END
 		* @test
 		*/
 		function object_can_be_constructed() {
-			new tx_esp_StoredProcedure();
+			new tx_esp_MysqlStoredProcedure();
 		}
 
 		/**

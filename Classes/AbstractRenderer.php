@@ -38,8 +38,8 @@ abstract class tx_esp_AbstractRenderer {
 	private $configuration;
 	/* Parameter result of the stored procedure */
 	private $parameters;
-	/* Mysqli result of the stored procedures */
-	private $result;
+	/* Mysqli resultIterator of the stored procedures */
+	private $resultIterator;
 	private $out;
 
 	/**
@@ -59,7 +59,7 @@ abstract class tx_esp_AbstractRenderer {
 
 	// Public accessros, also for testing
 	public function getConfiguration() { return $this->configuration; } 
-	public function getResult() { return $this->result; } 
+	public function getResultIterator() { return $this->resultIterator; } 
 	public function getParameters() { return $this->parameters; } 
 	public function setOutput($out) { $this->out = $out; }
 	public function getOutput() { return $this->out; }
@@ -71,11 +71,14 @@ abstract class tx_esp_AbstractRenderer {
 	public function init($conf) {
 		$this->configuration = $conf['userFunc.'];
 		$this->db = $GLOBALS['TYPO3_DB'];
-		if(isset($this->cObj->data['_procedureResult'])) {
-			$this->result = $this->cObj->data['_procedureResult'];
-			unset($this->cObj->data['_procedureResult']);
+		if(
+			isset($this->cObj->data['_resultIterator']) 
+			&& $this->cObj->data['_resultIterator'] instanceOf tx_esp_ResultIteratorInterface
+		) {
+			$this->resultIterator = $this->cObj->data['_resultIterator'];
+			unset($this->cObj->data['_resultIterator']);
 		} else {
-			throw new Exception('No link to result of stored procedure');
+			throw new Exception('No resultIterator of stored procedure');
 		}
 		$this->parameters = $this->cObj->data;
 	}

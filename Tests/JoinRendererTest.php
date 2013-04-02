@@ -98,10 +98,11 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 		// Load table into result link
 		$query = "SELECT * FROM ".$this->tableName; 
 		$this->resultLink = $this->db->query($query);
+		$this->resultIterator = new tx_esp_MysqliResultIterator($this->resultLink);
 		// Setup candidate
 		$this->cand = new tx_esp_JoinRenderer();
 		$this->cand->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cand->cObj->data['_procedureResult'] = $this->resultLink;
+		$this->cand->cObj->data['_resultIterator'] = $this->resultIterator;
 	}
 	
 	function tearDown() {
