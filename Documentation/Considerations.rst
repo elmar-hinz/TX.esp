@@ -25,7 +25,7 @@ and separating it from client programming on top.
 
 In contrast in the field of TYPO3 the referential integrity of update operations is controlled 
 by the TCE. Here stored procedures focus on select operations avoiding heavy PHP layers
-like extbase for read operations, especially for non-cached like USER_INT.  
+like extbase for read operations, especially for non-cached ones as USER_INT.  
 
 Performance of execution
 ------------------------
@@ -38,8 +38,8 @@ factors.  In the context of TYPO3 there are usecases, where you can gain perform
 Reducing the amount of calls to the database
 ............................................
 
-A direct merit for performance is to replace multiple calls to the database by one to 
-a stored procedure. Querying the rootline or a menu tree are typical situations when 
+A direct merit for performance is to replace multiple calls to the database by a single
+one to a stored procedure. Querying the rootline or a menu tree are typical situations when 
 recursive calls to the same table are done.
 
 Avoiding heavy PHP layers
@@ -55,18 +55,18 @@ objects. In theory you would not bother with the persistance layer at all. In pr
 addintionally have to define the persistance layer in form ot TCA and SQL definitions. Overall
 you deal with 3 layers, the database, PHP and TypoScript.
 
-On contrary *stored procedures* are focused on the relational model of the SQL database. It
-joins the tables in form of SQL queries to produce the view the frontend wants to display. 
-There is no such thing like a domain model. You go with stored procedures and TypoScript, 
-without the use of PHP. 
+On contrarst |extension_name| is focused on the relational model of the database. 
+SQL joins combine the data from muliple tables instead of a a domain model. 
+You go with two layers, stored procedures for the model and TypoScript for the 
+presentation. There is no such thing like a domain model in between.
 
-You could conclude thinking in form of a relational data model is rather oldschool, but it 
-depends on the field of the application if a relational or an object orientated data model
-is superior.  
+You could say, that thinking in form of a relational data model is rather oldschool. 
+However it's not a question of fashion. It depends on the field of the application, 
+if a relational or an object orientated data model is the better solution for it.
 
 If your data is already organized in a relational model for historical reasons, it is kind
-of overhead in planning and in performance to put an additional object orientated layer on
-top of it.
+of overhead in planning, in development and in performance to put an additional object 
+orientated layer on top of it.
 
 After all it depends on the siklls of the development team, if it prefers to focus on PHP 
 or on TypoScript and SQL.
@@ -77,15 +77,11 @@ Why not Mysql Views?
 Good interjection. In theory you would use SQL views to provide a comforatable read interface 
 to the database, while stored procedures are rather targeted for write operations. The issue 
 with views in MySql is performance. Exactly where views start to become ambitious, they 
-lose their ability to access table indexes an slow down matters in MySql.
-
-This extension |extension_name| places the query results into a temporary table, from where 
-they are rendered by the well known techniques of TypoScript. So this temporary talbes are 
-kind of replacement for sucking views in MySql.
+lose their ability to access table indexes an slow down matters in MySql. 
 
 Apart from performance there are some usecases, where views would be limited compared to the 
 possibilities of programmable stored procedures.
 
 Having said this, there are many usecases, where views are a good choice as long as they 
-can make use of the *merge algorithem* to be more precisely. Simply google for it.
+can make use of the *merge algorithem*, just to address the most important detail. 
 
