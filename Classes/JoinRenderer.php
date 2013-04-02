@@ -32,56 +32,31 @@
  * @package	TYPO3
  * @subpackage	tx_esp
  */
-class tx_esp_JoinRenderer {
+class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 
-	public $cObj;
-	private $configuration;
 	private $levelStack;
 	private $currentLevel;
-	private $tableName;
-	private $out;
-
-	/**
-	 * The main method of the PlugIn
-	 *
-	 * @param	string		$content: The PlugIn content
-	 * @param	array		$conf: The PlugIn configuration
-	 * @return	string		content that is displayed on the website
-	 */
-	public function main($content, $conf) {
-		$this->init($conf);
-		$this->initLevelStack();
-		$array = &$this->loadTable();
-		$this->renderTable(&$array);
-		$this->wrapOutput();
-		return $this->getOutput();
-	}
 
 	// Public accessos, some only for testing
-	public function getConfiguration() { return $this->configuration; } 
 	public function getLevelStack() { return $this->levelStack; }
 	public function getCurrentLevel() { return $this->currentLevel; }
-	public function getTableName() { return $this->tableName; }
-	public function setOutput($out) { $this->out = $out; }
-	public function getOutput() { return $this->out; }
 
 	//////////////////////////////////////////////////	
 	// Workers
 	//////////////////////////////////////////////////	
 
-	public function init($conf) {
-		$this->configuration = $conf['userFunc.'];
-		$this->tableName = $this->cObj->data['tableName'];
-		$this->db = $GLOBALS['TYPO3_DB'];
+	public function render() {
+		$this->initLevelStack();
+		$array = array();
+		while($row = $this->getResult()->fetch_assoc()) $array[] = $row;
+		$out = $this->renderTable($array);
+		$this->setOutput($out);
 	}
 
 	public function initLevelStack() {
 		$this->currentLevel = 1;
-		$this->levelStack = $this->configuration['levels.'];
-	}
-
-	public function loadTable() {
-		return $this->db->exec_SELECTgetRows('*', $this->getTableName(), '');
+		$configuration = $this->getConfiguration();
+		$this->levelStack = $configuration['levels.'];
 	}
 
 	public function renderTable($ungroupedArray) {
@@ -95,11 +70,7 @@ class tx_esp_JoinRenderer {
 			$this->goUpLevelStack();
 			$out .= $this->wrapGroup($sub, $this->getCurrentStdWrap(), $group['attributes']);
 		}
-		return $this->out = $out;
-	}
-
-	public function wrapOutput() {
-		$this->out = $this->cObj->stdWrap($this->out, $this->configuration['stdWrap.']); 
+		return $out;
 	}
 
 	//////////////////////////////////////////////////	

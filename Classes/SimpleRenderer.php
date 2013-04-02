@@ -37,7 +37,7 @@ class tx_esp_SimpleRenderer extends tx_esp_AbstractRenderer {
 	public function render() {
 		$configuration = $this->getConfiguration();
 		while($row = $this->getResult()->fetch_assoc()) {
-			$this->cObj->start($row, '');
+			$this->cObj->start($row);
 			$out .= $this->cObj->cObjGetSingle($configuration['rowRenderer'], 
 				$configuration['rowRenderer.']);
 		}

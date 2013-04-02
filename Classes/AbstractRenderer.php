@@ -82,7 +82,7 @@ abstract class tx_esp_AbstractRenderer {
 
 	abstract public function render(); 
 
-	public function setDataAgain() {
+	protected function setDataAgain() {
 		$this->cObj->start($this->getParameters());
 	}
 

@@ -3,6 +3,7 @@
 class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 
 	private $tableName = 'static_tx_esp_test_123';
+	private $resultLink = NULL;
 	private $createTable = 'CREATE TABLE static_tx_esp_test_123 (f1_1 INT, f1_2 INT, f2_1 INT, f2_2 INT)';
 	private $insertTable1 = 'INSERT INTO static_tx_esp_test_123 (f1_1, f1_2, f2_1, f2_2) VALUES (1,1,1,1)';
 	private $insertTable2 = 'INSERT INTO static_tx_esp_test_123 (f1_1, f1_2, f2_1, f2_2) VALUES (1,1,2,2)';
@@ -82,34 +83,30 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 		if (!is_object($GLOBALS['TSFE'])) {
 			$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe');
 		}
-		if (!is_object($GLOBALS['TSFE']->sys_page)) {
-			$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		}
-		if (!is_object($GLOBALS['TT'])) {
-			$GLOBALS['TT'] = new t3lib_timeTrack();
-			$GLOBALS['TT']->start();
-		}
 		// Setup databese
-		$this->db = $GLOBALS['TYPO3_DB'];
-		assert($this->db->sql_query($this->dropTable));
-		assert($this->db->sql_query($this->createTable));
-		$this->db->sql_query($this->insertTable1);
-		$this->db->sql_query($this->insertTable2);
-		$this->db->sql_query($this->insertTable3);
-		$this->db->sql_query($this->insertTable4);
+		$this->db  = new mysqli(TYPO3_db_host, TYPO3_db_username, TYPO3_db_password, TYPO3_db);
+		assert($this->db->query($this->dropTable));
+		assert($this->db->query($this->createTable));
+		$this->db->query($this->insertTable1);
+		$this->db->query($this->insertTable2);
+		$this->db->query($this->insertTable3);
+		$this->db->query($this->insertTable4);
 		// Setup configuration 
 		$this->tsParser = t3lib_div::makeInstance('t3lib_TSparser'); 
 		$this->tsParser->parse($this->typoScriptConfiguration);
 		$this->configuration = $this->tsParser->setup;
+		// Load table into result link
+		$query = "SELECT * FROM ".$this->tableName; 
+		$this->resultLink = $this->db->query($query);
 		// Setup candidate
 		$this->cand = new tx_esp_JoinRenderer();
 		$this->cand->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cand->cObj->data['tableName'] = $this->tableName;
+		$this->cand->cObj->data['_procedureResult'] = $this->resultLink;
 	}
 	
 	function tearDown() {
 		// Remove test table
-		assert($this->db->sql_query($this->dropTable));
+		assert($this->db->query($this->dropTable));
 	}
 
 	/**
@@ -128,16 +125,14 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 	*/
 	function TSFE_is_up() {
 		$this->assertNotNull($GLOBALS['TSFE']);
-		$this->assertNotNull($GLOBALS['TT']);
-		$this->assertNotEquals('', $GLOBALS['TSFE']->sys_page);
 	}
 
 	/**
 	* @test
 	*/
 	function demo_table_can_be_created_and_dropped() {
-		$this->db->sql_query($this->dropTable);
-		$this->assertTrue($this->db->sql_query($this->createTable));
+		$this->db->query($this->dropTable);
+		$this->assertTrue($this->db->query($this->createTable));
 	}
 
 	/**
@@ -145,23 +140,23 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 	*/
 	function data_can_be_inserted() {
 		# prepare
-		$this->db->sql_query($this->dropTable);
-		$this->assertTrue($this->db->sql_query($this->createTable));
+		$this->db->query($this->dropTable);
+		$this->assertTrue($this->db->query($this->createTable));
 		# test
-		$this->assertTrue($this->db->sql_query($this->insertTable1));
-		$res = $this->db->sql_query('SELECT * FROM '.$this->tableName);
-		$this->assertEquals(array(1,1,1,1), $this->db->sql_fetch_row($res));
+		$this->assertTrue($this->db->query($this->insertTable1));
+		$res = $this->db->query('SELECT * FROM '.$this->tableName);
+		$this->assertEquals(array(1,1,1,1), $res->fetch_row());
 	}
 
 	/**
 	* @test
 	*/
 	function data_is_correctly_inserted_by_setup() {
-		$res = $this->db->sql_query('SELECT * FROM '.$this->tableName);
-		$this->assertEquals(array(1,1,1,1), $this->db->sql_fetch_row($res));
-		$this->assertEquals(array(1,1,2,2), $this->db->sql_fetch_row($res));
-		$this->assertEquals(array(2,2,3,3), $this->db->sql_fetch_row($res));
-		$this->assertEquals(array(2,2,4,4), $this->db->sql_fetch_row($res));
+		$res = $this->db->query('SELECT * FROM '.$this->tableName);
+		$this->assertEquals(array(1,1,1,1), $res->fetch_row());
+		$this->assertEquals(array(1,1,2,2), $res->fetch_row());
+		$this->assertEquals(array(2,2,3,3), $res->fetch_row());
+		$this->assertEquals(array(2,2,4,4), $res->fetch_row());
 	}
 
 	//////////////////////////////////////////////////	
@@ -180,17 +175,6 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 	*/
 	function cObj_is_public() {
 		$this->assertInstanceOf('tslib_cObj', $this->cand->cObj);
-	}
-
-	/**
-	* @test
-	*/
-	function init_works() {
-		$this->cand->init($this->configuration);
-		$myConf = $this->cand->getConfiguration();
-		$this->assertArrayHasKey('stdWrap.', $myConf);
-		$this->assertArrayHasKey('levels.', $myConf);
-		$this->assertEquals($this->tableName, $this->cand->getTableName());
 	}
 
 	/**
@@ -256,14 +240,6 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 	//////////////////////////////////////////////////	
 
 	/**
-	* @test
-	*/
-	function loadTable_works() {
-		$this->cand->init($this->configuration);
-		$this->assertEquals($this->rawArray, $this->cand->loadTable());
-	}
-	
-	/**
 	* @Xtest
 	*/
 	function groupLevel_works() {
@@ -317,12 +293,20 @@ class tx_esp_JoinRendererTest extends tx_phpunit_testcase {
 	function renderTable_works() {
 		$this->cand->init($this->configuration);
 		$this->cand->initLevelStack();
-		$table = $this->cand->loadTable();
-		$this->cand->renderTable($table);
+		$table = $this->rawArray;
+		$out = $this->cand->renderTable($table);
+		$this->assertEquals($this->expectedLevelResults, $out);
+	}
+
+	/**
+	* @test
+	*/
+	function render_works() {
+		$this->cand->init($this->configuration);
+		$this->cand->render();
 		$this->assertEquals($this->expectedLevelResults, $this->cand->getOutput());
 	}
 	
-
 	/**
 	* @test
 	*/
