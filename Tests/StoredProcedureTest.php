@@ -284,6 +284,15 @@ END
 			$this->cand->wrapOutput();
 			$this->assertRegExp('/^<wrap>.*<\/wrap>$/', $this->cand->getOutput());
 		}
+
+		/**
+		* @test
+		*/
+		function integration_test() {
+			$out = $this->cand->main('', $this->configuration);
+			$this->assertEquals('<wrap><1111><2222></wrap>', $out);
+		}
+
 	}
 
 ?>
