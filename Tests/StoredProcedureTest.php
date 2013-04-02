@@ -4,26 +4,16 @@
 		
 		private $parameterOrder = array ( 'firstParameter', 'secondParameter', 'thirdParameter');
 		private $createProcedure = '
-CREATE PROCEDURE tx_esp_test_procedure (IN tableName VARCHAR(100), INOUT firstParameter VARCHAR(100), INOUT secondParameter VARCHAR(100), INOUT thirdParameter VARCHAR(100))
+CREATE PROCEDURE tx_esp_test_procedure (INOUT firstParameter VARCHAR(100), INOUT secondParameter VARCHAR(100), INOUT thirdParameter VARCHAR(100))
 BEGIN
   SET firstParameter = "one";
   SET secondParameter = "two";
   SET thirdParameter = "three";
-
-  SET @query = concat("CREATE TEMPORARY TABLE ",@tableName, " (uid INT, field1 INT)");
-  PREPARE stmt FROM @query;
-  EXECUTE stmt;
-  DEALLOCATE PREPARE stmt;  
-
-  SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 1111)");
-  PREPARE stmt FROM @query;
-  EXECUTE stmt;
-  DEALLOCATE PREPARE stmt;  
-
-  SET @query = concat("INSERT INTO ",@tableName, " (uid, field1) VALUES (0, 2222)");
-  PREPARE stmt FROM @query;
-  EXECUTE stmt;
-  DEALLOCATE PREPARE stmt;  
+	DROP TABLE IF EXISTS tx_esp_test;
+	CREATE TEMPORARY TABLE tx_esp_test (field1 INT);
+	INSERT INTO tx_esp_test SET field1=1111;
+	INSERT INTO tx_esp_test SET field1=2222;
+	SELECT * FROM tx_esp_test;
 END
 		';
 
@@ -52,15 +42,16 @@ END
 					'firstParameter' => 1,
 					'firstParameter.' => array( 'wrap' => '1-|-1')
 				),
-				'renderer' => 'CONTENT',
+				'renderer' => 'USER',
 				'renderer.' => array(
-					'table.' => array('field' => 'tableName'),
-					'pidInList' => '0',
-					'renderObj' => 'TEXT',
-					'renderObj.' => array( 
-						'field' => 'field1',
-						'wrap' => '<|>',
-					)
+					'userFunc' => 'tx_esp_SimpleRenderer->main',
+					'userFunc.' => array(
+						'rowRenderer' => 'TEXT',
+						'rowRenderer.' => array( 
+							'field' => 'field1',
+							'wrap' => '<|>',
+						),
+					),
 				),
 				'stdWrap.' => array( 'wrap' => '<wrap>|</wrap>'),
 			);
@@ -140,11 +131,20 @@ END
 		/**
 		* @test
 		*/
-		function init_sets_db() {
-			$this->cand->init();
+		function db_can_be_connected() {
+			$this->cand->connectDatabase();
 			$candDb = $this->cand->getDB();
-			$this->assertTrue(is_object($candDb));
-			$this->assertSame($this->db, $candDb);
+			$this->assertInstanceOf('\mysqli', $candDb);
+		}
+
+		/**
+		* @test
+		*/
+		function db_can_be_disconnected() {
+			$this->cand->connectDatabase();
+			$candDb = $this->cand->getDB();
+			$this->assertInstanceOf('\mysqli', $candDb);
+			$this->assertTrue($this->cand->disconnectDatabase());
 		}
 
 		/**
@@ -180,38 +180,26 @@ END
 		/**
 		* @test
 		*/
-		function prependRandomTableToParameters_works() {
-			$this->cand->init($this->configuration);
-			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
-			$pars = $this->cand->getParameters();
-			$this->assertRegExp('/^.*tx_esp_test_procedure_\d+$/', $pars['tableName']);
-		}
-
-		/**
-		* @test
-		*/
-		function tableName_is_prefixed_with_static() {
-			$this->cand->init($this->configuration);
-			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
-			$this->assertRegExp('/^static_.*$/', $this->cand->getRandomTableName());
-		}
-
-		/**
-		* @test
-		*/
 		function prepareParametersForQuery_works() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
-			$saqs = $this->cand->getSetArgumentQuery();
-			$this->assertStringStartsWith('SET @tableName=\'static_tx_esp_test_procedure_', $saqs[0]);
-			$this->assertEquals("SET @firstParameter='1-1-1'; ", $saqs[1]);
-			$this->assertEquals("SET @secondParameter=''; ", $saqs[2]);
-			$this->assertEquals("SET @thirdParameter='3-3-3'; ", $saqs[3]);
-			$this->assertEquals('@tableName, @firstParameter, @secondParameter, @thirdParameter', $this->cand->getProcedureArgumentsList());
+			$this->assertEquals('@firstParameter, @secondParameter, @thirdParameter', $this->cand->getProcedureParameterList());
+			$query =$this->cand->getSetParameterQuery();
+			$expactation = "SET @firstParameter='1-1-1', @secondParameter='', @thirdParameter='3-3-3'";
+			$this->assertEquals($expactation, $query);
+		}
+
+		/**
+		* @test
+		*/
+		function submitParameterQuery_works() {
+			$this->cand->init($this->configuration);
+			$this->cand->orderAndWrapParameters();
+			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
+			$result = $this->cand->getDB()->query('SELECT @thirdParameter, @secondParameter, @firstParameter');
+			$this->assertEquals(array('3-3-3', '', '1-1-1'), $result->fetch_row());
 		}
 
 		/**
@@ -220,82 +208,72 @@ END
 		function callStoredProcedure_works() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
 			$this->cand->callStoredProcedure();
+			$result = $this->cand->getProcedureResult();
+			$this->assertInstanceOf('mysqli_result', $result);
+			$this->assertTrue(1 < $result->num_rows);
+			list($value) = $result->fetch_row(); 
+			$this->assertEquals('1111', $value);
+			list($value) = $result->fetch_row(); 
+			$this->assertEquals('2222', $value);
 		}
 
 		/**
 		* @test
 		*/
-		function fetchArgumentResult_works() {
+		function callStoredProcedure_synchronizesResults() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
 			$this->cand->callStoredProcedure();
-			$this->cand->fetchArgumentResult();
-			$this->cand->getArgumentResult();
+			$this->assertFalse($this->cand->getDB()->next_result());
 		}
 
 		/**
 		* @test
 		*/
-		function processArgumentResult_works() {
+		function fetchParameterResult_works() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
 			$this->cand->callStoredProcedure();
-			$this->cand->fetchArgumentResult();
-			$this->cand->processArgumentResult();
-			$this->assertStringStartsWith('static_tx_esp_test_procedure_', $this->cand->cObj->data['tableName']); 
-			$this->assertEquals('one', $this->cand->cObj->data['firstParameter']);
-			$this->assertEquals('two', $this->cand->cObj->data['secondParameter']);
-			$this->assertEquals('three', $this->cand->cObj->data['thirdParameter']);
+			$this->cand->fetchParameterResult();
+			$result = $this->cand->getParameterResult();
+			$this->assertEquals(array('one', 'two', 'three'), $result->fetch_row());
 		}
 
 		/**
 		* @test
 		*/
-		function required_TCA_is_set() {
-			global $TCA;
+		function processParameterResult_works() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
-			$this->cand->setUpTCA();
-			$tableConf = $TCA[$this->cand->getRandomTableName()];
-			$this->assertInternalType('array', $tableConf);
+			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
+			$this->cand->callStoredProcedure();
+			$this->cand->fetchParameterResult();
+			$this->cand->processParameterResult();
+			$expected = array('firstParameter' => 'one', 'secondParameter' => 'two', 'thirdParameter' => 'three');
+			$this->assertEquals($expected, $this->cand->getParameterData());
 		}
 
 		/**
 		* @test
 		*/
-		function result_can_be_rendered() {
+		function renderResult_works() {
 			$this->cand->init($this->configuration);
 			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
 			$this->cand->prepareParametersForQuery();
+			$this->cand->submitParameterQuery();
 			$this->cand->callStoredProcedure();
-			$this->cand->fetchArgumentResult();
-			$this->cand->processArgumentResult();
-			$this->cand->setUpTCA();
+			$this->cand->fetchParameterResult();
+			$this->cand->processParameterResult();
 			$this->cand->renderResult();
 			$this->assertEquals('<1111><2222>', $this->cand->getOutput());
-		}
-
-		/**
-		* @test
-		*/
-		function table_can_be_dropped() {
-			$this->cand->init($this->configuration);
-			$this->cand->orderAndWrapParameters();
-			$this->cand->prependRandomTableToParameters();
-			$this->cand->prepareParametersForQuery();
-			$this->cand->callStoredProcedure();
-			$this->cand->fetchArgumentResult();
-			$this->cand->processArgumentResult();
-			$this->assertTrue($this->cand->dropResultTable());
 		}
 
 		/**
@@ -306,15 +284,6 @@ END
 			$this->cand->wrapOutput();
 			$this->assertRegExp('/^<wrap>.*<\/wrap>$/', $this->cand->getOutput());
 		}
-
-		/**
-		* @test
-		*/
-		function main_full_integration_works() {
-			$this->cand->main('', $this->configuration);
-			$this->assertEquals('<wrap><1111><2222></wrap>', $this->cand->getOutput());
-		}
-
 	}
 
 ?>

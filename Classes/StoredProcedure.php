@@ -35,13 +35,13 @@ class tx_esp_StoredProcedure {
 	public $cObj;
 	private $configuration;
 	private $storedProcedure;
-	private $randomTableName;
 	private $db;
 	private $parameters = array();
-	private $procedureArgumentsList = array();
-	private $setArgumentQuery = '';
-	private $argumentResult = NULL;
-	private $tableResult = NULL;
+	private $procedureParameterList = array();
+	private $setParameterQuery = '';
+	private $procedureResult = NULL;
+	private $parameterResult = NULL;
+	private $parameterData = array();
 	private $output = '';
 
 	/**
@@ -53,17 +53,14 @@ class tx_esp_StoredProcedure {
 	 */
 	public function main($content, $conf) {
 		$this->init($conf);
+		// $this->connectDatabase();
 		$this->orderAndWrapParameters();
-		$this->prependRandomTableToParameters();
 		$this->prepareParametersForQuery();
 		$this->callStoredProcedure();
-		$this->fetchArgumentResult();
-		$this->processArgumentResult();
-		$this->setUpTCA();
-		if($this->resultTableExists()) {
-			$this->renderResult();
-			$this->dropResultTable();
-		}
+		$this->fetchParameterResult();
+		$this->processParameterResult();
+		$this->renderResult();
+		$this->disconnectDatabase();
 		$this->wrapOutput();
 		return $this->output;
 	}
@@ -73,42 +70,38 @@ class tx_esp_StoredProcedure {
 	public function getStoredProcedure() { return $this->storedProcedure; }
 	public function getDB() { return $this->db; }
 	public function getParameters() { return $this->parameters; }
-	public function getRandomTableName() { return $this->randomTableName; }
-	public function getProcedureArgumentsList() { return $this->procedureArgumentsList; }
-	public function getSetArgumentQuery() {return $this->setArgumentQuery; }
-	public function getArgumentResult() { return $this->argumentResult; }
+	public function getProcedureParameterList() { return $this->procedureParameterList; }
+	public function getSetParameterQuery() {return $this->setParameterQuery; }
+	public function getProcedureResult() { return $this->procedureResult; }
+	public function getParameterResult() { return $this->parameterResult; }
+	public function getParameterData() { return $this->parameterData; }
 	public function getOutput() { return $this->output; }
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$conf: ...
-	 * @return	[type]		...
-	 */
 	function init($conf) {
 		$this->configuration = $conf['userFunc.'];
 		$this->storedProcedure = $this->makeStdWrap($this->configuration, 'storedProcedure');
-		$this->db = $GLOBALS['TYPO3_DB'];
+		$this->connectDatabase();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$configuration: ...
-	 * @param	[type]		$configurationKey: ...
-	 * @return	[type]		...
-	 */
+	function connectDatabase() {
+		$this->db  = new mysqli(TYPO3_db_host, TYPO3_db_username, TYPO3_db_password, TYPO3_db);
+		if ($this->mysqli->connect_errno) {
+		    throw(new Exception("Connect failed: " . $mysqli->connect_error));
+		} 
+	}
+
+	function disconnectDatabase() {
+		$success = $this->db->close();
+		assert($success);
+		return $success;
+	}
+
 	private function makeStdWrap($configuration, $configurationKey) {
 		$value = $configuration[$configurationKey];
 		$conf = $configuration[$configurationKey.'.'];
 		return $this->cObj->stdWrap((string)$value, $conf);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function orderAndWrapParameters() {
 		$order = trim($this->configuration['parameterOrder']);
 		if($order == '') {
@@ -120,128 +113,55 @@ class tx_esp_StoredProcedure {
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$key: ...
-	 * @return	[type]		...
-	 */
 	private function wrapParameter($key) {
 		$parameters = $this->configuration['parameters.'];
 		return $this->makeStdWrap($parameters, $key);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
-	function prependRandomTableToParameters() {
-		$this->randomTableName = 'static_' . $this->storedProcedure .'_' . rand(0,9999999999);
-		$this->parameters = array('tableName' => $this->randomTableName) + $this->parameters;
-	}
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function prepareParametersForQuery() {
-		$procedureArguments = array();
+		$setters = array();
+		$procedureParameters = array();
 		foreach($this->parameters as $key => $value) {
-			$this->setArgumentQuery[] = 'SET @'.$key.'=\''.$value.'\'; ';
-			$procedureArguments[] = '@'.$key;
+			$setters[] = '@'.$key.'=\''.$value.'\'';
+			$procedureParameters[] = '@'.$key;
 		}
-		$this->procedureArgumentsList = implode(', ', $procedureArguments);
+		$this->setParameterQuery = 'SET ' . join(', ', $setters);
+		$this->procedureParameterList = join(', ', $procedureParameters);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
+	function submitParameterQuery() {
+		$this->db->query($this->setParameterQuery);
+	}
+
 	function callStoredProcedure() {
-		// TODO optimize into batched call
-		array_walk($this->setArgumentQuery, array($this->db, 'sql_query'));
-		$call = 'CALL '.$this->storedProcedure.' ('.$this->procedureArgumentsList.');';
-		assert($this->db->sql_query($call));
+		$call = 'CALL '.$this->storedProcedure.' ('.$this->procedureParameterList.');';
+		$this->procedureResult = $this->db->query($call);
+		while($this->db->next_result()) $this->db->use_result();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
-	function fetchArgumentResult() {
-		$this->argumentResult = $this->db->sql_query('SELECT '. $this->procedureArgumentsList);
+	function fetchParameterResult() {
+		$this->parameterResult = $this->db->query('SELECT '. $this->procedureParameterList);
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
-	function processArgumentResult() {
-		$result = array();
-		if($row = $this->db->sql_fetch_assoc($this->argumentResult)) {
-			foreach($this->parameters as $key => $value) $result[$key] = $row['@'.$key];
+	function processParameterResult() {
+		$data = array();
+		if($row = $this->getParameterResult()->fetch_assoc()) {
+			foreach($this->parameters as $key => $value) $data[$key] = $row['@'.$key];
 		}
-		// Set argument results to objects.fields,
-		//   so that it can be accessed by the render Object and by wrapOutput
-		$this->cObj->start($result, $this->storedProcedure);
+		$this->parameterData = $data;
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
-	function setUpTCA() {
-		global $TCA;
-		$TCA[$this->randomTableName] = array(
-			'ctrl' => array( 'enablecolumns' => array()),
-		);
-	}
-
-	/**
-	 * [Describe function...]
-	 *
-	 * Hack! We force the existing of an empty table, if it was not created by
-	 * the stored procedure. Is there a better way?
-	 *
-	 * @return	[type]		...
-	 */
-	function resultTableExists() {
-		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS ".$this->randomTableName." (dummyfield INT)";
-		$this->db->sql_query($query);
-		return TRUE;
-	}
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function renderResult() {
+		// Set parameter results to objects.fields,
+		// so that it can be accessed by the render Object and by wrapOutput
+		$data = $this->getParameterData();
+		$data['_procedureResult'] = $this->getProcedureResult();
+		$this->cObj->start($data, $this->storedProcedure);
 		$this->output = $this->cObj->cObjGetSingle(
 			$this->configuration['renderer'], $this->configuration['renderer.']);
+		$this->getProcedureResult()->free();
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
-	function dropResultTable() {
-		$query = "DROP TABLE IF EXISTS " . $this->randomTableName;
-		return $this->db->sql_query($query);
-	}
-
-	/**
-	 * [Describe function...]
-	 *
-	 * @return	[type]		...
-	 */
 	function wrapOutput() {
 		$this->output =  $this->cObj->stdWrap($this->output, $this->configuration['stdWrap.']);
 	}
