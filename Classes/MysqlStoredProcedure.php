@@ -37,7 +37,7 @@ class tx_esp_MysqlStoredProcedure {
 	private $storedProcedure;
 	private $db;
 	private $parameters = array();
-	private $procedureParameterList = array();
+	private $procedureParameterList = '';
 	private $setParameterQuery = '';
 	private $procedureResult = NULL;
 	private $parameterResult = NULL;
@@ -85,6 +85,7 @@ class tx_esp_MysqlStoredProcedure {
 
 	function connectDatabase() {
 		$this->db  = new mysqli(TYPO3_db_host, TYPO3_db_username, TYPO3_db_password, TYPO3_db);
+		$this->db->set_charset('utf8');
 		if ($this->mysqli->connect_errno) {
 		    throw(new Exception("Connect failed: " . $mysqli->connect_error));
 		} 
@@ -121,12 +122,15 @@ class tx_esp_MysqlStoredProcedure {
 	function prepareParametersForQuery() {
 		$setters = array();
 		$procedureParameters = array();
-		foreach($this->parameters as $key => $value) {
-			$setters[] = '@'.$key.'=\''.$value.'\'';
-			$procedureParameters[] = '@'.$key;
+		$pars = $this->parameters;
+		if(count($pars)) {
+			foreach($pars as $key => $value) {
+				$setters[] = '@'.$key.'=\''.$value.'\'';
+				$procedureParameters[] = '@'.$key;
+			}
+			$this->setParameterQuery = 'SET ' . join(', ', $setters);
+			$this->procedureParameterList = join(', ', $procedureParameters);
 		}
-		$this->setParameterQuery = 'SET ' . join(', ', $setters);
-		$this->procedureParameterList = join(', ', $procedureParameters);
 	}
 
 	function submitParameterQuery() {
@@ -134,34 +138,44 @@ class tx_esp_MysqlStoredProcedure {
 	}
 
 	function callStoredProcedure() {
-		$call = 'CALL '.$this->storedProcedure.' ('.$this->procedureParameterList.');';
-		$this->procedureResult = $this->db->query($call);
+		$call = 'CALL '.$this->storedProcedure.' ('.$this->getProcedureParameterList().');';
+		if(!$this->procedureResult = $this->db->query($call)) {
+			throw new Exception($this->db->error);
+		}
 		while($this->db->next_result()) $this->db->use_result();
 	}
 
 	function fetchParameterResult() {
-		$this->parameterResult = $this->db->query('SELECT '. $this->procedureParameterList);
+		if($ppl = $this->getProcedureParameterList()) {
+			$this->parameterResult = $this->db->query('SELECT '. $ppl);
+		}
 	}
 
 	function processParameterResult() {
-		$data = array();
-		if($row = $this->getParameterResult()->fetch_assoc()) {
-			foreach($this->parameters as $key => $value) $data[$key] = $row['@'.$key];
-		}
-		$this->parameterData = $data;
+		// If parameters returned a result.
+		if(is_object($result = $this->getParameterResult())) {
+			$data = array();
+			if($row = $result->fetch_assoc()) {
+				foreach($this->parameters as $key => $value) $data[$key] = $row['@'.$key];
+			}
+			$this->parameterData = $data;
+		} 
 	}
 
 	function renderResult() {
-		// Set parameter results to objects.fields,
-		// so that it can be accessed by the render Object and by wrapOutput
 		$data = $this->getParameterData();
-		$data['_resultIterator'] = new tx_esp_MysqliResultIterator($this->getProcedureResult());
 		$this->cObj->start($data);
-		$this->output = $this->cObj->cObjGetSingle(
-			$this->configuration['renderer'], $this->configuration['renderer.']);
-		// reset it, if changed by renderer
-		$this->cObj->start($data);
-		$this->getProcedureResult()->free();
+		// If there is a result to render, then render it.
+		if(is_object($result = $this->getProcedureResult())) {
+			// Set parameter results to objects.fields,
+			// so that it can be accessed by the render Object and by wrapOutput
+			$this->cObj->data['_resultIterator'] = new tx_esp_MysqliResultIterator($result);
+			$this->output = $this->cObj->cObjGetSingle(
+				$this->configuration['renderer'], $this->configuration['renderer.']);
+			$result->free();
+			// reset it, if changed by renderer
+			$this->cObj->start($data);
+		} 
 	}
 
 	function wrapOutput() {

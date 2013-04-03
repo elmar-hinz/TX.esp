@@ -14,10 +14,34 @@ BEGIN
 	INSERT INTO tx_esp_test SET field1=1111;
 	INSERT INTO tx_esp_test SET field1=2222;
 	SELECT * FROM tx_esp_test;
+	DROP TABLE IF EXISTS tx_esp_test;
+END
+		';
+
+		private $createEmptyParametersProcedure = '
+CREATE PROCEDURE tx_esp_test_empty_parameters ()
+BEGIN
+	DROP TABLE IF EXISTS tx_esp_test;
+	CREATE TEMPORARY TABLE tx_esp_test (field1 INT);
+	INSERT INTO tx_esp_test SET field1=1111;
+	INSERT INTO tx_esp_test SET field1=2222;
+	SELECT * FROM tx_esp_test;
+	DROP TABLE IF EXISTS tx_esp_test;
+END
+		';
+
+		private $createEmptySelectProcedure  = '
+CREATE PROCEDURE tx_esp_test_empty_select (INOUT firstParameter VARCHAR(100), INOUT secondParameter VARCHAR(100), INOUT thirdParameter VARCHAR(100))
+BEGIN
+  SET firstParameter = "one";
+  SET secondParameter = "two";
+  SET thirdParameter = "three";
 END
 		';
 
 		private $dropProcedure = 'DROP PROCEDURE IF EXISTS tx_esp_test_procedure;';
+		private $dropEmptySelectProcedure  = 'DROP PROCEDURE IF EXISTS tx_esp_test_empty_select;';
+		private $dropEmptyParametersProcedure  = 'DROP PROCEDURE IF EXISTS tx_esp_test_empty_parameters;';
 
 		function setUp() {
 			if (!is_object($GLOBALS['TSFE'])) {
@@ -32,7 +56,11 @@ END
 			}
 			$this->db = $GLOBALS['TYPO3_DB'];
 			$this->db->sql_query($this->dropProcedure);	
+			$this->db->sql_query($this->dropEmptySelectProcedure );	
+			$this->db->sql_query($this->dropEmptyParametersProcedure );	
 			$this->db->sql_query($this->createProcedure);	
+			$this->db->sql_query($this->createEmptySelectProcedure );	
+			$this->db->sql_query($this->createEmptyParametersProcedure );	
 			$userFunc_ = array(
 				'storedProcedure' => 'test_procedure',
 				'storedProcedure.' => array('wrap' => 'tx_esp_|'),
@@ -60,7 +88,7 @@ END
 						),
 					),
 				),
-				'stdWrap.' => array( 'wrap' => '<wrap>|</wrap>'),
+				'stdWrap.' => array( 'dataWrap' => '<wrap parameter1="{field:firstParameter}">|</wrap>'),
 			);
 			$this->configuration = array( 'userFunc.' => $userFunc_);
 			$this->cand = new tx_esp_MysqlStoredProcedure();
@@ -69,6 +97,8 @@ END
 
 		function tearDown() {
 			$this->db->sql_query($this->dropProcedure);	
+			$this->db->sql_query($this->dropEmptySelectProcedure );	
+			$this->db->sql_query($this->dropEmptyParametersProcedure );	
 			$rh = $this->db->sql_query('SHOW TABLES');	
 			while($row = $this->db->sql_fetch_row($rh)) {
 				$table = $row[0];
@@ -289,7 +319,7 @@ END
 		function ouptput_can_be_wrapped() {
 			$this->cand->init($this->configuration);
 			$this->cand->wrapOutput();
-			$this->assertRegExp('/^<wrap>.*<\/wrap>$/', $this->cand->getOutput());
+			$this->assertRegExp('/^<wrap parameter1="">.*<\/wrap>$/', $this->cand->getOutput());
 		}
 
 		/**
@@ -297,9 +327,32 @@ END
 		*/
 		function integration_test() {
 			$out = $this->cand->main('', $this->configuration);
-			$this->assertEquals('<wrap><parameter1:one><1111><2222></wrap>', $out);
+			$this->assertEquals('<wrap parameter1="one"><parameter1:one><1111><2222></wrap>', $out);
+		}
+
+		/**
+		* @test
+		*/
+		function integration_test_without_parameters() {
+			$configuration = $this->configuration;
+			$configuration['userFunc.']['storedProcedure'] = 'test_empty_parameters';
+			unset($configuration['userFunc.']['parameterOrder']);
+			unset($configuration['userFunc.']['parameters']);
+			unset($configuration['userFunc.']['renderer.']['userFunc.']['stdWrap.']['prepend']);
+			unset($configuration['userFunc.']['renderer.']['userFunc.']['stdWrap.']['prepend.']);
+			$out = $this->cand->main('', $configuration);
+			$this->assertEquals('<wrap parameter1=""><1111><2222></wrap>', $out);
+		}
+
+		/**
+		* @test
+		*/
+		function integration_test_without_select() {
+			$configuration = $this->configuration;
+			$configuration['userFunc.']['storedProcedure'] = 'test_empty_select';
+			$out = $this->cand->main('', $configuration);
+			$this->assertEquals('<wrap parameter1="one"></wrap>', $out);
 		}
 
 	}
-
 ?>

@@ -1,6 +1,6 @@
-lib.tx_esp.breadcrumb = USER_INT
+lib.tx_esp.breadcrumb = USER
 lib.tx_esp.breadcrumb {
-	userFunc = tx_esp_StoredProcedure->main
+	userFunc = tx_esp_MysqlStoredProcedure->main
 	userFunc {
 		storedProcedure = tx_esp_rootline
 		parameterOrder = page, language
@@ -8,12 +8,11 @@ lib.tx_esp.breadcrumb {
 			page.data = page:uid 
 			language = 0
 		}
-		renderer = CONTENT
+		renderer = USER
+		renderer.userFunc  = tx_esp_SimpleRenderer
 		renderer {
-			table.field = tableName
-			select.pidInList = 0
-			renderObj = TEXT 
-			renderObj {
+			rowRenderer = TEXT 
+			rowRenderer {
 				field = title
 				typolink {
 					parameter.field = uid
@@ -27,3 +26,4 @@ lib.tx_esp.breadcrumb {
 		stdWrap.wrap2 = <nav id="breadcrumb-navigation">|</nav>
 	}
 }
+
