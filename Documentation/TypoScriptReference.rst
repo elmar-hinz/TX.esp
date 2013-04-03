@@ -64,7 +64,7 @@ Properties
 .. container:: table-row
 
 	Property
-		**parameters**
+                **parameters**
 	
 	Data type
 		hashlist of string/stdWrap
@@ -77,17 +77,17 @@ Properties
 	Example
 		::
 			
-			parameters {
-				page.data = page:uid
-				language = 0
-			}
+                        parameters {
+                                page.data = page:uid
+                                language = 0
+                        }
 
 
 .. .................................
 .. container:: table-row
 
-	Property
-		**renderer**
+        Property
+                **renderer**
 	
 	Data type
 		content object
@@ -95,7 +95,7 @@ Properties
 	Description
 		tx_esp_SimpleRenderer, tx_esp_JoinRenderer or a userdefined renderer.
 
-    The INOUT and OUT parameters of the stored procedures are 
+                The INOUT and OUT parameters of the stored procedures are 
 		accesible in the current data by the keys defined by the property 
 		*parameterOrder*.
 	
@@ -150,6 +150,7 @@ Context
 		... properties go here ...
 	}
 
+
 Properties
 ..........
 
@@ -160,19 +161,19 @@ Properties
 		**rowRenderer**
 	
 	Data type
-    cObject
+                cObject
 
 	Description
-    Renders each row. Like renderObj of CONTENT.
+                Renders each row. Like renderObj of CONTENT.
 
 	Example
 		::
 
-      rowRenderer = TEXT
-      rowRenderer {
-        field = myfield
-        wrap = <li>|</li>
-      }
+                      rowRenderer = TEXT
+                      rowRenderer {
+                        field = myfield
+                        wrap = <li>|</li>
+                      }
 	
 
 .. .................................
