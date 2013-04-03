@@ -56,6 +56,7 @@ class tx_esp_MysqlStoredProcedure {
 		// $this->connectDatabase();
 		$this->orderAndWrapParameters();
 		$this->prepareParametersForQuery();
+		$this->submitParameterQuery();
 		$this->callStoredProcedure();
 		$this->fetchParameterResult();
 		$this->processParameterResult();
@@ -134,7 +135,9 @@ class tx_esp_MysqlStoredProcedure {
 	}
 
 	function submitParameterQuery() {
-		$this->db->query($this->setParameterQuery);
+		if($this->setParameterQuery) {
+			$this->db->query($this->setParameterQuery);
+		}
 	}
 
 	function callStoredProcedure() {
