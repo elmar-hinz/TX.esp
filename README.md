@@ -1,7 +1,7 @@
 Stored Procedures for TypoScript (esp)
 ======================================
 
- * This is the verion 2.x.x branch. It works with mysqli and without temporary tables.
+ * This is the version 2.x.x branch. It works with mysqli and without temporary tables.
 
 This TYPO3 extension is an interface to call Mysql Stored Procedures directly from TypoScript.
 
