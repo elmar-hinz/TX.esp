@@ -33,6 +33,7 @@
 class tx_esp_MysqlStoredProcedure {
 
 	public $cObj;
+	private $originalData;
 	private $configuration;
 	private $storedProcedure;
 	private $db;
@@ -52,6 +53,7 @@ class tx_esp_MysqlStoredProcedure {
 	 * @return	string		content that is displayed on the website
 	 */
 	public function main($content, $conf) {
+		$this->originalData = $this->cObj->data;
 		$this->init($conf);
 		// $this->connectDatabase();
 		$this->orderAndWrapParameters();
@@ -63,6 +65,7 @@ class tx_esp_MysqlStoredProcedure {
 		$this->renderResult();
 		$this->disconnectDatabase();
 		$this->wrapOutput();
+		$this->cObj->data = $this->originalData;
 		return $this->output;
 	}
 
@@ -79,6 +82,7 @@ class tx_esp_MysqlStoredProcedure {
 	public function getOutput() { return $this->output; }
 
 	function init($conf) {
+		$this->originalData = $this->cObj->data;
 		$this->configuration = $conf['userFunc.'];
 		$this->storedProcedure = $this->makeStdWrap($this->configuration, 'storedProcedure');
 		$this->connectDatabase();
@@ -143,7 +147,15 @@ class tx_esp_MysqlStoredProcedure {
 	function callStoredProcedure() {
 		$call = 'CALL '.$this->storedProcedure.' ('.$this->getProcedureParameterList().');';
 		if(!$this->procedureResult = $this->db->query($call)) {
-			throw new Exception($this->db->error);
+			$error = '';
+			$error .= ' ----- '.chr(10); 
+			$error .= 'CallStoredProcedure failed. Error Message: '.chr(10);
+			$error .= '"'.$this->db->error . '"'.chr(10);
+			$error .= ' ----- '.chr(10); 
+			$error .= 'The call was: '.chr(10);
+			$error .= '   ' . $call . chr(10);
+			$error .= ' ----- '.chr(10); 
+			throw new Exception($error);
 		}
 		while($this->db->next_result()) $this->db->use_result();
 	}

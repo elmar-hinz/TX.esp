@@ -325,6 +325,16 @@ END
 		/**
 		* @test
 		*/
+		function main_preserves_original_cObj_data() {
+			$expected = array('hello' => 'world');
+			$this->cand->cObj->data = $expected;
+			$this->cand->main('', $this->configuration);
+			$this->assertEquals($expected, $this->cand->cObj->data);
+		}
+
+		/**
+		* @test
+		*/
 		function integration_test() {
 			$out = $this->cand->main('', $this->configuration);
 			$this->assertEquals('<wrap parameter1="one"><parameter1:one><1111><2222></wrap>', $out);
