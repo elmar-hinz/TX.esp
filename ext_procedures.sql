@@ -4,37 +4,21 @@
 -- --------------------------------------------------------------------------------
 DELIMITER $$
 
-CREATE PROCEDURE `tx_esp_rootline` (IN tableName VARCHAR(255), IN page INT, IN language INT)
-BEGIN                                                                                      
+CREATE PROCEDURE `tx_esp_rootline`(page INT, language INT)
+BEGIN
 
-	SET @tableName = tableName;
-	SET @page = page;
-	SET @language = language;
+	DROP TEMPORARY TABLE IF EXISTS tx_esp_rootline_invers;
+	CREATE TEMPORARY TABLE tx_esp_rootline_invers LIKE pages;
+	TRUNCATE TABLE tx_esp_rootline_invers;
 
-	SET @query = concat("CREATE TEMPORARY TABLE ", @tableName, "_invers LIKE pages;");
-	PREPARE stmt FROM @query;
-	EXECUTE stmt;                                                                            
-	DEALLOCATE PREPARE stmt; 
-
-	SET @query = concat("INSERT INTO ",@tableName, "_invers (SELECT * FROM pages WHERE uid = ?);");
-	PREPARE stmt FROM @query;                                                   
-	WHILE @page > 0 DO
-		EXECUTE stmt USING @page;
-		SELECT pid INTO @page FROM pages WHERE uid = @page;
+	WHILE page > 0 DO
+		INSERT INTO tx_esp_rootline_invers (SELECT * FROM pages WHERE uid = page);
+		SELECT pid INTO page FROM pages WHERE uid = page;
 	END WHILE;
-	DEALLOCATE PREPARE stmt;
-                                                                                           
+
 	SET @rank = 0;
-	SET @query = concat("CREATE TABLE ",@tableName, " (SELECT *, @rank:=@rank + 1 AS rank, pid AS pid_orig FROM ", @tableName, "_invers ORDER BY rank DESC);");
-	PREPARE stmt FROM @query;                                                                
-	EXECUTE stmt;
-	DEALLOCATE PREPARE stmt;                                                                 
+	SELECT *, @rank:=@rank + 1 AS rank FROM tx_esp_rootline_invers ORDER BY rank DESC;
+	DROP TEMPORARY TABLE IF EXISTS tx_esp_rootline_invers;
 
-	SET @query = concat("UPDATE ",@tableName, " SET pid = 0;");
-	PREPARE stmt FROM @query;                                                                
-	EXECUTE stmt;
-	DEALLOCATE PREPARE stmt;                                                                 
-END$$
-
-DELIMITER ;
+END
 
