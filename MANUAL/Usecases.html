@@ -102,21 +102,22 @@
 <h1>Example Usecases<a class="headerlink" href="#example-usecases" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="breadcrumb-rootline">
 <h2>Breadcrumb/rootline<a class="headerlink" href="#breadcrumb-rootline" title="Permalink to this headline">¶</a></h2>
-<p>To find the rootline of a given page recursive queries upon the same table have to be executed.
-This is not supported by SQL itself. Implementing it by use of PHP results in an exessive ping
-pong betwenn PHP and the database. Encapsulated in a stored procedure, it is simple loop,
-maybe faster.</p>
-<p>A breadcrumb example is included. Still a prove of concept. The stored procedure has to be
-improved a lot.</p>
+<p>To find the rootline of a given page recursive queries upon the same table have to be
+executed. This is not supported by SQL itself. Implementing it by use of PHP results in
+an exessive ping pong betwenn PHP and the database. Encapsulated in a stored procedure,
+it is simple loop inside executed the database.</p>
+<p>A breadcrumb example is included. Still a prove of concept. The stored procedure has to
+be improved a lot.</p>
 </div>
 <div class="section" id="joined-tables-for-search-applications">
 <h2>Joined tables for search applications<a class="headerlink" href="#joined-tables-for-search-applications" title="Permalink to this headline">¶</a></h2>
-<p>Many web based search interfaces call SQL queries on a set of tables as JOINS. Here we can
-gain simplicity and performance with stored procedures.  A joined table query results in a
-filtered cartesian product of the involved tables. Typically we want to display the result
-in a hierarchical way first grouping the rows by the first table, then by the second, optionally
-more levels.</p>
-<p>A rendering class is planned to be included to controll this kind of grouped rendering.</p>
+<p>Many web based search interfaces call SQL queries on a set of tables as JOINS. Here we
+can gain simplicity and performance with stored procedures.  A joined table query results
+in a filtered cartesian product of the involved tables.</p>
+<p>Typically we want to display the result in a hierarchical way, first grouping the rows by
+the first table, then by the second, optionally more levels.</p>
+<p>A special rendering class <cite>JoinRenderer</cite> is included, to controll this kind of
+grouped rendering.</p>
 </div>
 </div>
 

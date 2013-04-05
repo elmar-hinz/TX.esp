@@ -60,19 +60,24 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">TypoScript Reference</a><ul>
-<li><a class="reference internal" href="#tx-esp-storedprocedure">tx_esp_StoredProcedure</a><ul>
+<li><a class="reference internal" href="#tx-esp-mysqlstoredprocedure">tx_esp_MysqlStoredProcedure</a><ul>
 <li><a class="reference internal" href="#context">Context</a></li>
 <li><a class="reference internal" href="#properties">Properties</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tx-esp-joinrenderer">tx_esp_JoinRenderer</a><ul>
+<li><a class="reference internal" href="#tx-esp-simplerenderer">tx_esp_SimpleRenderer</a><ul>
 <li><a class="reference internal" href="#id1">Context</a></li>
 <li><a class="reference internal" href="#id2">Properties</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tx-esp-joinrenderer-level">tx_esp_JoinRenderer: level</a><ul>
+<li><a class="reference internal" href="#tx-esp-joinrenderer">tx_esp_JoinRenderer</a><ul>
 <li><a class="reference internal" href="#id3">Context</a></li>
 <li><a class="reference internal" href="#id4">Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tx-esp-joinrenderer-level">tx_esp_JoinRenderer: level</a><ul>
+<li><a class="reference internal" href="#id5">Context</a></li>
+<li><a class="reference internal" href="#id6">Properties</a></li>
 </ul>
 </li>
 </ul>
@@ -113,13 +118,13 @@
             
   <div class="section" id="typoscript-reference">
 <h1>TypoScript Reference<a class="headerlink" href="#typoscript-reference" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="tx-esp-storedprocedure">
-<h2>tx_esp_StoredProcedure<a class="headerlink" href="#tx-esp-storedprocedure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tx-esp-mysqlstoredprocedure">
+<h2>tx_esp_MysqlStoredProcedure<a class="headerlink" href="#tx-esp-mysqlstoredprocedure" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="context">
 <h3>Context<a class="headerlink" href="#context" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><pre>your.personal.path = USER_INT
 your.personal.path {
-        userFunc = tx_esp_StoredProcedure-&gt;main
+        userFunc = tx_esp_MysqlStoredProcedure-&gt;main
         userFunc {
                 ... properties go here ...
         }
@@ -187,27 +192,16 @@ The ingoing parameter <em>tableName</em> will be automatically set. Omit it.</dd
 <dt>Data type</dt>
 <dd>content object</dd>
 <dt>Description</dt>
-<dd><p class="first">A content object, to render the temporary table from the stored procedure,
-<strong>CONTENT</strong> or <strong>USER</strong> (i.e. tx_esp_JoinRenderer). The use of <em>RECORDS</em>
-is <strong>not possible</strong>, because it requires static tablenames,
-while the name of the temporary table is volatile.</p>
-<p>Export the data with pid = 0 and select them from that page.
-(select.pidInList = 0 in case of <em>CONTENT</em>.)</p>
-<p class="last">The name of the table has to be retrieved from the current data with the
-id <em>tableName</em>. The INOUT and OUT parameters of the stored procedures are
+<dd><p class="first">tx_esp_SimpleRenderer, tx_esp_JoinRenderer or a userdefined renderer.</p>
+<p class="last">The INOUT and OUT parameters of the stored procedures are
 accesible in the current data by the keys defined by the property
 <em>parameterOrder</em>.</p>
 </dd>
 <dt>Example</dt>
-<dd><div class="first highlight-python"><pre>renderer = CONTENT
-renderer {
-        stdWrap.preCObject = TEXT
-        stdWrap.preCObject.field = count
-        ...
-        table.field = tableName
-        select.pidInList = 0
-        renderObj = TEXT
-        ...
+<dd><div class="first highlight-python"><pre>renderer = USER
+renderer.userFunc = tx_esp_SimpleRenderer
+renderer.userFunc {
+        ... properties go here ...
 }
 
 renderer = USER
@@ -236,17 +230,13 @@ renderer.userFunc {
 </div>
 </div>
 </div>
-<div class="section" id="tx-esp-joinrenderer">
-<h2>tx_esp_JoinRenderer<a class="headerlink" href="#tx-esp-joinrenderer" title="Permalink to this headline">¶</a></h2>
-<p>We do a hierarchical display of joined table queries.
-Each level displays one of the joined tables. The
-entries of the second table (level 2) are grouped
-below the headlines of the first table (level 1)
-and so on. Each level gets a configuration.</p>
+<div class="section" id="tx-esp-simplerenderer">
+<h2>tx_esp_SimpleRenderer<a class="headerlink" href="#tx-esp-simplerenderer" title="Permalink to this headline">¶</a></h2>
+<p>We simply display a result row by row.</p>
 <div class="section" id="id1">
 <h3>Context<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><pre>renderer = USER
-renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc = tx_esp_SimpleRenderer
 renderer.userFunc {
         ... properties go here ...
 }</pre>
@@ -254,6 +244,58 @@ renderer.userFunc {
 </div>
 <div class="section" id="id2">
 <h3>Properties<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>rowRenderer</strong></dd>
+<dt>Data type</dt>
+<dd>cObject</dd>
+<dt>Description</dt>
+<dd>Renders each row. Like renderObj of CONTENT.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>rowRenderer = TEXT
+rowRenderer {
+  field = myfield
+  wrap = &lt;li&gt;|&lt;/li&gt;
+}</pre>
+</div>
+</dd>
+</dl>
+</div>
+<div class="table-row container">
+<dl class="docutils">
+<dt>Property</dt>
+<dd><strong>stdWrap</strong></dd>
+<dt>Data type</dt>
+<dd>stdWrap</dd>
+<dt>Description</dt>
+<dd>Wraps the overall result.</dd>
+<dt>Example</dt>
+<dd><div class="first last highlight-python"><pre>stdwrap.wrap = &lt;ul&gt;|&lt;/ul&gt;</pre>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="tx-esp-joinrenderer">
+<h2>tx_esp_JoinRenderer<a class="headerlink" href="#tx-esp-joinrenderer" title="Permalink to this headline">¶</a></h2>
+<p>We do a hierarchical display of joined table queries.
+Each level displays one of the joined tables. The
+entries of the second table (level 2) are grouped
+below the headlines of the first table (level 1)
+and so on. Each level gets a configuration.</p>
+<div class="section" id="id3">
+<h3>Context<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><pre>renderer = USER
+renderer.userFunc = tx_esp_JoinRenderer
+renderer.userFunc {
+        ... properties go here ...
+}</pre>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Properties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="table-row container">
 <dl class="docutils">
 <dt>Property</dt>
@@ -297,8 +339,8 @@ The first level key is <em>1</em>, the second level key is <em>2</em> and so on.
 </div>
 <div class="section" id="tx-esp-joinrenderer-level">
 <h2>tx_esp_JoinRenderer: level<a class="headerlink" href="#tx-esp-joinrenderer-level" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Context<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Context<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><pre>levels {
         1 {
                 ... properties go here ...
@@ -310,8 +352,8 @@ The first level key is <em>1</em>, the second level key is <em>2</em> and so on.
 }</pre>
 </div>
 </div>
-<div class="section" id="id4">
-<h3>Properties<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Properties<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <div class="table-row container">
 <dl class="docutils">
 <dt>Property</dt>

@@ -1,8 +1,8 @@
 TypoScript Reference
 =====================
 
-tx_esp_StoredProcedure
-----------------------
+tx_esp_MysqlStoredProcedure
+---------------------------
 
 Context
 .......
@@ -11,7 +11,7 @@ Context
 
 	your.personal.path = USER_INT
 	your.personal.path {
-		userFunc = tx_esp_StoredProcedure->main
+		userFunc = tx_esp_MysqlStoredProcedure->main
 		userFunc {
 			... properties go here ...
 		}
@@ -38,6 +38,7 @@ Properties
 
 			storedProcedure = tx_myextension_superquery
 
+
 .. .................................
 .. container:: table-row
 
@@ -63,7 +64,7 @@ Properties
 .. container:: table-row
 
 	Property
-		**parameters**
+                **parameters**
 	
 	Data type
 		hashlist of string/stdWrap
@@ -76,47 +77,35 @@ Properties
 	Example
 		::
 			
-			parameters {
-				page.data = page:uid
-				language = 0
-			}
+                        parameters {
+                                page.data = page:uid
+                                language = 0
+                        }
 
 
 .. .................................
 .. container:: table-row
 
-	Property
-		**renderer**
+        Property
+                **renderer**
 	
 	Data type
 		content object
 
 	Description
-		A content object, to render the temporary table from the stored procedure,
-		**CONTENT** or **USER** (i.e. tx_esp_JoinRenderer). The use of *RECORDS* 
-		is **not possible**, because it requires static tablenames, 
-		while the name of the temporary table is volatile.
+		tx_esp_SimpleRenderer, tx_esp_JoinRenderer or a userdefined renderer.
 
-		Export the data with pid = 0 and select them from that page.
-		(select.pidInList = 0 in case of *CONTENT*.)
-
-		The name of the table has to be retrieved from the current data with the 
-		id *tableName*. The INOUT and OUT parameters of the stored procedures are 
+                The INOUT and OUT parameters of the stored procedures are 
 		accesible in the current data by the keys defined by the property 
 		*parameterOrder*.
 	
 	Example
-		::		
+		::
 
-			renderer = CONTENT
-			renderer {
-				stdWrap.preCObject = TEXT
-				stdWrap.preCObject.field = count
-				...
-				table.field = tableName
-				select.pidInList = 0
-				renderObj = TEXT 
-				... 
+			renderer = USER
+			renderer.userFunc = tx_esp_SimpleRenderer
+			renderer.userFunc {
+				... properties go here ...
 			}
 
 			renderer = USER
@@ -144,6 +133,65 @@ Properties
 		::
 	
 			stdwrap.wrap = <div class="myextension">|</div>
+
+tx_esp_SimpleRenderer
+---------------------
+
+We simply display a result row by row.
+
+Context
+.......
+
+::
+
+	renderer = USER
+	renderer.userFunc = tx_esp_SimpleRenderer
+	renderer.userFunc {
+		... properties go here ...
+	}
+
+
+Properties
+..........
+
+.. .................................
+.. container:: table-row
+
+	Property
+		**rowRenderer**
+	
+	Data type
+                cObject
+
+	Description
+                Renders each row. Like renderObj of CONTENT.
+
+	Example
+		::
+
+                      rowRenderer = TEXT
+                      rowRenderer {
+                        field = myfield
+                        wrap = <li>|</li>
+                      }
+	
+
+.. .................................
+.. container:: table-row
+
+	Property
+		**stdWrap**
+	
+	Data type
+		stdWrap
+
+	Description
+		Wraps the overall result.
+
+	Example
+		::
+	
+			stdwrap.wrap = <ul>|</ul>
 
 
 tx_esp_JoinRenderer
@@ -288,4 +336,6 @@ Properties
 					wrap = <footer>|</footer>
 				}
 			}
+
+
 

@@ -1,16 +1,31 @@
+2013-04-05 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 2.0.0
+	* state: Going to beta again.
+	* api: New API. No temporary tables any more.
+	* technology: Using mysqli.
+	* feature: SimpleRenderer.
+	* doc: Updating docs to version 2.
+
+2013-03-30 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 1.1.0
+	* state: Going back to alpha.
+	* bugfix: Handling for non created temporay tables.
+
 2013-03-28 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version: 1.0.0
-	* state: going to beta
+	* state: Going to beta.
 
 2013-03-27 Elmar Hinz  <t3elmar@googlemail.com>
 
-	* bugfix: make empty parameterOrder result in an empty array
+	* bugfix: Make empty parameterOrder result in an empty array
 
 2013-03-12 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version: 0.10.0
-	* adding integrator documentation
+	* doc: adding integrator documentation
 	* automatic TER upload
 
 2013-03-11 Elmar Hinz  <t3elmar@googlemail.com>
