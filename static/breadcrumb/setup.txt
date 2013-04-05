@@ -1,29 +1,27 @@
 lib.tx_esp.breadcrumb = USER
-lib.tx_esp.breadcrumb {
-	userFunc = tx_esp_MysqlStoredProcedure->main
-	userFunc {
-		storedProcedure = tx_esp_rootline
-		parameterOrder = page, language
-		parameters {
-			page.data = page:uid 
-			language = 0
-		}
-		renderer = USER
-		renderer.userFunc  = tx_esp_SimpleRenderer
-		renderer {
-			rowRenderer = TEXT 
-			rowRenderer {
-				field = title
-				typolink {
-					parameter.field = uid
-					wrap = <span class="pre"></span><span class="label">|</span><span class="after"></span>
-					ATagBeforeWrap = 1
-				}
-				wrap = <li>|</li>
-			}
-		}
-		stdWrap.wrap = <ol>|</ol>
-		stdWrap.wrap2 = <nav id="breadcrumb-navigation">|</nav>
+lib.tx_esp.breadcrumb.userFunc = tx_esp_MysqlStoredProcedure->main
+lib.tx_esp.breadcrumb.userFunc {
+	storedProcedure = tx_esp_rootline
+	parameterOrder = page, language
+	parameters {
+		page.data = page:uid 
+		language = 0
 	}
+	renderer = USER
+	renderer.userFunc  = tx_esp_SimpleRenderer->main
+	renderer.userFunc {
+		rowRenderer = TEXT 
+		rowRenderer {
+			field = title
+			typolink {
+				parameter.field = uid
+				wrap = <span class="pre"></span><span class="label" style="padding:5px;">|</span><span class="after"></span>
+				ATagBeforeWrap = 1
+			}
+			wrap = <li style="display:inline;">&gt;|</li>
+		}
+	}
+	stdWrap.wrap = <ol>|</ol>
+	stdWrap.wrap2 = <nav id="breadcrumb-navigation">|</nav>
 }
 
