@@ -63,7 +63,6 @@ class tx_esp_MysqlStoredProcedure {
 		$this->fetchParameterResult();
 		$this->processParameterResult();
 		$this->renderResult();
-		$this->disconnectDatabase();
 		$this->wrapOutput();
 		$this->cObj->data = $this->originalData;
 		return $this->output;
@@ -85,21 +84,11 @@ class tx_esp_MysqlStoredProcedure {
 		$this->originalData = $this->cObj->data;
 		$this->configuration = $conf['userFunc.'];
 		$this->storedProcedure = $this->makeStdWrap($this->configuration, 'storedProcedure');
-		$this->connectDatabase();
-	}
-
-	function connectDatabase() {
-		$this->db  = new mysqli(TYPO3_db_host, TYPO3_db_username, TYPO3_db_password, TYPO3_db);
-		$this->db->set_charset('utf8');
-		if ($this->mysqli->connect_errno) {
-		    throw(new Exception("Connect failed: " . $mysqli->connect_error));
-		} 
-	}
-
-	function disconnectDatabase() {
-		$success = $this->db->close();
-		assert($success);
-		return $success;
+		// We need to access the protected internal link because Core/Database/DatabaseConnection doesn't provide
+		// the full API we need. There is query() as sql_query(), but there isn't next_result() and use_result()
+		// Thats the main reason why this special class for mysql is needed at all
+		// else we could go with a general class using DatabaseConnection resp. DBAL.
+		$this->db = $this->accessProtected($GLOBALS['TYPO3_DB'], 'link');
 	}
 
 	private function makeStdWrap($configuration, $configurationKey) {
@@ -157,6 +146,8 @@ class tx_esp_MysqlStoredProcedure {
 			$error .= ' ----- '.chr(10); 
 			throw new Exception($error);
 		}
+		// In case the procedure returns multiple results we need to discard the rest
+		// else the connection slows down. 
 		while($this->db->next_result()) $this->db->use_result();
 	}
 
@@ -179,22 +170,31 @@ class tx_esp_MysqlStoredProcedure {
 
 	function renderResult() {
 		$data = $this->getParameterData();
-		$this->cObj->start($data);
+		$this->cObj->data = $data;
 		// If there is a result to render, then render it.
 		if(is_object($result = $this->getProcedureResult())) {
-			// Set parameter results to objects.fields,
-			// so that it can be accessed by the render Object and by wrapOutput
+			// Set parameter results to cObj data fields,
+			// so that it can be accessed by the render object and by wrapOutput
 			$this->cObj->data['_resultIterator'] = new tx_esp_MysqliResultIterator($result);
 			$this->output = $this->cObj->cObjGetSingle(
 				$this->configuration['renderer'], $this->configuration['renderer.']);
 			$result->free();
-			// reset it, if changed by renderer
-			$this->cObj->start($data);
+			// Reset it, if changed by renderer. 
+			// In fact it should have been done in the renderer already.
+			// So just for security and clearness of code.
+			$this->cObj->data = $data;
 		} 
 	}
 
 	function wrapOutput() {
 		$this->output =  $this->cObj->stdWrap($this->output, $this->configuration['stdWrap.']);
+	}
+
+	private function accessProtected($obj, $prop) {
+		$reflection = new ReflectionClass($obj);
+		$property = $reflection->getProperty($prop);
+		$property->setAccessible(true);
+		return $property->getValue($obj);
 	}
 
 }

@@ -38,7 +38,7 @@ abstract class tx_esp_AbstractRenderer {
 	private $configuration;
 	/* Parameter result of the stored procedure */
 	private $parameters;
-	/* Mysqli resultIterator of the stored procedures */
+	/* ResultIterator of the stored procedure */
 	private $resultIterator;
 	private $out;
 
@@ -52,27 +52,27 @@ abstract class tx_esp_AbstractRenderer {
 	public function main($content, $conf) {
 		$this->init($conf);
 		$this->render();
-		$this->setDataAgain();
+		// This should happen before wrapOutput() to have the original data available.
+		$this->setDataAgain(); 
 		$this->wrapOutput();
 		return $this->getOutput();
 	}
 
 	// Public accessros, also for testing
-	public function getConfiguration() { return $this->configuration; } 
-	public function getResultIterator() { return $this->resultIterator; } 
-	public function getParameters() { return $this->parameters; } 
+	public function getConfiguration() { return $this->configuration; }
+	public function getResultIterator() { return $this->resultIterator; }
+	public function getParameters() { return $this->parameters; }
 	public function setOutput($out) { $this->out = $out; }
 	public function getOutput() { return $this->out; }
 
-	//////////////////////////////////////////////////	
+	//////////////////////////////////////////////////
 	// Workers
-	//////////////////////////////////////////////////	
+	//////////////////////////////////////////////////
 
 	public function init($conf) {
 		$this->configuration = $conf['userFunc.'];
-		$this->db = $GLOBALS['TYPO3_DB'];
 		if(
-			isset($this->cObj->data['_resultIterator']) 
+			isset($this->cObj->data['_resultIterator'])
 			&& $this->cObj->data['_resultIterator'] instanceOf tx_esp_ResultIteratorInterface
 		) {
 			$this->resultIterator = $this->cObj->data['_resultIterator'];
@@ -83,14 +83,14 @@ abstract class tx_esp_AbstractRenderer {
 		$this->parameters = $this->cObj->data;
 	}
 
-	abstract public function render(); 
+	abstract public function render();
 
 	protected function setDataAgain() {
-		$this->cObj->start($this->getParameters());
+		$this->cObj->data = $this->getParameters();
 	}
 
 	public function wrapOutput() {
-		$this->out = $this->cObj->stdWrap($this->out, $this->configuration['stdWrap.']); 
+		$this->out = $this->cObj->stdWrap($this->out, $this->configuration['stdWrap.']);
 	}
 
 }

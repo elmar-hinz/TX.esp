@@ -125,7 +125,6 @@ class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 	private function prepRow($row, $fields) {
 		foreach($fields as $field) {
 			$attributes[$field] = $row[$field];
-			unset($row[$field]);
 		}
 		return array($row, (array) $attributes);
 	}
