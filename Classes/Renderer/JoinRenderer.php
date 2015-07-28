@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\Renderer;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,10 +31,8 @@
  * Groups the data table by table into a hierarchy
  *
  * @author	Elmar Hinz <elmar.hinz@gmail.com>
- * @package	TYPO3
- * @subpackage	tx_esp
  */
-class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
+class JoinRenderer extends AbstractRenderer {
 
 	private $levelStack;
 	private $currentLevel;
@@ -77,10 +77,6 @@ class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 	// Helpers configuration stack
 	//////////////////////////////////////////////////	
 
-	// ---------
-	// $keys = t3lib_TStemplate::sortedKeyList($this->configurationStack, TRUE);
-	// ---------
-
 	public function goDownLevelStack() {
 		return ++$this->currentLevel;
 	}
@@ -91,7 +87,7 @@ class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 
 	public function getCurrentFields() {
 		$fieldList = $this->levelStack[$this->currentLevel.'.']['levelFields'];
-		return t3lib_div::trimExplode(',', $fieldList);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldList);
 	}
 
 	public function getCurrentStdWrap() {
@@ -130,7 +126,7 @@ class tx_esp_JoinRenderer extends tx_esp_AbstractRenderer{
 	}
 
 	public function wrapGroup($sublevelContent, $stdWrapConf, $levelAttributes) {
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 		$cObj->start($levelAttributes);
 		return $cObj->stdWrap($sublevelContent, $stdWrapConf); 
 	}

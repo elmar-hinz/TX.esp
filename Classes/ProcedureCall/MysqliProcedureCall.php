@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\ProcedureCall;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,13 +26,11 @@
 ***************************************************************/
 
 /**
- * Plugin 'Mysql Stored Procedure' for the 'esp' extension.
+ * Plugin 'Mysqli Procedure Call' for the 'esp' extension.
  *
  * @author	Elmar Hinz <elmar.hinz@gmail.com>
- * @package	TYPO3
- * @subpackage	tx_esp
  */
-class tx_esp_MysqlStoredProcedure {
+class MysqliProcedureCall {
 
 	public $cObj;
 	private $originalData;
@@ -102,7 +102,7 @@ class tx_esp_MysqlStoredProcedure {
 		if($order == '') {
 			$this->parameters = array();
 		} else {
-			$keys = t3lib_div::trimExplode(',', $order);
+			$keys = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $order);
 			$keys = array_combine($keys, $keys);
 			$this->parameters = array_map(array($this, 'wrapParameter'), $keys);
 		}
@@ -144,7 +144,7 @@ class tx_esp_MysqlStoredProcedure {
 			$error .= 'The call was: '.chr(10);
 			$error .= '   ' . $call . chr(10);
 			$error .= ' ----- '.chr(10); 
-			throw new Exception($error);
+			throw new \Exception($error);
 		}
 		// In case the procedure returns multiple results we need to discard the rest
 		// else the connection slows down. 
@@ -175,7 +175,7 @@ class tx_esp_MysqlStoredProcedure {
 		if(is_object($result = $this->getProcedureResult())) {
 			// Set parameter results to cObj data fields,
 			// so that it can be accessed by the render object and by wrapOutput
-			$this->cObj->data['_resultIterator'] = new tx_esp_MysqliResultIterator($result);
+			$this->cObj->data['_resultIterator'] = new \ElmarHinz\Esp\ResultIterator\MysqliResultIterator($result);
 			$this->output = $this->cObj->cObjGetSingle(
 				$this->configuration['renderer'], $this->configuration['renderer.']);
 			$result->free();
@@ -191,7 +191,7 @@ class tx_esp_MysqlStoredProcedure {
 	}
 
 	private function accessProtected($obj, $prop) {
-		$reflection = new ReflectionClass($obj);
+		$reflection = new \ReflectionClass($obj);
 		$property = $reflection->getProperty($prop);
 		$property->setAccessible(true);
 		return $property->getValue($obj);

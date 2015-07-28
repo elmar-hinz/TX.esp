@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\Renderer;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,10 +31,8 @@
  * Similar to cObject CONTENT
  *
  * @author	Elmar Hinz <elmar.hinz@gmail.com>
- * @package	TYPO3
- * @subpackage	tx_esp
  */
-class tx_esp_SimpleRenderer extends tx_esp_AbstractRenderer {
+class SimpleRenderer extends AbstractRenderer {
 
 	public function render() {
 		$configuration = $this->getConfiguration();

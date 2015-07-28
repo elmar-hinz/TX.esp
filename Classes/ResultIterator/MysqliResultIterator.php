@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\ResultIterator;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,11 +25,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-class tx_esp_MysqliResultIterator implements tx_esp_ResultIteratorInterface {
+class MysqliResultIterator implements ResultIteratorInterface {
 
 	private $resultLink;
 
-	public function __construct(mysqli_result $resultLink) {
+	public function __construct(\mysqli_result $resultLink) {
 		$this->resultLink = $resultLink;
 	}
 

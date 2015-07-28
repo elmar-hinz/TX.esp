@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\Renderer;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,10 +31,8 @@
  * Renderers extend this class
  *
  * @author	Elmar Hinz <elmar.hinz@gmail.com>
- * @package	TYPO3
- * @subpackage	tx_esp
  */
-abstract class tx_esp_AbstractRenderer {
+abstract class AbstractRenderer {
 
 	public $cObj;
 	private $configuration;
@@ -73,12 +73,12 @@ abstract class tx_esp_AbstractRenderer {
 		$this->configuration = $conf['userFunc.'];
 		if(
 			isset($this->cObj->data['_resultIterator'])
-			&& $this->cObj->data['_resultIterator'] instanceOf tx_esp_ResultIteratorInterface
+			&& $this->cObj->data['_resultIterator'] instanceOf \ElmarHinz\Esp\ResultIterator\ResultIteratorInterface
 		) {
 			$this->resultIterator = $this->cObj->data['_resultIterator'];
 			unset($this->cObj->data['_resultIterator']);
 		} else {
-			throw new Exception('No resultIterator of stored procedure');
+			throw new \Exception('No resultIterator of stored procedure');
 		}
 		$this->parameters = $this->cObj->data;
 	}

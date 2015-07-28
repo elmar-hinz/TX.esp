@@ -1,9 +1,11 @@
 <?php
 
+namespace ElmarHinz\Esp\ResultIterator;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Elmar Hinz <elmar.hinz@gmail.com>
+*  (c) 2012 - 2015 Elmar Hinz <elmar.hinz@gmail.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,7 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-interface tx_esp_ResultIteratorInterface {
+interface ResultIteratorInterface {
 
 	/*
 	* @return mixed the next result row or FALSE
