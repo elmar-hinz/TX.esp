@@ -31,12 +31,8 @@ Back to speed!
 		'depends' => array (
 			'typo3' => '6.0 - 6.2',
 		),
-		'conflicts' => 
-		array (
-		),
-		'suggests' => 
-		array (
-		),
+		'conflicts' => array (),
+		'suggests' => array (),
 	),
 );
 
