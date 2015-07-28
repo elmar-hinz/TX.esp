@@ -29,7 +29,7 @@ Back to speed!
 	'author_company' => 'Elmar Hinz',
 	'constraints' => array (
 		'depends' => array (
-			'typo3' => '6.0 - 6.2',
+		  'typo3' => '6.0.0-6.2.99',
 		),
 		'conflicts' => array (),
 		'suggests' => array (),
