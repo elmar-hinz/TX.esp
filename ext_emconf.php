@@ -27,12 +27,9 @@ Back to speed!
 	'author' => 'Elmar Hinz',
 	'author_email' => 't3elmar@gmail.com',
 	'author_company' => 'Elmar Hinz',
-	'constraints' => 
-	array (
-		'depends' => 
-		array (
-			'php' => '5.3.2-5.999.999',
-			'typo3' => '6.0.0-6.2.999',
+	'constraints' => array (
+		'depends' => array (
+			'typo3' => '6.0 - 6.2',
 		),
 		'conflicts' => 
 		array (
