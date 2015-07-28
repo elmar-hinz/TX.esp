@@ -1,0 +1,10 @@
+    * Improve Iterator API
+    * TER visible icon
+    * TER visible versions
+    * fluid connector
+    * Update tests
+    * Update docs
+    * Update breadcrumb
+    * version 7.x
+
+
