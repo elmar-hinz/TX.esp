@@ -1,4 +1,3 @@
-    * Improve Iterator API
     * TER visible icon
     * TER visible versions
     * fluid connector

@@ -48,7 +48,7 @@ class JoinRenderer extends AbstractRenderer {
 	public function render() {
 		$this->initLevelStack();
 		$array = array();
-		while($row = $this->getResultIterator()->fetchAssociated()) $array[] = $row;
+		while($row = $this->getResultIterator()->fetchAssociative()) $array[] = $row;
 		$out = $this->renderTable($array);
 		$this->setOutput($out);
 	}

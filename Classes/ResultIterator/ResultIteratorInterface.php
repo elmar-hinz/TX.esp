@@ -28,10 +28,28 @@ namespace ElmarHinz\Esp\ResultIterator;
 interface ResultIteratorInterface {
 
 	/*
+	* Traverse the query result in an associated way
+	*
+	* Returns the result of a db query as rows.
+	* Each result row is an array of fieldname/value pairs. 
+	* Once the all results are traversed it returns FALSE.
+	* There is no reset option.
+	*
+	* As example compare mysqli 
+	*
+	* @see http://php.net/manual/de/mysqli-result.fetch-assoc.php
 	* @return mixed the next result row or FALSE
 	*/
+	public function fetchAssociative();
+
+	/*
+	 * Alias to fetchAssociative.
+	 *
+	 * DEPRECIATED. Will be removed with 7.x.
+	 */
 	public function fetchAssociated();
 
 }
+
 
 ?>

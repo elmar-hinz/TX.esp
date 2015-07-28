@@ -36,7 +36,7 @@ class SimpleRenderer extends AbstractRenderer {
 
 	public function render() {
 		$configuration = $this->getConfiguration();
-		while($row = $this->getResultIterator()->fetchAssociated()) {
+		while($row = $this->getResultIterator()->fetchAssociative()) {
 			$this->cObj->start($row);
 			$out .= $this->cObj->cObjGetSingle($configuration['rowRenderer'], 
 				$configuration['rowRenderer.']);
@@ -47,4 +47,3 @@ class SimpleRenderer extends AbstractRenderer {
 }
 
 ?>
-

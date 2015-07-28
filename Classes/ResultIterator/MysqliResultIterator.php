@@ -33,8 +33,17 @@ class MysqliResultIterator implements ResultIteratorInterface {
 		$this->resultLink = $resultLink;
 	}
 
-	public function fetchAssociated() {
+	public function fetchAssociative() {
 		return $this->resultLink->fetch_assoc();
+	}
+
+	/*
+	 * Alias to fetchAssociative.
+	 *
+	 * DEPRECIATED. Will be removed with 7.x.
+	 */
+	public function fetchAssociated() {
+		return $this->fetchAssociative();
 	}
 
 }
