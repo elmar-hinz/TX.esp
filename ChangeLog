@@ -1,3 +1,30 @@
+
+2015-07-28 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 6.2.1 
+	* migrating to namespaces
+	* the old API is supported by ClassAliasMap
+
+2015-07-24 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 6.2.0 
+	* TYPO3 6.x uses mysqli. From now on we can use the default DB-Connection
+	of TYPO3 to call stored procedures.
+
+2015-07-24 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 2.0.3
+	* Update of the description 
+
+2015-07-23 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 2.0.2
+	* Bugfix version for JoinRenderer to access values of higher levels
+
+2013-04-05 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 2.0.1
+
 2013-04-05 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version: 2.0.0
