@@ -1,6 +1,12 @@
 
 2015-07-28 Elmar Hinz  <t3elmar@googlemail.com>
 
+	* version: 6.2.2 
+	* renaming fetchAssociated to fetchAssociative
+	* declaring fetchAssociated as depreciated
+
+2015-07-28 Elmar Hinz  <t3elmar@googlemail.com>
+
 	* version: 6.2.1 
 	* migrating to namespaces
 	* the old API is supported by ClassAliasMap
