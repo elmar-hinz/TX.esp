@@ -10,6 +10,11 @@ ChangeLog
 =========
    
 2015-07-30 Elmar Hinz  <t3elmar@googlemail.com>
+    
+	* version: 6.2.4 
+    * Review of documentation
+
+2015-07-30 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version: 6.2.4 
     * PDF configuration for docs.typo3.org 

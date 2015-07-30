@@ -5,7 +5,7 @@
 .. |author| replace:: Elmar Hinz <t3elmar@googlemail.com>
 .. |extension_key| replace:: esp
 .. |extension_name| replace:: "esp - Call Stored Procedures from TypoScript" 
-.. |version| replace:: 6.2.4
+.. |version| replace:: 6.2.5
 .. |typo3| image:: Images/Typo3.png
 .. |creation| replace:: 2015-07-29
 .. |time| date:: %m-%d-%Y %H:%M
