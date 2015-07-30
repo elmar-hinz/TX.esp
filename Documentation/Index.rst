@@ -4,7 +4,6 @@
 	* tab indent with 4 characters for code snippet.
 	* optional: soft carriage return preferred.
 
-.. Includes roles, substitutions, ...
 .. include:: Includes.txt
 
 ===========================

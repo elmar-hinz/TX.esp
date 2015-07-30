@@ -49,8 +49,7 @@ Properties
 		comma separated list (whitespace is allowed)
 
 	Description
-		Declaring parameters for the stored procedure in their order. The first
-		parameter *tableName* will be automatically prepended. Omit it.
+		Declaring parameters for the stored procedure in their order. 
 
 	Example
 		::
@@ -72,7 +71,6 @@ Properties
 	Description
 		Setting values for the *ingoing* parameters. The order doesn't matter here.
 		The keys are the parameter names. The values are strings, stdWrap can be applied. 
-		The ingoing parameter *tableName* will be automatically set. Omit it.
 
 	Example
 		::
@@ -336,6 +334,5 @@ Properties
 					wrap = <footer>|</footer>
 				}
 			}
-
 
 

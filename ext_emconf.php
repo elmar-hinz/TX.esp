@@ -9,6 +9,8 @@
 *********************************************************************/
 
 $EM_CONF[$_EXTKEY] = array (
+  'user' => 't3elmar',
+  'comment' => 'Try to enable automatic PDF rendering on docs.typo3.org',
   'title' => 'esp - Call Stored Procedures from TypoScript',
   'description' => '
 Back to speed!	
@@ -17,7 +19,7 @@ Back to speed!
 -- You can easily add your own renderer classes for special tasks. Just implement the method render() like seen in SimpleRenderer or JoinRenderer.
 ',
   'category' => 'misc',
-  'version' => '6.2.3',
+  'version' => '6.2.4',
   'state' => 'beta',
   'uploadfolder' => false,
   'createDirs' => '',
@@ -29,7 +31,7 @@ Back to speed!
   array (
     'depends' => 
     array (
-      'typo3' => '6.0.0-6.2.99',
+      'typo3' => '6.1.0-6.2.99',
     ),
     'conflicts' => 
     array (
@@ -38,8 +40,6 @@ Back to speed!
     array (
     ),
   ),
-  'user' => 't3elmar',
-  'comment' => 'Try to enable automatic manual rendering',
 );
 
 ?>

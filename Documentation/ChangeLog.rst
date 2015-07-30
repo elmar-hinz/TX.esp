@@ -2,6 +2,17 @@
 ChancgeLog
 ==========
 
+2015-07-30 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 6.2.3 
+    * PDF configuration for docs.typo3.org 
+    * put Changelog into Documentation folder
+
+2015-07-29 Elmar Hinz  <t3elmar@googlemail.com>
+
+	* version: 6.2.2 
+    * enable docs generation on docs.typo3.org 
+
 2015-07-28 Elmar Hinz  <t3elmar@googlemail.com>
 
 	* version: 6.2.2 
