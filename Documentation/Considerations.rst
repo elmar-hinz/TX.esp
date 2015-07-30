@@ -24,33 +24,35 @@ However, it depends on, when we can reach this goals and when not.
 What are they for?
 -------------------
 
-The original field of stored procedures is to perform update operations on complex databases, 
-with regard to the referential integrity, by encapsulating business logic into the datase 
-and separating it from client programming on top.
+The original field of stored procedures is to perform update operations on 
+complex databases, with regard to the referential integrity, by encapsulating 
+business logic into the datase and separating it from client programming on top.
 
-In contrast in the field of TYPO3 the referential integrity of update operations is controlled 
-by the TCE. Here stored procedures focus on select operations avoiding heavy PHP layers
-like extbase for read operations, especially for non-cached ones as USER_INT.  
+In contrast in the field of TYPO3 the referential integrity of update operations 
+is controlled by the TCE. Here stored procedures focus on select operations avoiding 
+heavy PHP layers like extbase for read operations, especially for non-cached ones 
+as USER_INT.  
 
 Performance of execution
 ------------------------
 
-It is not that *Mysql Stored Procedures* are generally faster by nature than calls from PHP. 
-Both can be cached by the database to some extend. It is a complex field influenced by multiple
-factors.  In the context of TYPO3 there are usecases, where you can gain performance using
-*Mysql Stored Procedures* in comparism to other solutions.
+It is not that *Mysql Stored Procedures* are generally faster by nature than calls 
+from PHP.  Both can be cached by the database to some extend. It is a complex field 
+influenced by multiple factors. In the context of TYPO3 there are usecases, where 
+you can gain performance using *Mysql Stored Procedures* in comparism to other 
+solutions.
 
 Reducing the amount of calls to the database
 ............................................
 
-A direct merit for performance is to replace multiple calls to the database by a single
-one to a stored procedure. Querying the rootline or a menu tree are typical situations when 
-recursive calls to the same table are done.
+A direct merit for performance is to replace multiple calls to the database 
+by a single one to a stored procedure. Querying the rootline or a menu tree are 
+typical situations when recursive calls to the same table are done.
 
 Avoiding heavy PHP layers
 .........................
 
-An indirect merit for performance is, to avoid heavy, object intensive PHP layers.
+An indirect merit for performance is to avoid heavy, object intensive PHP layers.
 
 Speed and simplicity of development
 -----------------------------------
@@ -89,5 +91,4 @@ a basic prerequisite to do model programming.
 
 Having said this, there are many usecases, where views are a good choice as long as they 
 can make use of the *merge algorithem*, just to address the most important detail. 
-
 

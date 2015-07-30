@@ -1,3 +1,11 @@
+..  Editor configuration
+	...................................................
+	* utf-8 with BOM as encoding
+	* tab indent with 4 characters for code snippet.
+	* optional: soft carriage return preferred.
+
+.. include:: Includes.txt
+
 Administrator Manual
 ====================
 
@@ -17,10 +25,8 @@ For installation by commandline do something like this. Use the credentials matc
 
 	cat ext_procedures.sql | mysql -u root -p secret -D typo3
 
-Alternatively you can install the procedures or parts of the file by copy & paste into your 
-preferred database administration tool i.e. phpMyAdmin.
-
-
+Alternatively you can install the procedures or parts of the file by copy & paste 
+into your preferred database administration tool i.e. phpMyAdmin.
 
 
 

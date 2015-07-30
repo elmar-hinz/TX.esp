@@ -1,3 +1,11 @@
+..  Editor configuration
+	...................................................
+	* utf-8 with BOM as encoding
+	* tab indent with 4 characters for code snippet.
+	* optional: soft carriage return preferred.
+
+.. include:: Includes.txt
+
 =================
 Integrator Manual
 =================
@@ -31,8 +39,4 @@ Use the breadcrumb lib where you like::
 Adjust it to your needs::
 
 	lib.tx_esp.breadcrumb.userFunc.stdWrap.wrap2 = <nav id="my_id">|</nav>
-
-
-
-
 

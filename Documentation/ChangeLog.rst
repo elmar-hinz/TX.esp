@@ -1,16 +1,23 @@
+..  Editor configuration
+	...................................................
+	* utf-8 with BOM as encoding
+	* tab indent with 4 characters for code snippet.
+	* optional: soft carriage return preferred.
 
-ChancgeLog
-==========
+.. include:: Includes.txt
 
+ChangeLog
+=========
+   
 2015-07-30 Elmar Hinz  <t3elmar@googlemail.com>
 
-	* version: 6.2.3 
+	* version: 6.2.4 
     * PDF configuration for docs.typo3.org 
     * put Changelog into Documentation folder
 
 2015-07-29 Elmar Hinz  <t3elmar@googlemail.com>
 
-	* version: 6.2.2 
+	* version: 6.2.3 
     * enable docs generation on docs.typo3.org 
 
 2015-07-28 Elmar Hinz  <t3elmar@googlemail.com>

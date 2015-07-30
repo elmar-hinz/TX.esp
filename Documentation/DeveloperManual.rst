@@ -1,3 +1,11 @@
+..  Editor configuration
+	...................................................
+	* utf-8 with BOM as encoding
+	* tab indent with 4 characters for code snippet.
+	* optional: soft carriage return preferred.
+
+.. include:: Includes.txt
+
 ================
 Developer Manual
 ================
@@ -9,8 +17,8 @@ Editing stored procedures
 -------------------------
 
 To quickly fix a stored procedure you can use phpMyAdmin or adminer. 
-A more comfortable IDE for the development of SQL including stored procedures
-is `MySQL Workbench`.
+More comfortable IDE for the development of SQL including stored procedures
+include *MySQL Workbench* or *Sequel Pro*.
 
 The classical way is, to write stored procedures using your preferred text
 editor and to apply them by using the commandline tool **mysql**, similar
@@ -54,13 +62,13 @@ Optionally return  a SELECT query::
 
 As you circumvent the TCE it's completly up to you to build the right queries. 
 You need deep knowledge of the data model of TYPO3, if you want to modify data 
-of existing tabels. It is recomended to use the TCE for to modify data as long as you 
-don't know exactly what you do.
+of existing tabels. It is recomended to use the TCE for to modify data as long 
+as you don't know exactly what you do.
 
 4.) Prevent SQL injections by escaping your queries where necessary.
 
 Specially keep this in mind, when you are using `CONCAT()` to create the query.
 
-5.) Document your code. Use speaking names. Because SQL is not a very human readable language 
-provide comments what your queries do. You will be thankfull within a few months.
+5.) Document your code. Use speaking names. Because SQL is not a very human readable 
+language provide comments what your queries do. You will be thankfull within a few months.
 

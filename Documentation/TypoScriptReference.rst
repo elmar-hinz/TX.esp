@@ -1,3 +1,11 @@
+..  Editor configuration
+	...................................................
+	* utf-8 with BOM as encoding
+	* tab indent with 4 characters for code snippet.
+	* optional: soft carriage return preferred.
+
+.. include:: Includes.txt
+
 TypoScript Reference
 =====================
 
@@ -93,7 +101,7 @@ Properties
 	Description
 		tx_esp_SimpleRenderer, tx_esp_JoinRenderer or a userdefined renderer.
 
-                The INOUT and OUT parameters of the stored procedures are 
+        The INOUT and OUT parameters of the stored procedures are 
 		accesible in the current data by the keys defined by the property 
 		*parameterOrder*.
 	
@@ -195,11 +203,15 @@ Properties
 tx_esp_JoinRenderer
 -------------------
 
-We do a hierarchical display of joined table queries. 
+We display the result of a joined table quiery in 
+a nested way.
+
 Each level displays one of the joined tables. The 
 entries of the second table (level 2) are grouped
 below the headlines of the first table (level 1) 
 and so on. Each level gets a configuration. 
+
+See Usecases for a practical example. 
 
 Context
 .......
@@ -321,18 +333,17 @@ Properties
 		::
 
 			stdWrap {
-				wrap = <section class="level1_each">|</section>
+				wrap = <li class="level1_each">|</li>
 				preCObject = TEXT
 				preCObject {
 					field = section_header  
-					wrap = <header>|</header>
+					wrap = <p class="header">|</p>
 				}
 				innerWrap = <ul class="level2_all">|</ul>
 				postCObject = TEXT
 				postCObject {
 					field = section_footer 
-					wrap = <footer>|</footer>
+					wrap = <p class="footer">|</p>
 				}
 			}
-
 

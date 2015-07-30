@@ -26,24 +26,28 @@ The content of this document is related to TYPO3, a GNU/GPL CMS/Framework availa
 What does it do?
 =================
 
-The extension *Stored Porcedures* is an interface to access *MySql Stored Procedures*
+The extension |extension_name| is an interface to access *Stored Procedures*
 directly from TypoScript for read and write operations on the underlying database. 
-Performance can be gained both in coding and in program execution if you choose it for 
-the right usecases. For the beginning only MySql will be supported. 
+Hence, the *stored procedure* is the model. *TypoScript* is the presentation layer. 
+
+Performance can be gained both in coding and in program execution if you choose 
+it for the right usecases. 
+
+Currently this extension supports *Mysql Stored Procedures*. The architecture 
+is prepared to support other SQL databases, just two classes to implement. 
+
 
 **Table of Contents**
 
-
 .. toctree::
-	:maxdepth: 3
+	:maxdepth: 4
 
-	Considerations
-	HowItWorks
-	Usecases
-	AdministratorManual
-        IntegratorManual
-	DeveloperManual
-	TypoScriptReference
-	ChangeLog
-
+    Considerations
+    HowItWorks
+    Usecases
+    AdministratorManual
+    IntegratorManual
+    DeveloperManual
+    TypoScriptReference
+    ChangeLog
 
