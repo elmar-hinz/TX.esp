@@ -11,8 +11,8 @@ This TYPO3 extension is an interface to call Mysql Stored Procedures directly fr
 
 Participate and contribute: Clone me on github!
 
- * https://github.com/elmar-hinz/esp.git
- * git@github.com:elmar-hinz/esp.git
+ * https://github.com/elmar-hinz/TX.esp.git
+ * git@github.com:elmar-hinz/TX.esp.git
 
 This library is part of the TYPO3 CMS project: http://typo3.org.
 
