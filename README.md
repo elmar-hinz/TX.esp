@@ -8,11 +8,8 @@ This TYPO3 extension is an interface to call Mysql Stored Procedures directly fr
  * Sphinx documentation is here: Documentation/
  * Html documentation is there: MANUAL/
  * TypoScript-online: https://github.com/elmar-hinz/esp/blob/master/Documentation/TypoScriptReference.rst
+ * Github: https://github.com/elmar-hinz/TX.esp/
 
-Participate and contribute: Clone me on github!
-
- * https://github.com/elmar-hinz/TX.esp.git
- * git@github.com:elmar-hinz/TX.esp.git
 
 This library is part of the TYPO3 CMS project: http://typo3.org.
 
